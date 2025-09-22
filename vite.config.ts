@@ -7,7 +7,8 @@ import { defineConfig } from 'vite'
 // import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/MatchMaking/' : '/',
   plugins: [
     vue(),
     // vueDevTools(),
@@ -47,4 +48,4 @@ export default defineConfig({
     port: 3000,
     host: true
   }
-})
+}))
