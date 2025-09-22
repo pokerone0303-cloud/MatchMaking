@@ -1,0 +1,20 @@
+// 統一樣式入口文件
+// 此文件統一管理所有樣式導入
+
+// 1. 變數定義（必須最先導入）
+@import './variables.scss';
+
+// 2. 全局樣式
+@import './global.scss';
+
+// 3. Vant 4 主題定制
+@import './vant-theme.scss';
+
+// 4. 通用工具類
+@import './utilities.scss';
+
+// 5. 動畫效果
+@import './animations.scss';
+
+// 6. 響應式斷點
+@import './breakpoints.scss';

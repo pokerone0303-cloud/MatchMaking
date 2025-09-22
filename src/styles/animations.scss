@@ -1,0 +1,395 @@
+// 動畫效果定義
+// 基於設計系統的動畫效果
+
+// 基礎動畫變數
+$animation-duration-fast: 0.2s;
+$animation-duration-base: 0.3s;
+$animation-duration-slow: 0.5s;
+$animation-easing-ease: ease;
+$animation-easing-ease-in: ease-in;
+$animation-easing-ease-out: ease-out;
+$animation-easing-ease-in-out: ease-in-out;
+
+// 淡入淡出動畫
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn $animation-duration-base $animation-easing-ease-out;
+}
+
+.fade-out {
+  animation: fadeOut $animation-duration-base $animation-easing-ease-in;
+}
+
+// 滑入滑出動畫
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp $animation-duration-base $animation-easing-ease-out;
+}
+
+.slide-in-down {
+  animation: slideInDown $animation-duration-base $animation-easing-ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft $animation-duration-base $animation-easing-ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight $animation-duration-base $animation-easing-ease-out;
+}
+
+// 縮放動畫
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.scale-in {
+  animation: scaleIn $animation-duration-base $animation-easing-ease-out;
+}
+
+.scale-out {
+  animation: scaleOut $animation-duration-base $animation-easing-ease-in;
+}
+
+// 彈跳動畫
+@keyframes bounce {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40%,
+  43% {
+    transform: translateY(-10px);
+  }
+  70% {
+    transform: translateY(-5px);
+  }
+  90% {
+    transform: translateY(-2px);
+  }
+}
+
+.bounce {
+  animation: bounce $animation-duration-slow $animation-easing-ease-in-out;
+}
+
+// 搖擺動畫
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.shake {
+  animation: shake $animation-duration-base $animation-easing-ease-in-out;
+}
+
+// 旋轉動畫
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate $animation-duration-slow $animation-easing-ease-in-out infinite;
+}
+
+// 脈衝動畫
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse $animation-duration-base $animation-easing-ease-in-out infinite;
+}
+
+// 閃爍動畫
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink $animation-duration-base $animation-easing-ease-in-out infinite;
+}
+
+// 進度條動畫
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.progress-animation {
+  animation: progress $animation-duration-slow $animation-easing-ease-out;
+}
+
+// 載入動畫
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: loading $animation-duration-slow $animation-easing-ease-in-out infinite;
+}
+
+// 心跳動畫
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.1);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+.heartbeat {
+  animation: heartbeat $animation-duration-slow $animation-easing-ease-in-out infinite;
+}
+
+// 懸停效果
+.hover-lift {
+  transition: transform $animation-duration-fast $animation-easing-ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.hover-scale {
+  transition: transform $animation-duration-fast $animation-easing-ease-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-fade {
+  transition: opacity $animation-duration-fast $animation-easing-ease-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// 按鈕點擊效果
+.btn-click {
+  transition: transform $animation-duration-fast $animation-easing-ease-out;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// 卡片懸停效果
+.card-hover {
+  transition: all $animation-duration-base $animation-easing-ease-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// 文字打字機效果
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter $animation-duration-slow $animation-easing-ease-out;
+}
+
+// 漸變動畫
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animation {
+  background: linear-gradient(
+    -45deg,
+    $color-primary,
+    $color-blue-1,
+    $color-success,
+    $color-green-1
+  );
+  background-size: 400% 400%;
+  animation: gradient $animation-duration-slow $animation-easing-ease-in-out infinite;
+}
+
+// 工具類
+.animate-none {
+  animation: none;
+}
+
+.animate-fast {
+  animation-duration: $animation-duration-fast;
+}
+
+.animate-base {
+  animation-duration: $animation-duration-base;
+}
+
+.animate-slow {
+  animation-duration: $animation-duration-slow;
+}
+
+.animate-infinite {
+  animation-iteration-count: infinite;
+}
+
+.animate-pause {
+  animation-play-state: paused;
+}
+
+.animate-play {
+  animation-play-state: running;
+}
