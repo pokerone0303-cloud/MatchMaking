@@ -1,0 +1,499 @@
+// 通用工具類樣式
+// 基於設計系統的實用工具類
+
+// 文字工具類
+.text-primary {
+  color: $color-text-primary;
+}
+
+.text-secondary {
+  color: $color-text-secondary;
+}
+
+.text-success {
+  color: $color-success;
+}
+
+.text-danger {
+  color: $color-danger;
+}
+
+.text-warning {
+  color: $color-warning;
+}
+
+.text-info {
+  color: $color-info;
+}
+
+// 字級工具類
+.text-xs {
+  font-size: $font-size-xs;
+}
+
+.text-sm {
+  font-size: $font-size-sm;
+}
+
+.text-base {
+  font-size: $font-size-base;
+}
+
+.text-lg {
+  font-size: $font-size-lg;
+}
+
+.text-xl {
+  font-size: $font-size-xl;
+}
+
+.text-2xl {
+  font-size: $font-size-2xl;
+}
+
+// 字重工具類
+.font-normal {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+// 背景工具類
+.bg-primary {
+  background-color: $color-bg-primary;
+}
+
+.bg-secondary {
+  background-color: $color-bg-secondary;
+}
+
+.bg-accent {
+  background-color: $color-bg-accent;
+}
+
+.bg-success {
+  background-color: $color-bg-success;
+}
+
+.bg-danger {
+  background-color: $color-bg-danger;
+}
+
+.bg-info {
+  background-color: $color-bg-info;
+}
+
+// 邊框工具類
+.border {
+  border: 1px solid $color-gray-1;
+}
+
+.border-light {
+  border: 1px solid $color-gray-2;
+}
+
+.border-success {
+  border: 1px solid $color-success;
+}
+
+.border-danger {
+  border: 1px solid $color-danger;
+}
+
+.border-warning {
+  border: 1px solid $color-warning;
+}
+
+.border-info {
+  border: 1px solid $color-info;
+}
+
+// 圓角工具類
+.rounded-sm {
+  border-radius: $border-radius-sm;
+}
+
+.rounded {
+  border-radius: $border-radius-base;
+}
+
+.rounded-lg {
+  border-radius: $border-radius-lg;
+}
+
+.rounded-xl {
+  border-radius: $border-radius-xl;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+// 間距工具類
+.p-xs {
+  padding: $spacing-xs;
+}
+
+.p-sm {
+  padding: $spacing-sm;
+}
+
+.p {
+  padding: $spacing-base;
+}
+
+.p-lg {
+  padding: $spacing-lg;
+}
+
+.p-xl {
+  padding: $spacing-xl;
+}
+
+// 水平間距
+.px-xs {
+  padding-left: $spacing-xs;
+  padding-right: $spacing-xs;
+}
+
+.px-sm {
+  padding-left: $spacing-sm;
+  padding-right: $spacing-sm;
+}
+
+.px {
+  padding-left: $spacing-base;
+  padding-right: $spacing-base;
+}
+
+.px-lg {
+  padding-left: $spacing-lg;
+  padding-right: $spacing-lg;
+}
+
+.px-xl {
+  padding-left: $spacing-xl;
+  padding-right: $spacing-xl;
+}
+
+// 垂直間距
+.py-xs {
+  padding-top: $spacing-xs;
+  padding-bottom: $spacing-xs;
+}
+
+.py-sm {
+  padding-top: $spacing-sm;
+  padding-bottom: $spacing-sm;
+}
+
+.py {
+  padding-top: $spacing-base;
+  padding-bottom: $spacing-base;
+}
+
+.py-lg {
+  padding-top: $spacing-lg;
+  padding-bottom: $spacing-lg;
+}
+
+.py-xl {
+  padding-top: $spacing-xl;
+  padding-bottom: $spacing-xl;
+}
+
+// 外邊距工具類
+.m-xs {
+  margin: $spacing-xs;
+}
+
+.m-sm {
+  margin: $spacing-sm;
+}
+
+.m {
+  margin: $spacing-base;
+}
+
+.m-lg {
+  margin: $spacing-lg;
+}
+
+.m-xl {
+  margin: $spacing-xl;
+}
+
+// 水平外邊距
+.mx-xs {
+  margin-left: $spacing-xs;
+  margin-right: $spacing-xs;
+}
+
+.mx-sm {
+  margin-left: $spacing-sm;
+  margin-right: $spacing-sm;
+}
+
+.mx {
+  margin-left: $spacing-base;
+  margin-right: $spacing-base;
+}
+
+.mx-lg {
+  margin-left: $spacing-lg;
+  margin-right: $spacing-lg;
+}
+
+.mx-xl {
+  margin-left: $spacing-xl;
+  margin-right: $spacing-xl;
+}
+
+// 垂直外邊距
+.my-xs {
+  margin-top: $spacing-xs;
+  margin-bottom: $spacing-xs;
+}
+
+.my-sm {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.my {
+  margin-top: $spacing-base;
+  margin-bottom: $spacing-base;
+}
+
+.my-lg {
+  margin-top: $spacing-lg;
+  margin-bottom: $spacing-lg;
+}
+
+.my-xl {
+  margin-top: $spacing-xl;
+  margin-bottom: $spacing-xl;
+}
+
+// 陰影工具類
+.shadow-sm {
+  box-shadow: $shadow-sm;
+}
+
+.shadow {
+  box-shadow: $shadow-base;
+}
+
+.shadow-lg {
+  box-shadow: $shadow-lg;
+}
+
+.shadow-xl {
+  box-shadow: $shadow-xl;
+}
+
+// 顯示工具類
+.flex {
+  display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+// Flex 工具類
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+// 位置工具類
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.sticky {
+  position: sticky;
+}
+
+// 寬高工具類
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.wh-full {
+  width: 100%;
+  height: 100%;
+}
+
+// 文字對齊工具類
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// 文字溢出工具類
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 常用組合工具類
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+// 卡片工具類
+.card {
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-base;
+  padding: $spacing-base;
+}
+
+.card-light {
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  border: 1px solid $color-gray-2;
+  padding: $spacing-base;
+}
+
+// 按鈕工具類
+.btn-primary {
+  background: $color-primary;
+  color: $color-white;
+  border: none;
+  border-radius: $border-radius-base;
+  padding: $spacing-sm $spacing-base;
+  font-size: $font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: darken($color-primary, 10%);
+  }
+
+  &:active {
+    background: darken($color-primary, 20%);
+  }
+}
+
+.btn-secondary {
+  background: $color-gray-2;
+  color: $color-text-primary;
+  border: 1px solid $color-gray-1;
+  border-radius: $border-radius-base;
+  padding: $spacing-sm $spacing-base;
+  font-size: $font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: darken($color-gray-2, 5%);
+  }
+
+  &:active {
+    background: darken($color-gray-2, 10%);
+  }
+}

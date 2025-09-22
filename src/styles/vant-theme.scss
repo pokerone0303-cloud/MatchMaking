@@ -1,0 +1,158 @@
+// Vant 4 主題配置
+// 基於設計稿色彩系統的 Vant 4 主題定制
+
+@import './variables.scss';
+
+// Vant 4 主題變數覆蓋
+:root {
+  // 主要色彩（已在 global.scss 中定義，這裡只定義額外的）
+
+  // 文字色彩
+  --van-text-color: #{$color-black};
+  --van-text-color-2: #{$color-gray-1};
+  --van-text-color-3: #{$color-gray-2};
+
+  // 背景色彩
+  --van-background-color: #{$color-white};
+  --van-background-color-light: #{$color-gray-2};
+
+  // 邊框色彩
+  --van-border-color: #{$color-gray-1};
+  --van-border-color-light: #{$color-gray-2};
+
+  // 圓角
+  --van-border-radius-sm: #{$border-radius-sm};
+  --van-border-radius-md: #{$border-radius-base};
+  --van-border-radius-lg: #{$border-radius-lg};
+
+  // 間距
+  --van-padding-base: #{$spacing-base};
+  --van-padding-xs: #{$spacing-xs};
+  --van-padding-sm: #{$spacing-sm};
+  --van-padding-md: #{$spacing-base};
+  --van-padding-lg: #{$spacing-lg};
+  --van-padding-xl: #{$spacing-xl};
+
+  // 字級
+  --van-font-size-xs: #{$font-size-xs};
+  --van-font-size-sm: #{$font-size-sm};
+  --van-font-size-md: #{$font-size-base};
+  --van-font-size-lg: #{$font-size-lg};
+
+  // 陰影
+  --van-box-shadow-1: #{$shadow-sm};
+  --van-box-shadow-2: #{$shadow-base};
+  --van-box-shadow-3: #{$shadow-lg};
+}
+
+// 自定義 Vant 組件樣式
+.van-button {
+  // 主要按鈕樣式
+  &--primary {
+    background: linear-gradient(135deg, #{$color-primary} 0%, #{$color-blue-1} 100%);
+    border: none;
+    box-shadow: #{$shadow-base};
+
+    &:active {
+      background: linear-gradient(
+        135deg,
+        darken($color-primary, 10%) 0%,
+        darken($color-blue-1, 10%) 100%
+      );
+    }
+  }
+
+  // 成功按鈕樣式
+  &--success {
+    background: linear-gradient(135deg, #{$color-success} 0%, #{$color-green-1} 100%);
+    border: none;
+
+    &:active {
+      background: linear-gradient(
+        135deg,
+        darken($color-success, 10%) 0%,
+        darken($color-green-1, 10%) 100%
+      );
+    }
+  }
+
+  // 危險按鈕樣式
+  &--danger {
+    background: linear-gradient(135deg, #{$color-danger} 0%, #{$color-red-1} 100%);
+    border: none;
+
+    &:active {
+      background: linear-gradient(
+        135deg,
+        darken($color-danger, 10%) 0%,
+        darken($color-red-1, 10%) 100%
+      );
+    }
+  }
+}
+
+// 卡片組件樣式
+.van-card {
+  background: #{$color-white};
+  border-radius: #{$border-radius-lg};
+  box-shadow: #{$shadow-base};
+  border: 1px solid #{$color-gray-2};
+
+  &__header {
+    padding: #{$spacing-base};
+  }
+
+  &__content {
+    padding: 0 #{$spacing-base} #{$spacing-base};
+  }
+}
+
+// 標籤組件樣式
+.van-tag {
+  &--primary {
+    background: #{$color-blue-2};
+    color: #{$color-blue-1};
+    border: 1px solid #{$color-blue-1};
+  }
+
+  &--success {
+    background: #{$color-green-2};
+    color: #{$color-green-1};
+    border: 1px solid #{$color-green-1};
+  }
+
+  &--danger {
+    background: #{$color-red-2};
+    color: #{$color-red-1};
+    border: 1px solid #{$color-red-1};
+  }
+}
+
+// 導航欄樣式
+.van-nav-bar {
+  background: #{$color-white};
+  border-bottom: 1px solid #{$color-gray-2};
+  box-shadow: #{$shadow-sm};
+
+  &__title {
+    color: #{$color-black};
+    font-weight: 600;
+  }
+
+  &__text {
+    color: #{$color-primary};
+  }
+}
+
+// 底部導航樣式
+.van-tabbar {
+  background: #{$color-white};
+  border-top: 1px solid #{$color-gray-2};
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+
+  &-item {
+    &--active {
+      color: #{$color-primary};
+    }
+  }
+}

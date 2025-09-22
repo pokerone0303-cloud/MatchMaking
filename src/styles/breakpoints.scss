@@ -1,0 +1,308 @@
+// 響應式斷點定義
+// 基於設計系統的響應式斷點
+
+// 斷點變數
+$breakpoint-xs: 480px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// 媒體查詢混入
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: #{$breakpoint-sm}) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @media (min-width: #{$breakpoint-lg}) and (max-width: #{$breakpoint-xl - 1px}) {
+    @content;
+  }
+}
+
+@mixin large-desktop-up {
+  @media (min-width: #{$breakpoint-xl}) {
+    @content;
+  }
+}
+
+// 通用響應式混入
+@mixin responsive($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: #{$breakpoint-xs - 1px}) {
+      @content;
+    }
+  }
+  @if $breakpoint == sm {
+    @media (min-width: #{$breakpoint-sm}) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media (min-width: #{$breakpoint-md}) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: #{$breakpoint-lg}) {
+      @content;
+    }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: #{$breakpoint-xl}) {
+      @content;
+    }
+  }
+  @if $breakpoint == 2xl {
+    @media (min-width: #{$breakpoint-2xl}) {
+      @content;
+    }
+  }
+}
+
+// 響應式字級混入
+@mixin responsive-font-size($mobile-size, $tablet-size: null, $desktop-size: null) {
+  font-size: $mobile-size;
+
+  @if $tablet-size {
+    @include tablet-up {
+      font-size: $tablet-size;
+    }
+  }
+
+  @if $desktop-size {
+    @include desktop-up {
+      font-size: $desktop-size;
+    }
+  }
+}
+
+// 響應式間距混入
+@mixin responsive-padding($mobile-padding, $tablet-padding: null, $desktop-padding: null) {
+  padding: $mobile-padding;
+
+  @if $tablet-padding {
+    @include tablet-up {
+      padding: $tablet-padding;
+    }
+  }
+
+  @if $desktop-padding {
+    @include desktop-up {
+      padding: $desktop-padding;
+    }
+  }
+}
+
+// 響應式邊距混入
+@mixin responsive-margin($mobile-margin, $tablet-margin: null, $desktop-margin: null) {
+  margin: $mobile-margin;
+
+  @if $tablet-margin {
+    @include tablet-up {
+      margin: $tablet-margin;
+    }
+  }
+
+  @if $desktop-margin {
+    @include desktop-up {
+      margin: $desktop-margin;
+    }
+  }
+}
+
+// 響應式網格混入
+@mixin responsive-grid($mobile-cols: 1, $tablet-cols: 2, $desktop-cols: 3) {
+  display: grid;
+  grid-template-columns: repeat($mobile-cols, 1fr);
+  gap: $spacing-base;
+
+  @include tablet-up {
+    grid-template-columns: repeat($tablet-cols, 1fr);
+    gap: $spacing-lg;
+  }
+
+  @include desktop-up {
+    grid-template-columns: repeat($desktop-cols, 1fr);
+  }
+}
+
+// 響應式 Flexbox 混入
+@mixin responsive-flex($mobile-direction: column, $tablet-direction: row, $desktop-direction: row) {
+  display: flex;
+  flex-direction: $mobile-direction;
+
+  @include tablet-up {
+    flex-direction: $tablet-direction;
+  }
+
+  @include desktop-up {
+    flex-direction: $desktop-direction;
+  }
+}
+
+// 響應式容器混入
+@mixin responsive-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-base;
+
+  @include tablet-up {
+    max-width: $breakpoint-sm;
+    padding: 0 $spacing-lg;
+  }
+
+  @include desktop-up {
+    max-width: $breakpoint-lg;
+    padding: 0 $spacing-xl;
+  }
+
+  @include large-desktop-up {
+    max-width: $breakpoint-xl;
+  }
+}
+
+// 響應式隱藏/顯示工具類
+.hide-mobile {
+  @include mobile-only {
+    display: none !important;
+  }
+}
+
+.hide-tablet {
+  @include tablet-only {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @include desktop-up {
+    display: none !important;
+  }
+}
+
+.show-mobile-only {
+  display: block;
+
+  @include tablet-up {
+    display: none !important;
+  }
+}
+
+.show-tablet-only {
+  display: none;
+
+  @include tablet-only {
+    display: block !important;
+  }
+
+  @include desktop-up {
+    display: none !important;
+  }
+}
+
+.show-desktop-only {
+  display: none;
+
+  @include desktop-up {
+    display: block !important;
+  }
+}
+
+// 響應式文字對齊
+.text-center-mobile {
+  text-align: center;
+
+  @include tablet-up {
+    text-align: left;
+  }
+}
+
+.text-left-mobile {
+  text-align: left;
+
+  @include tablet-up {
+    text-align: center;
+  }
+}
+
+// 響應式間距工具類
+.p-responsive {
+  @include responsive-padding($spacing-sm, $spacing-base, $spacing-lg);
+}
+
+.px-responsive {
+  @include responsive-padding(0 $spacing-sm, 0 $spacing-base, 0 $spacing-lg);
+}
+
+.py-responsive {
+  @include responsive-padding($spacing-sm 0, $spacing-base 0, $spacing-lg 0);
+}
+
+.m-responsive {
+  @include responsive-margin($spacing-sm, $spacing-base, $spacing-lg);
+}
+
+.mx-responsive {
+  @include responsive-margin(0 $spacing-sm, 0 $spacing-base, 0 $spacing-lg);
+}
+
+.my-responsive {
+  @include responsive-margin($spacing-sm 0, $spacing-base 0, $spacing-lg 0);
+}
+
+// 響應式字級工具類
+.text-responsive-sm {
+  @include responsive-font-size($font-size-sm, $font-size-base, $font-size-lg);
+}
+
+.text-responsive-base {
+  @include responsive-font-size($font-size-base, $font-size-lg, $font-size-xl);
+}
+
+.text-responsive-lg {
+  @include responsive-font-size($font-size-lg, $font-size-xl, $font-size-2xl);
+}
+
+// 響應式網格工具類
+.grid-responsive {
+  @include responsive-grid(1, 2, 3);
+}
+
+.grid-responsive-2 {
+  @include responsive-grid(1, 2, 2);
+}
+
+.grid-responsive-4 {
+  @include responsive-grid(1, 2, 4);
+}
+
+// 響應式 Flexbox 工具類
+.flex-responsive {
+  @include responsive-flex(column, row, row);
+}
+
+.flex-responsive-reverse {
+  @include responsive-flex(column-reverse, row, row);
+}
