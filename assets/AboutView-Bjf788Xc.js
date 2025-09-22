@@ -1,0 +1,1 @@
+import{_ as s,P as t,Q as o,R as a}from"./index-DY_YJ-Sf.js";const n={},r={class:"about"};function c(_,e){return o(),t("div",r,[...e[0]||(e[0]=[a("h1",null,"This is an about page",-1)])])}const l=s(n,[["render",c]]);export{l as default};
