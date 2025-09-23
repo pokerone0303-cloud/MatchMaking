@@ -60,7 +60,6 @@ const handleCloseSlideNav = () => {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 60px; // 為底部導航留出空間
 }
 
 // 確保側邊欄在最上層

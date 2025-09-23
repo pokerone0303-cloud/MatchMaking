@@ -8,7 +8,7 @@ defineOptions({
 });
 
 // 響應式數據
-const activeRole = ref('dealer');
+const activeRole = ref('user');
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
@@ -19,22 +19,19 @@ const router = useRouter();
 // 角色選項
 const roleOptions = [
 	{
-		key: 'dealer',
+		key: 'user',
 		label: '荷官端',
 		icon: 'user-o',
-		description: '尋找班別,管理應徵'
 	},
 	{
 		key: 'employer',
 		label: '商家端',
 		icon: 'shop-o',
-		description: '建立班別,管理名單'
 	},
 	{
 		key: 'admin',
 		label: '管理端',
 		icon: 'shield-o',
-		description: '審核時數,系統管理'
 	}
 ];
 
@@ -79,7 +76,7 @@ const handleLogin = async () => {
 
 		// 根據角色跳轉到對應頁面
 		switch (activeRole.value) {
-			case 'dealer':
+			case 'user':
 				router.push('/u/shifts');
 				break;
 			case 'employer':
@@ -244,7 +241,7 @@ const handleContact = () => {
 
 // 角色圖標顏色
 .role-icon {
-	&--dealer {
+	&--user {
 		color: $color-blue-1;
 	}
 
