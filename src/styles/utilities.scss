@@ -1,54 +1,56 @@
 // 通用工具類樣式
 // 基於設計系統的實用工具類
+@use 'sass:color';
+@use 'variables.scss';
 
 // 文字工具類
 .text-primary {
-  color: $color-text-primary;
+  color: variables.$color-text-primary;
 }
 
 .text-secondary {
-  color: $color-text-secondary;
+  color: variables.$color-text-secondary;
 }
 
 .text-success {
-  color: $color-success;
+  color: variables.$color-success;
 }
 
 .text-danger {
-  color: $color-danger;
+  color: variables.$color-danger;
 }
 
 .text-warning {
-  color: $color-warning;
+  color: variables.$color-warning;
 }
 
 .text-info {
-  color: $color-info;
+  color: variables.$color-info;
 }
 
 // 字級工具類
 .text-xs {
-  font-size: $font-size-xs;
+  font-size: variables.$font-size-xs;
 }
 
 .text-sm {
-  font-size: $font-size-sm;
+  font-size: variables.$font-size-sm;
 }
 
 .text-base {
-  font-size: $font-size-base;
+  font-size: variables.$font-size-base;
 }
 
 .text-lg {
-  font-size: $font-size-lg;
+  font-size: variables.$font-size-lg;
 }
 
 .text-xl {
-  font-size: $font-size-xl;
+  font-size: variables.$font-size-xl;
 }
 
 .text-2xl {
-  font-size: $font-size-2xl;
+  font-size: variables.$font-size-2xl;
 }
 
 // 字重工具類
@@ -70,69 +72,69 @@
 
 // 背景工具類
 .bg-primary {
-  background-color: $color-bg-primary;
+  background-color: variables.$color-bg-primary;
 }
 
 .bg-secondary {
-  background-color: $color-bg-secondary;
+  background-color: variables.$color-bg-secondary;
 }
 
 .bg-accent {
-  background-color: $color-bg-accent;
+  background-color: variables.$color-bg-accent;
 }
 
 .bg-success {
-  background-color: $color-bg-success;
+  background-color: variables.$color-bg-success;
 }
 
 .bg-danger {
-  background-color: $color-bg-danger;
+  background-color: variables.$color-bg-danger;
 }
 
 .bg-info {
-  background-color: $color-bg-info;
+  background-color: variables.$color-bg-info;
 }
 
 // 邊框工具類
 .border {
-  border: 1px solid $color-gray-1;
+  border: 1px solid variables.$color-gray-1;
 }
 
 .border-light {
-  border: 1px solid $color-gray-2;
+  border: 1px solid variables.$color-gray-2;
 }
 
 .border-success {
-  border: 1px solid $color-success;
+  border: 1px solid variables.$color-success;
 }
 
 .border-danger {
-  border: 1px solid $color-danger;
+  border: 1px solid variables.$color-danger;
 }
 
 .border-warning {
-  border: 1px solid $color-warning;
+  border: 1px solid variables.$color-warning;
 }
 
 .border-info {
-  border: 1px solid $color-info;
+  border: 1px solid variables.$color-info;
 }
 
 // 圓角工具類
 .rounded-sm {
-  border-radius: $border-radius-sm;
+  border-radius: variables.$border-radius-sm;
 }
 
 .rounded {
-  border-radius: $border-radius-base;
+  border-radius: variables.$border-radius-base;
 }
 
 .rounded-lg {
-  border-radius: $border-radius-lg;
+  border-radius: variables.$border-radius-lg;
 }
 
 .rounded-xl {
-  border-radius: $border-radius-xl;
+  border-radius: variables.$border-radius-xl;
 }
 
 .rounded-full {
@@ -141,165 +143,165 @@
 
 // 間距工具類
 .p-xs {
-  padding: $spacing-xs;
+  padding: variables.$spacing-xs;
 }
 
 .p-sm {
-  padding: $spacing-sm;
+  padding: variables.$spacing-sm;
 }
 
 .p {
-  padding: $spacing-base;
+  padding: variables.$spacing-base;
 }
 
 .p-lg {
-  padding: $spacing-lg;
+  padding: variables.$spacing-lg;
 }
 
 .p-xl {
-  padding: $spacing-xl;
+  padding: variables.$spacing-xl;
 }
 
 // 水平間距
 .px-xs {
-  padding-left: $spacing-xs;
-  padding-right: $spacing-xs;
+  padding-left: variables.$spacing-xs;
+  padding-right: variables.$spacing-xs;
 }
 
 .px-sm {
-  padding-left: $spacing-sm;
-  padding-right: $spacing-sm;
+  padding-left: variables.$spacing-sm;
+  padding-right: variables.$spacing-sm;
 }
 
 .px {
-  padding-left: $spacing-base;
-  padding-right: $spacing-base;
+  padding-left: variables.$spacing-base;
+  padding-right: variables.$spacing-base;
 }
 
 .px-lg {
-  padding-left: $spacing-lg;
-  padding-right: $spacing-lg;
+  padding-left: variables.$spacing-lg;
+  padding-right: variables.$spacing-lg;
 }
 
 .px-xl {
-  padding-left: $spacing-xl;
-  padding-right: $spacing-xl;
+  padding-left: variables.$spacing-xl;
+  padding-right: variables.$spacing-xl;
 }
 
 // 垂直間距
 .py-xs {
-  padding-top: $spacing-xs;
-  padding-bottom: $spacing-xs;
+  padding-top: variables.$spacing-xs;
+  padding-bottom: variables.$spacing-xs;
 }
 
 .py-sm {
-  padding-top: $spacing-sm;
-  padding-bottom: $spacing-sm;
+  padding-top: variables.$spacing-sm;
+  padding-bottom: variables.$spacing-sm;
 }
 
 .py {
-  padding-top: $spacing-base;
-  padding-bottom: $spacing-base;
+  padding-top: variables.$spacing-base;
+  padding-bottom: variables.$spacing-base;
 }
 
 .py-lg {
-  padding-top: $spacing-lg;
-  padding-bottom: $spacing-lg;
+  padding-top: variables.$spacing-lg;
+  padding-bottom: variables.$spacing-lg;
 }
 
 .py-xl {
-  padding-top: $spacing-xl;
-  padding-bottom: $spacing-xl;
+  padding-top: variables.$spacing-xl;
+  padding-bottom: variables.$spacing-xl;
 }
 
 // 外邊距工具類
 .m-xs {
-  margin: $spacing-xs;
+  margin: variables.$spacing-xs;
 }
 
 .m-sm {
-  margin: $spacing-sm;
+  margin: variables.$spacing-sm;
 }
 
 .m {
-  margin: $spacing-base;
+  margin: variables.$spacing-base;
 }
 
 .m-lg {
-  margin: $spacing-lg;
+  margin: variables.$spacing-lg;
 }
 
 .m-xl {
-  margin: $spacing-xl;
+  margin: variables.$spacing-xl;
 }
 
 // 水平外邊距
 .mx-xs {
-  margin-left: $spacing-xs;
-  margin-right: $spacing-xs;
+  margin-left: variables.$spacing-xs;
+  margin-right: variables.$spacing-xs;
 }
 
 .mx-sm {
-  margin-left: $spacing-sm;
-  margin-right: $spacing-sm;
+  margin-left: variables.$spacing-sm;
+  margin-right: variables.$spacing-sm;
 }
 
 .mx {
-  margin-left: $spacing-base;
-  margin-right: $spacing-base;
+  margin-left: variables.$spacing-base;
+  margin-right: variables.$spacing-base;
 }
 
 .mx-lg {
-  margin-left: $spacing-lg;
-  margin-right: $spacing-lg;
+  margin-left: variables.$spacing-lg;
+  margin-right: variables.$spacing-lg;
 }
 
 .mx-xl {
-  margin-left: $spacing-xl;
-  margin-right: $spacing-xl;
+  margin-left: variables.$spacing-xl;
+  margin-right: variables.$spacing-xl;
 }
 
 // 垂直外邊距
 .my-xs {
-  margin-top: $spacing-xs;
-  margin-bottom: $spacing-xs;
+  margin-top: variables.$spacing-xs;
+  margin-bottom: variables.$spacing-xs;
 }
 
 .my-sm {
-  margin-top: $spacing-sm;
-  margin-bottom: $spacing-sm;
+  margin-top: variables.$spacing-sm;
+  margin-bottom: variables.$spacing-sm;
 }
 
 .my {
-  margin-top: $spacing-base;
-  margin-bottom: $spacing-base;
+  margin-top: variables.$spacing-base;
+  margin-bottom: variables.$spacing-base;
 }
 
 .my-lg {
-  margin-top: $spacing-lg;
-  margin-bottom: $spacing-lg;
+  margin-top: variables.$spacing-lg;
+  margin-bottom: variables.$spacing-lg;
 }
 
 .my-xl {
-  margin-top: $spacing-xl;
-  margin-bottom: $spacing-xl;
+  margin-top: variables.$spacing-xl;
+  margin-bottom: variables.$spacing-xl;
 }
 
 // 陰影工具類
 .shadow-sm {
-  box-shadow: $shadow-sm;
+  box-shadow: variables.$shadow-sm;
 }
 
 .shadow {
-  box-shadow: $shadow-base;
+  box-shadow: variables.$shadow-base;
 }
 
 .shadow-lg {
-  box-shadow: $shadow-lg;
+  box-shadow: variables.$shadow-lg;
 }
 
 .shadow-xl {
-  box-shadow: $shadow-xl;
+  box-shadow: variables.$shadow-xl;
 }
 
 // 顯示工具類
@@ -444,56 +446,56 @@
 
 // 卡片工具類
 .card {
-  background: $color-white;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-base;
-  padding: $spacing-base;
+  background: variables.$color-white;
+  border-radius: variables.$border-radius-lg;
+  box-shadow: variables.$shadow-base;
+  padding: variables.$spacing-base;
 }
 
 .card-light {
-  background: $color-white;
-  border-radius: $border-radius-lg;
-  border: 1px solid $color-gray-2;
-  padding: $spacing-base;
+  background: variables.$color-white;
+  border-radius: variables.$border-radius-lg;
+  border: 1px solid variables.$color-gray-2;
+  padding: variables.$spacing-base;
 }
 
 // 按鈕工具類
 .btn-primary {
-  background: $color-primary;
-  color: $color-white;
+  background: variables.$color-primary;
+  color: variables.$color-white;
   border: none;
-  border-radius: $border-radius-base;
-  padding: $spacing-sm $spacing-base;
-  font-size: $font-size-base;
+  border-radius: variables.$border-radius-base;
+  padding: variables.$spacing-sm variables.$spacing-base;
+  font-size: variables.$font-size-base;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: darken($color-primary, 10%);
+    background: color.adjust(variables.$color-primary, $lightness: -10%);
   }
 
   &:active {
-    background: darken($color-primary, 20%);
+    background: color.adjust(variables.$color-primary, $lightness: -20%);
   }
 }
 
 .btn-secondary {
-  background: $color-gray-2;
-  color: $color-text-primary;
-  border: 1px solid $color-gray-1;
-  border-radius: $border-radius-base;
-  padding: $spacing-sm $spacing-base;
-  font-size: $font-size-base;
+  background: variables.$color-gray-2;
+  color: variables.$color-text-primary;
+  border: 1px solid variables.$color-gray-1;
+  border-radius: variables.$border-radius-base;
+  padding: variables.$spacing-sm variables.$spacing-base;
+  font-size: variables.$font-size-base;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: darken($color-gray-2, 5%);
+    background: color.adjust(variables.$color-gray-2, $lightness: -5%);
   }
 
   &:active {
-    background: darken($color-gray-2, 10%);
+    background: color.adjust(variables.$color-gray-2, $lightness: -10%);
   }
 }

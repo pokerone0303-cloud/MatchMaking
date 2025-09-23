@@ -45,8 +45,6 @@ const handleCloseSlideNav = () => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/variables.scss';
-
 .layout {
   display: flex;
   flex-direction: column;

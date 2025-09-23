@@ -65,8 +65,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/variables.scss';
-
 .status-card {
   background: $color-white;
   border: 1px solid $color-gray-1;

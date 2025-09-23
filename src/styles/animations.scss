@@ -1,3 +1,5 @@
+@use 'variables.scss';
+
 // 動畫效果定義
 // 基於設計系統的動畫效果
 
@@ -320,7 +322,7 @@ $animation-easing-ease-in-out: ease-in-out;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: $shadow-lg;
+    box-shadow: variables.$shadow-lg;
   }
 }
 
@@ -356,10 +358,10 @@ $animation-easing-ease-in-out: ease-in-out;
 .gradient-animation {
   background: linear-gradient(
     -45deg,
-    $color-primary,
-    $color-blue-1,
-    $color-success,
-    $color-green-1
+    variables.$color-primary,
+    variables.$color-blue-1,
+    variables.$color-success,
+    variables.$color-green-1
   );
   background-size: 400% 400%;
   animation: gradient $animation-duration-slow $animation-easing-ease-in-out infinite;

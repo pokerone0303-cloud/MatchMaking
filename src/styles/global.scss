@@ -1,12 +1,12 @@
-@import './variables.scss';
+@use 'variables.scss';
 
 :root {
   /* Vant 4 主題變數映射 */
-  --van-primary-color: #{$color-primary};
-  --van-success-color: #{$color-success};
-  --van-warning-color: #{$color-warning};
-  --van-danger-color: #{$color-danger};
-  --van-info-color: #{$color-info};
+  --van-primary-color: #{variables.$color-primary};
+  --van-success-color: #{variables.$color-success};
+  --van-warning-color: #{variables.$color-warning};
+  --van-danger-color: #{variables.$color-danger};
+  --van-info-color: #{variables.$color-info};
 }
 
 html,
@@ -21,5 +21,5 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $spacing-base;
+  padding: variables.$spacing-base;
 }

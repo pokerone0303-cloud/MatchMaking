@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
     preprocessorOptions: {
       scss: {
         // 全局導入 SCSS 變數
-        additionalData: `@import "@/styles/variables.scss";`
+        additionalData: `@use "@/styles/variables.scss" as *;`
       }
     }
   },

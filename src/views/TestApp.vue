@@ -29,8 +29,6 @@ defineOptions({
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/variables.scss';
-
 .test-app {
 	min-height: 100vh;
 	background: $color-bg-secondary;

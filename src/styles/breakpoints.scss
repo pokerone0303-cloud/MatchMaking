@@ -1,3 +1,5 @@
+@use 'variables.scss';
+
 // 響應式斷點定義
 // 基於設計系統的響應式斷點
 
@@ -135,11 +137,11 @@ $breakpoint-2xl: 1536px;
 @mixin responsive-grid($mobile-cols: 1, $tablet-cols: 2, $desktop-cols: 3) {
   display: grid;
   grid-template-columns: repeat($mobile-cols, 1fr);
-  gap: $spacing-base;
+  gap: variables.$spacing-base;
 
   @include tablet-up {
     grid-template-columns: repeat($tablet-cols, 1fr);
-    gap: $spacing-lg;
+    gap: variables.$spacing-lg;
   }
 
   @include desktop-up {
@@ -166,16 +168,16 @@ $breakpoint-2xl: 1536px;
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-base;
+  padding: 0 variables.$spacing-base;
 
   @include tablet-up {
     max-width: $breakpoint-sm;
-    padding: 0 $spacing-lg;
+    padding: 0 variables.$spacing-lg;
   }
 
   @include desktop-up {
     max-width: $breakpoint-lg;
-    padding: 0 $spacing-xl;
+    padding: 0 variables.$spacing-xl;
   }
 
   @include large-desktop-up {
@@ -249,40 +251,72 @@ $breakpoint-2xl: 1536px;
 
 // 響應式間距工具類
 .p-responsive {
-  @include responsive-padding($spacing-sm, $spacing-base, $spacing-lg);
+  @include responsive-padding(
+    variables.$spacing-sm,
+    variables.$spacing-base,
+    variables.$spacing-lg
+  );
 }
 
 .px-responsive {
-  @include responsive-padding(0 $spacing-sm, 0 $spacing-base, 0 $spacing-lg);
+  @include responsive-padding(
+    0 variables.$spacing-sm,
+    0 variables.$spacing-base,
+    0 variables.$spacing-lg
+  );
 }
 
 .py-responsive {
-  @include responsive-padding($spacing-sm 0, $spacing-base 0, $spacing-lg 0);
+  @include responsive-padding(
+    variables.$spacing-sm 0,
+    variables.$spacing-base 0,
+    variables.$spacing-lg 0
+  );
 }
 
 .m-responsive {
-  @include responsive-margin($spacing-sm, $spacing-base, $spacing-lg);
+  @include responsive-margin(variables.$spacing-sm, variables.$spacing-base, variables.$spacing-lg);
 }
 
 .mx-responsive {
-  @include responsive-margin(0 $spacing-sm, 0 $spacing-base, 0 $spacing-lg);
+  @include responsive-margin(
+    0 variables.$spacing-sm,
+    0 variables.$spacing-base,
+    0 variables.$spacing-lg
+  );
 }
 
 .my-responsive {
-  @include responsive-margin($spacing-sm 0, $spacing-base 0, $spacing-lg 0);
+  @include responsive-margin(
+    variables.$spacing-sm 0,
+    variables.$spacing-base 0,
+    variables.$spacing-lg 0
+  );
 }
 
 // 響應式字級工具類
 .text-responsive-sm {
-  @include responsive-font-size($font-size-sm, $font-size-base, $font-size-lg);
+  @include responsive-font-size(
+    variables.$font-size-sm,
+    variables.$font-size-base,
+    variables.$font-size-lg
+  );
 }
 
 .text-responsive-base {
-  @include responsive-font-size($font-size-base, $font-size-lg, $font-size-xl);
+  @include responsive-font-size(
+    variables.$font-size-base,
+    variables.$font-size-lg,
+    variables.$font-size-xl
+  );
 }
 
 .text-responsive-lg {
-  @include responsive-font-size($font-size-lg, $font-size-xl, $font-size-2xl);
+  @include responsive-font-size(
+    variables.$font-size-lg,
+    variables.$font-size-xl,
+    variables.$font-size-2xl
+  );
 }
 
 // 響應式網格工具類

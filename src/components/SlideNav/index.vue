@@ -267,8 +267,6 @@ const handleLogout = async () => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/variables.scss';
-
 .slide-nav-popup {
 	:deep(.van-popup) {
 		background: $color-white;
