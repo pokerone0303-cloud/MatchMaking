@@ -124,3 +124,6 @@ temp/
 
 # Sentry Config File
 .sentryclirc
+
+# Cursor
+.cursor
