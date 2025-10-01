@@ -3,6 +3,7 @@
 
 // 主要色彩系統
 $color-primary: #155dfc;
+$color-primary-dark: #1e40af;
 $color-success: #00c951;
 $color-warning: #f2994a;
 $color-danger: #fb2c36;
@@ -15,16 +16,45 @@ $color-gray-1: #717182;
 $color-gray-2: #e9e9e9;
 $color-gray-3: #f3f3f5;
 
+// 擴展灰色系統
+$color-gray-50: #f9fafb;
+$color-gray-100: #f3f4f6;
+$color-gray-200: #e5e7eb;
+$color-gray-300: #d1d5db;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-gray-600: #4b5563;
+$color-gray-700: #374151;
+$color-gray-800: #1f2937;
+$color-gray-900: #111827;
+
 // 主色調變化
 $color-main-1: #f6faff;
 
 // 狀態色彩變化
 $color-red-1: #fb2c36;
 $color-red-2: #fef2f2;
+$color-red-50: #fef2f2;
+$color-red-100: #fee2e2;
+$color-red-300: #fca5a5;
+$color-red-600: #dc2626;
+$color-red-700: #b91c1c;
+
 $color-green-1: #00c951;
 $color-green-2: #f0fdf4;
+$color-green-50: #f0fdf4;
+$color-green-100: #dcfce7;
+$color-green-700: #15803d;
+
 $color-blue-1: #155dfc;
 $color-blue-2: #dbeafe;
+$color-blue-50: #eff6ff;
+$color-blue-100: #dbeafe;
+$color-blue-700: #1d4ed8;
+
+$color-orange-100: #fed7aa;
+$color-orange-700: #c2410c;
+
 $color-purple: #b458f6;
 
 // 語義化色彩映射
@@ -48,15 +78,27 @@ $font-size-lg: 18px;
 $font-size-xl: 20px;
 $font-size-2xl: 24px;
 
+// 字重系統
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
 // 圓角系統
 $border-radius-sm: 4px;
 $border-radius-base: 8px;
+$border-radius-md: 6px;
 $border-radius-lg: 12px;
 $border-radius-xl: 16px;
+$border-radius-full: 9999px;
 
 // 間距系統
 $spacing-xs: 4px;
 $spacing-sm: 8px;
+$spacing-6: 6px;
+$spacing-8: 8px;
+$spacing-12: 12px;
+$spacing-16: 16px;
 $spacing-base: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;

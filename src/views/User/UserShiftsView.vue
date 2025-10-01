@@ -2,10 +2,14 @@
 import { ref } from 'vue';
 import ShiftCard from '@/components/cards/ShiftCard.vue';
 import ShiftStatusBanner from '@/components/common/ShiftStatusBanner.vue';
+import { useDialog } from '@/composables/useDialog';
 
 defineOptions({
 	name: 'UserShiftsView',
 });
+
+// 使用 Dialog 方法
+const { showAlert, showConfirm, showSuccess, showError, showDangerConfirm } = useDialog();
 
 // 模擬班表數據
 const shifts = ref([
@@ -55,19 +59,82 @@ const shiftStatus = ref<'available' | 'unavailable'>('unavailable');
 const selectedDate = ref('今天');
 
 // 事件處理
-const handleApply = (shiftId: string) => {
+const handleApply = async (shiftId: string) => {
 	console.log('應徵班表:', shiftId);
-	// 這裡可以添加應徵邏輯
+
+	// 使用確認窗口進行應徵確認
+	const confirmed = await showConfirm({
+		title: '應徵確認',
+		message: '確定要應徵這個班表嗎？',
+		confirmButtonText: '確認應徵',
+		cancelButtonText: '取消',
+	});
+
+	if (confirmed) {
+		try {
+			// 這裡可以添加應徵 API 調用
+			// await applyShift(shiftId);
+
+			// 顯示成功提示
+			await showSuccess('應徵成功！請等待商家審核結果。');
+
+			// 更新班表狀態
+			const shift = shifts.value.find(s => s.id === shiftId);
+			if (shift) {
+				shift.applicationStatus = 'applied';
+			}
+		} catch {
+			// 顯示錯誤提示
+			await showError('應徵失敗，請稍後再試。');
+		}
+	}
 };
 
-const handleWithdraw = (shiftId: string) => {
+const handleWithdraw = async (shiftId: string) => {
 	console.log('撤回班表:', shiftId);
-	// 這裡可以添加撤回邏輯
+
+	// 使用危險操作確認窗口
+	const confirmed = await showDangerConfirm('確定要撤回這個班表的應徵嗎？');
+
+	if (confirmed) {
+		try {
+			// 這裡可以添加撤回 API 調用
+			// await withdrawShift(shiftId);
+
+			// 顯示成功提示
+			await showSuccess('已成功撤回應徵。');
+
+			// 更新班表狀態
+			const shift = shifts.value.find(s => s.id === shiftId);
+			if (shift) {
+				shift.applicationStatus = null;
+			}
+		} catch {
+			// 顯示錯誤提示
+			await showError('撤回失敗，請稍後再試。');
+		}
+	}
 };
 
-const handleDetails = (shiftId: string) => {
+const handleDetails = async (shiftId: string) => {
 	console.log('查看詳細資料:', shiftId);
-	// 這裡可以添加查看詳細資料邏輯
+
+	// 使用提示窗口顯示詳細資料
+	const shift = shifts.value.find(s => s.id === shiftId);
+	if (shift) {
+		await showAlert({
+			title: '班表詳細資料',
+			message: `
+				職位：${shift.position}
+				公司：${shift.company}
+				地址：${shift.address}
+				時段：${shift.timeRange}
+				時薪：$${shift.hourlyWage}
+				已錄取：${shift.hiredCount}/${shift.totalCount} 人
+				截止時間：${shift.deadline || '無'}
+			`.trim(),
+		});
+	}
 };
 </script>
 
