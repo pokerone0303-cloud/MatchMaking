@@ -29,6 +29,26 @@ const router = createRouter({
       component: () => import('@/views/TestApp.vue'),
     },
     // 用戶端路由
+    {
+      path: '/u/shifts',
+      name: 'shifts',
+      component: () => import('@/views/User/UserShiftsView.vue'),
+    },
+    // {
+    //   path: '/u/profile',
+    //   name: 'profile',
+    //   component: () => import('@/views/UserProfile.vue'),
+    // },
+    // {
+    //   path: '/u/timesheets',
+    //   name: 'timesheets',
+    //   component: () => import('@/views/UserTimesheets.vue'),
+    // },
+    // {
+    //   path: '/u/applications',
+    //   name: 'applications',
+    //   component: () => import('@/views/UserApplications.vue'),
+    // }
     // 商家端路由
     // 管理端路由
     {
