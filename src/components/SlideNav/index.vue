@@ -258,7 +258,7 @@ const handleLogout = async () => {
 
 			<!-- 登出按鈕 -->
 			<div class="slide-nav-footer">
-				<van-button type="danger" size="large" block icon="logout" @click="handleLogout" class="logout-button">
+				<van-button type="danger" size="small" block icon="logout" @click="handleLogout" class="logout-button">
 					登出
 				</van-button>
 			</div>
@@ -284,7 +284,8 @@ const handleLogout = async () => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: $spacing-lg $spacing-base;
+	padding: $spacing-base;
+	padding-bottom: 0;
 	border-bottom: 1px solid $color-gray-2;
 	background: $color-white;
 	position: sticky;
@@ -312,7 +313,7 @@ const handleLogout = async () => {
 .slide-nav-content {
 	flex: 1;
 	overflow-y: auto;
-	padding: $spacing-base 0;
+	padding: $spacing-base;
 }
 
 .menu-section {
@@ -320,7 +321,7 @@ const handleLogout = async () => {
 }
 
 .section-title {
-	margin: 0 0 $spacing-sm $spacing-base;
+	margin: 0 0 $spacing-sm 0;
 	font-size: $font-size-sm;
 	font-weight: 500;
 	color: $color-text-secondary;
@@ -329,29 +330,42 @@ const handleLogout = async () => {
 }
 
 .menu-item {
-	:deep(.van-cell) {
-		padding: $spacing-base $spacing-lg;
+	display: flex;
+	align-items: center;
 
-		.van-cell__title {
-			font-size: $font-size-base;
-			font-weight: 500;
-			color: $color-text-primary;
-		}
+}
 
-		.van-cell__label {
-			font-size: $font-size-sm;
-			color: $color-text-secondary;
-			margin-top: 2px;
-		}
+::v-deep(.menu-item.van-cell) {
+	padding: $spacing-sm 0;
 
-		.van-icon {
-			color: $color-text-secondary;
-			margin-right: $spacing-sm;
-		}
+	.van-cell__left-icon {
+		--van-cell-icon-size: 18px
+	}
 
-		&:active {
-			background: $color-bg-accent;
-		}
+	.ane-cell__right-icon {
+		--van-cell-icon-size: 16px
+	}
+
+
+	.van-cell__title {
+		font-size: $font-size-sm;
+		font-weight: 500;
+		color: $color-text-primary;
+	}
+
+	.van-cell__label {
+		font-size: $font-size-xs;
+		color: $color-text-secondary;
+		margin-top: 0px;
+	}
+
+	.van-icon {
+		color: $color-text-secondary;
+		margin-right: $spacing-sm;
+	}
+
+	&:active {
+		background: $color-bg-accent;
 	}
 }
 
