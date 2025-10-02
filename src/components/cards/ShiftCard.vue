@@ -1,5 +1,11 @@
 <template>
 	<div class="shift-card">
+		<!-- 詳細資料彈窗 -->
+		<ShiftDetailsDialog :show="showDetailsDialog" @update:show="showDetailsDialog = $event" :timeRange="timeRange"
+			:position="position" :company="company" :hourlyWage="hourlyWage" :hiredCount="hiredCount" :totalCount="totalCount"
+			:deadline="deadline" :address="address" :trafficInfo="trafficInfo" :contactPerson="contactPerson"
+			:contactPhone="contactPhone" :contactEmail="contactEmail" :jobDescription="jobDescription"
+			:requirements="requirements" :benefits="benefits" />
 		<!-- 時間標題和狀態標籤 -->
 		<div class="shift-card__header">
 			<div class="shift-card__time-title">
@@ -75,7 +81,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import ShiftDetailsDialog from '@/components/dialogs/ShiftDetailsDialog.vue';
 
 // Props 定義
 interface Props {
@@ -89,10 +96,35 @@ interface Props {
 	deadline: string; // 截止時間，如 "今日13:00"
 	status: 'open' | 'full' | 'closed'; // 班表狀態
 	applicationStatus?: 'applied' | 'not-hired' | 'hired' | null; // 申請狀態
+	// 詳細資料彈窗需要的額外屬性
+	trafficInfo?: string; // 交通資訊
+	contactPerson?: string; // 聯絡人
+	contactPhone?: string; // 聯絡電話
+	contactEmail?: string; // 聯絡信箱
+	jobDescription?: string; // 工作說明
+	requirements?: string[]; // 應徵條件
+	benefits?: string[]; // 福利待遇
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	applicationStatus: null
+	applicationStatus: null,
+	trafficInfo: '捷運市政府站2號出口步行5分鐘,或搭乘公車至世貿站下車。',
+	contactPerson: '王經理',
+	contactPhone: '02-2345-6789',
+	contactEmail: 'manager@luxurycasino.com',
+	jobDescription: '負責百家樂、21點等桌邊遊戲的發牌與桌面管理,維護遊戲秩序,確保遊戲公平進行。',
+	requirements: () => [
+		'需具備1年以上荷官經驗',
+		'熟悉百家樂、21點等遊戲規則',
+		'具備良好的數學計算能力',
+		'英語溝通能力佳'
+	],
+	benefits: () => [
+		'提供員工餐點',
+		'交通津貼$200/日',
+		'績效獎金',
+		'免費制服清洗'
+	]
 });
 
 // Emits 定義
@@ -176,8 +208,11 @@ const handleWithdraw = () => {
 	emit('withdraw', 'shift-id'); // 這裡應該傳入實際的 shift ID
 };
 
+// 詳細資料彈窗狀態
+const showDetailsDialog = ref(false);
+
 const handleDetails = () => {
-	emit('details', 'shift-id'); // 這裡應該傳入實際的 shift ID
+	showDetailsDialog.value = true;
 };
 </script>
 
