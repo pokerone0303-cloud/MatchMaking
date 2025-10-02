@@ -495,7 +495,7 @@ const handleDetails = async (shiftId: string) => {
 	padding: $spacing-8;
 	background: $color-gray-50;
 	height: 100%;
-	max-width: 100dvh;
+	width: 100%;
 	margin: 0 auto;
 
 	h1 {

@@ -3,7 +3,7 @@ import './assets/main.css'
 import './styles/index.scss'
 
 // 引入 Vant 4 樣式
-import 'vant/lib/index.css'
+// import 'vant/lib/index.css'
 
 // 引入 Vue 相關
 import { createPinia } from 'pinia'
