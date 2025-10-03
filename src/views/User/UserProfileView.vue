@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import ProfileCard from '@/components/cards/ProfileCard.vue';
 import TimesheetListCard from '@/components/cards/TimesheetListCard.vue';
+import ApplicationListCard from '@/components/cards/ApplicationListCard.vue';
 import type { TimesheetRecord } from '@/types/timesheet';
+import type { ApplicationRecord } from '@/types/application';
 
 defineOptions({
 	name: 'UserProfile',
@@ -81,6 +83,57 @@ const handleViewTimesheetDetails = (record: TimesheetRecord) => {
 	console.log('查看時數詳情:', record);
 	// 可以在這裡添加詳情彈窗或導航
 };
+
+// 模擬應徵記錄數據
+const applicationRecords = ref<ApplicationRecord[]>([
+	{
+		id: '1',
+		date: '2024-09-01',
+		startTime: '18:00',
+		endTime: '23:00',
+		position: '桌邊荷官',
+		location: '豪華賭場',
+		address: '台北市信義區',
+		appliedAt: '2024-08-30T15:30:00',
+		status: 'accepted',
+		resultMessage: '恭喜!您已被錄取，請準時到場工作。'
+	},
+	{
+		id: '2',
+		date: '2024-08-31',
+		startTime: '14:00',
+		endTime: '22:00',
+		position: '發牌員',
+		location: '星光娛樂城',
+		address: '新北市板橋區',
+		appliedAt: '2024-08-30T12:15:00',
+		status: 'pending'
+	},
+	{
+		id: '3',
+		date: '2024-08-30',
+		startTime: '20:00',
+		endTime: '02:00',
+		position: '百家樂荷官',
+		location: '金沙會館',
+		address: '台北市中山區',
+		appliedAt: '2024-08-29T16:45:00',
+		status: 'rejected',
+		resultMessage: '很遺憾，這次未能錄取，請繼續關注其他機會。'
+	}
+]);
+
+// 處理查看全部應徵記錄
+const handleViewAllApplications = () => {
+	console.log('導航到應徵記錄頁面');
+	// 可以在這裡添加路由導航
+};
+
+// 處理撤回應徵
+const handleWithdrawApplication = (record: ApplicationRecord) => {
+	console.log('撤回應徵:', record);
+	// 可以在這裡添加撤回應徵的邏輯
+};
 </script>
 <template>
 	<div class="user-profile">
@@ -92,33 +145,8 @@ const handleViewTimesheetDetails = (record: TimesheetRecord) => {
 			@view-details="handleViewTimesheetDetails" />
 
 		<!-- 應徵記錄卡片列表元件 -->
-		<div>
-			<!-- 區塊標題 -->
-			<!-- 水平排序 -->
-			<div>
-				<!--icon + 標題:應徵記錄 -->
-				<div>
-
-				</div>
-				<!-- 查看全部按鈕:作用為跳轉到該資料頁面 -->
-				<div>
-
-				</div>
-			</div>
-			<!-- 紀錄篩選TAB列表: 全部，待審，錄取，未錄取，撤回，點擊後即會查詢該狀態的應徵記錄-->
-			<div></div>
-			<!-- 卡片式列表 v-for -->
-			<div>
-				<!-- 卡片 -->
-				<!-- 標題:應徵工作的日期+時間 --> <!-- 同行右上角定位 審核狀態: 已錄取，已投遞，未錄取 -->
-				<!-- 副標:職位 -->
-				<!-- 副標:地點名稱+地址 -->
-				<!-- 內容:icon + 投遞時間 -->
-				<!-- 結果提示訊息: "恭喜!您已被錄取，請準時到場工作"，"很抱歉，您這次未被錄取，請繼續關注其他機會"，如尚未審核，則顯示"撤回應應徵按鈕" -->
-				<div>
-				</div>
-			</div>
-		</div>
+		<ApplicationListCard :application-records="applicationRecords" @view-all="handleViewAllApplications"
+			@withdraw-application="handleWithdrawApplication" />
 
 	</div>
 </template>
