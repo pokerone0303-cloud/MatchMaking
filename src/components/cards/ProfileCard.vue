@@ -140,13 +140,11 @@ const maskedEmail = computed(() => {
 .profile-card {
 	background: $color-white;
 	border-radius: $border-radius-lg;
-	padding: $spacing-20;
+	padding: $spacing-16;
 	box-shadow: $shadow-base;
 	border: 1px solid $color-gray-2;
 
-	&__user-info {
-		margin-bottom: $spacing-16;
-	}
+	&__user-info {}
 
 	&__user-main {
 		display: flex;
@@ -178,11 +176,11 @@ const maskedEmail = computed(() => {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: $spacing-8;
+		gap: $spacing-4;
 	}
 
 	&__name {
-		font-size: $font-size-lg;
+		font-size: $font-size-base;
 		font-weight: $font-weight-semibold;
 		color: $color-text-primary;
 		line-height: 1.4;
