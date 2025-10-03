@@ -335,7 +335,7 @@ const handleLogout = async () => {
 
 }
 
-::v-deep(.menu-item.van-cell) {
+:deep(.menu-item.van-cell) {
 	padding: $spacing-sm 0;
 
 	.van-cell__left-icon {
