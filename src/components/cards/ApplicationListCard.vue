@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { ApplicationRecord, FilterTab } from '@/types/application';
+import { useRouter } from 'vue-router';
 
 interface Props {
 	applicationRecords: ApplicationRecord[];
 	showViewAll?: boolean;
 }
+
+const router = useRouter();
 
 // 定義 props
 const props = withDefaults(defineProps<Props>(), {
@@ -123,7 +126,8 @@ const switchFilter = (filter: FilterTab) => {
 
 // 方法：處理查看全部
 const handleViewAll = () => {
-	emit('viewAll');
+	// emit('viewAll');
+	router.push('/user/applications');
 };
 
 // 方法：處理撤回應徵
@@ -137,7 +141,7 @@ const handleWithdraw = (record: ApplicationRecord) => {
 		<!-- 區塊標題 -->
 		<div class="application-list-card__header">
 			<div class="application-list-card__title-section">
-				<van-icon name="description" class="application-list-card__title-icon" />
+				<van-icon name="description-o" class="application-list-card__title-icon" />
 				<h3 class="application-list-card__title">應徵記錄</h3>
 			</div>
 			<van-button v-if="showViewAll" type="primary" size="small" class="application-list-card__view-all-btn"
@@ -181,9 +185,9 @@ const handleWithdraw = (record: ApplicationRecord) => {
 
 					<!-- 投遞時間 -->
 					<div class="application-card__applied-time">
-						<van-icon name="clock" class="application-card__time-icon" />
-						<span class="application-card__time-label">投遞時間:</span>
-						<span class="application-card__time-value">{{ formatAppliedTime(record.appliedAt) }}</span>
+						<van-icon name="clock" class="application-card__applied-time-icon" />
+						<span class="application-card__applied-time-label">投遞時間:</span>
+						<span class="application-card__applied-time-value">{{ formatAppliedTime(record.appliedAt) }}</span>
 					</div>
 
 					<!-- 結果提示訊息 -->
@@ -215,11 +219,7 @@ const handleWithdraw = (record: ApplicationRecord) => {
 @use '@/styles/variables.scss' as *;
 
 .application-list-card {
-	background: $color-white;
 	border-radius: $border-radius-lg;
-	padding: $spacing-16;
-	box-shadow: $shadow-base;
-	border: 1px solid $color-gray-2;
 
 	&__header {
 		display: flex;
@@ -240,24 +240,25 @@ const handleWithdraw = (record: ApplicationRecord) => {
 	}
 
 	&__title {
-		font-size: $font-size-lg;
+		font-size: $font-size-base;
 		font-weight: $font-weight-semibold;
 		color: $color-text-primary;
 		margin: 0;
 	}
 
 	&__view-all-btn {
-		font-size: $font-size-sm;
-		height: 32px;
-		padding: 0 $spacing-12;
+		font-size: $font-size-xs;
+		padding: $spacing-4 $spacing-8;
 	}
 
 	&__filter-tabs {
 		display: flex;
-		gap: $spacing-8;
+		align-items: center;
+		justify-content: space-evenly;
 		margin-bottom: $spacing-16;
-		overflow-x: auto;
-		padding-bottom: $spacing-4;
+		padding: $spacing-4 $spacing-8;
+		background: $color-gray-2;
+		border-radius: $border-radius-full;
 
 		&::-webkit-scrollbar {
 			display: none;
@@ -266,17 +267,16 @@ const handleWithdraw = (record: ApplicationRecord) => {
 
 	&__filter-tab {
 		flex-shrink: 0;
-		padding: $spacing-8 $spacing-12;
+		padding: $spacing-4 $spacing-16;
 		border-radius: $border-radius-full;
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		font-weight: $font-weight-medium;
 		color: $color-text-secondary;
-		background: transparent;
 		cursor: pointer;
 		transition: all 0.2s ease;
 
 		&--active {
-			background: $color-gray-2;
+			background-color: $color-white;
 			color: $color-text-primary;
 		}
 	}
@@ -284,7 +284,7 @@ const handleWithdraw = (record: ApplicationRecord) => {
 	&__list {
 		display: flex;
 		flex-direction: column;
-		gap: $spacing-12;
+		gap: $spacing-8;
 	}
 }
 
@@ -296,6 +296,7 @@ const handleWithdraw = (record: ApplicationRecord) => {
 	overflow: hidden;
 
 	&__content {
+		position: relative;
 		padding: $spacing-16;
 	}
 
@@ -303,7 +304,6 @@ const handleWithdraw = (record: ApplicationRecord) => {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
-		margin-bottom: $spacing-8;
 	}
 
 	&__title {
@@ -311,45 +311,41 @@ const handleWithdraw = (record: ApplicationRecord) => {
 	}
 
 	&__datetime {
-		font-size: $font-size-base;
+		font-size: $font-size-sm;
 		font-weight: $font-weight-medium;
 		color: $color-text-primary;
-		line-height: 1.4;
 	}
 
 	&__status {
-		flex-shrink: 0;
-		font-size: $font-size-xs;
+		position: absolute;
+		right: $spacing-8;
+		font-size: $font-size-xxs;
 		padding: $spacing-4 $spacing-8;
 		border-radius: $border-radius-full;
 
 		&--pending {
 			background: $color-blue-2;
 			color: $color-blue-1;
-			border: 1px solid $color-blue-1;
 		}
 
 		&--accepted {
 			background: $color-green-2;
 			color: $color-green-1;
-			border: 1px solid $color-green-1;
 		}
 
 		&--rejected {
 			background: $color-red-2;
 			color: $color-red-1;
-			border: 1px solid $color-red-1;
 		}
 
 		&--withdrawn {
 			background: $color-gray-2;
 			color: $color-text-secondary;
-			border: 1px solid $color-gray-2;
 		}
 	}
 
 	&__location {
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		color: $color-text-secondary;
 		margin-bottom: $spacing-12;
 		line-height: 1.4;
@@ -359,15 +355,15 @@ const handleWithdraw = (record: ApplicationRecord) => {
 		display: flex;
 		align-items: center;
 		gap: $spacing-6;
-		margin-bottom: $spacing-12;
+		margin-bottom: $spacing-8;
 
 		&-icon {
 			color: $color-text-secondary;
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 		}
 
 		&-label {
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 			color: $color-text-secondary;
 		}
 
@@ -382,9 +378,8 @@ const handleWithdraw = (record: ApplicationRecord) => {
 		display: flex;
 		align-items: center;
 		gap: $spacing-6;
-		padding: $spacing-12;
-		border-radius: $border-radius-base;
-		margin-bottom: $spacing-12;
+		padding: $spacing-4 $spacing-8;
+		border-radius: $border-radius-sm;
 
 		&--success {
 			background: $color-green-2;
@@ -402,9 +397,9 @@ const handleWithdraw = (record: ApplicationRecord) => {
 		}
 
 		&-text {
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 			font-weight: $font-weight-medium;
-			line-height: 1.4;
+			line-height: 1.5;
 
 			.application-card__result--success & {
 				color: $color-green-1;
@@ -422,9 +417,8 @@ const handleWithdraw = (record: ApplicationRecord) => {
 	}
 
 	&__withdraw-btn {
-		font-size: $font-size-sm;
-		height: 36px;
-		padding: 0 $spacing-16;
+		font-size: $font-size-xs;
+		padding: $spacing-4 $spacing-16;
 		border-radius: $border-radius-base;
 	}
 }
