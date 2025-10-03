@@ -44,6 +44,16 @@ const router = createRouter({
           name: 'UserProfile',
           component: () => import('@/views/User/UserProfileView.vue'),
         },
+        {
+          path: '/u/timesheets',
+          name: 'UserTimesheets',
+          component: () => import('@/views/User/UserTimesheetsView.vue'),
+        },
+        {
+          path: '/u/applications',
+          name: 'UserApplications',
+          component: () => import('@/views/User/UserApplicationsView.vue'),
+        },
       ]
     },
     // {

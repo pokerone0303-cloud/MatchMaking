@@ -79,7 +79,7 @@ const isCardExpanded = (recordId: string) => {
 const handleViewAll = () => {
 	// emit('viewAll');
 	// 可以導航到專門的時數頁面
-	router.push('/user/timesheets');
+	router.push('/u/timesheets');
 };
 
 // 方法：處理查看詳情（保留以備將來使用）

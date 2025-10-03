@@ -127,7 +127,7 @@ const switchFilter = (filter: FilterTab) => {
 // 方法：處理查看全部
 const handleViewAll = () => {
 	// emit('viewAll');
-	router.push('/user/applications');
+	router.push('/u/applications');
 };
 
 // 方法：處理撤回應徵
