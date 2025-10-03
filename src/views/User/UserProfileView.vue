@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ProfileCard from '@/components/cards/ProfileCard.vue';
+import TimesheetListCard from '@/components/cards/TimesheetListCard.vue';
+import type { TimesheetRecord } from '@/types/timesheet';
 
 defineOptions({
 	name: 'UserProfile',
@@ -22,6 +24,63 @@ const userStats = ref({
 	pendingHours: 16,
 	totalHours: 1250
 });
+
+// 模擬時數記錄數據
+const timesheetRecords = ref([
+	{
+		id: '1',
+		date: '2024-08-30',
+		startTime: '18:00',
+		endTime: '23:00',
+		breakDuration: 30,
+		location: '豪華賭場',
+		address: '台北市信義區',
+		shiftId: '#SH240830001',
+		workingHours: 4.5,
+		status: 'submitted' as const,
+		auditNote: '時數記錄已提交，等待審核'
+	},
+	{
+		id: '2',
+		date: '2024-08-29',
+		startTime: '14:00',
+		endTime: '22:00',
+		breakDuration: 60,
+		location: '星光娛樂城',
+		address: '新北市板橋區',
+		shiftId: '#SH240829002',
+		workingHours: 7.0,
+		status: 'approved' as const,
+		auditNote: '時數記錄已核准，無需調整'
+	},
+	{
+		id: '3',
+		date: '2024-08-28',
+		startTime: '20:00',
+		endTime: '02:00',
+		breakDuration: 30,
+		location: '金沙會館',
+		address: '台北市中山區',
+		shiftId: '#SH240828003',
+		workingHours: 6.0,
+		adjustedHours: 5.5,
+		originalHours: 6.0,
+		status: 'adjusted' as const,
+		auditNote: '因遲到15分鐘，調整時數為5.5小時'
+	}
+]);
+
+// 處理查看全部時數記錄
+const handleViewAllTimesheets = () => {
+	console.log('導航到時數記錄頁面');
+	// 可以在這裡添加路由導航
+};
+
+// 處理查看時數詳情
+const handleViewTimesheetDetails = (record: TimesheetRecord) => {
+	console.log('查看時數詳情:', record);
+	// 可以在這裡添加詳情彈窗或導航
+};
 </script>
 <template>
 	<div class="user-profile">
@@ -29,31 +88,8 @@ const userStats = ref({
 		<ProfileCard :user-profile="userProfile" :user-stats="userStats" />
 
 		<!-- 實際上班時數卡片列表元件 -->
-		<div>
-			<!-- 區塊標題 -->
-			<!-- 水平排序 -->
-			<div>
-				<!--icon + 標題:實際上班時數 -->
-				<div>
-
-				</div>
-				<!-- 查看全部按鈕:作用為跳轉到該資料頁面 -->
-				<div>
-
-				</div>
-			</div>
-			<!-- 卡片式列表 v-for -->
-			<div>
-				<!-- 卡片 -->
-				<!-- 標題:日期+時間 --> <!-- 同行右上角定位 審核狀態: 已提交，已核准，已調整 -->
-				<!-- 副標:地點名稱+地址 -->
-				<!-- 內容:icon + 工作時數 -->
-				<!-- 查看詳情按鈕:作用為展開該卡片資料，手風琴效果 -->
-				<!-- 展開內容: 標題為審核備註，內容為審核備註內容 -->
-				<div>
-				</div>
-			</div>
-		</div>
+		<TimesheetListCard :timesheet-records="timesheetRecords" @view-all="handleViewAllTimesheets"
+			@view-details="handleViewTimesheetDetails" />
 
 		<!-- 應徵記錄卡片列表元件 -->
 		<div>
