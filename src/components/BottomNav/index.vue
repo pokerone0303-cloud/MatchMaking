@@ -43,7 +43,7 @@ const navConfigs: Record<string, NavItem[]> = {
 		},
 		{
 			key: 'profile',
-			label: '我的',
+			label: '個人資料',
 			icon: 'user-o',
 			route: '/u/profile'
 		},
@@ -75,7 +75,7 @@ const navConfigs: Record<string, NavItem[]> = {
 		},
 		{
 			key: 'profile',
-			label: '個人',
+			label: '商家資料',
 			icon: 'user-o',
 			route: '/e/profile'
 		},
@@ -181,7 +181,7 @@ const isActive = (item: NavItem) => {
 		}
 	}
 
-	:deep(.van-tabbar-item--active) {
+	.nav-item--active {
 		color: $color-primary;
 
 		.van-icon {

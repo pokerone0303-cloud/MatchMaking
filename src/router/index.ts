@@ -30,15 +30,22 @@ const router = createRouter({
     },
     // 用戶端路由
     {
-      path: '/u/shifts',
-      name: 'shifts',
-      component: () => import('@/views/User/UserShiftsView.vue'),
+      path: '/u',
+      name: 'User',
+      redirect: '/u/shifts',
+      children: [
+        {
+          path: '/u/shifts',
+          name: 'UserShifts',
+          component: () => import('@/views/User/UserShiftsView.vue'),
+        },
+        {
+          path: '/u/profile',
+          name: 'UserProfile',
+          component: () => import('@/views/User/UserProfileView.vue'),
+        },
+      ]
     },
-    // {
-    //   path: '/u/profile',
-    //   name: 'profile',
-    //   component: () => import('@/views/UserProfile.vue'),
-    // },
     // {
     //   path: '/u/timesheets',
     //   name: 'timesheets',
