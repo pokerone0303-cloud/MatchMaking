@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { TimesheetRecord } from '@/types/timesheet';
+import { useRouter } from 'vue-router';
 
 interface Props {
 	timesheetRecords: TimesheetRecord[];
 	showViewAll?: boolean;
 }
+
+const router = useRouter();
 
 // 定義 props
 withDefaults(defineProps<Props>(), {
@@ -74,9 +77,9 @@ const isCardExpanded = (recordId: string) => {
 
 // 方法：處理查看全部
 const handleViewAll = () => {
-	emit('viewAll');
+	// emit('viewAll');
 	// 可以導航到專門的時數頁面
-	// router.push('/user/timesheets');
+	router.push('/user/timesheets');
 };
 
 // 方法：處理查看詳情（保留以備將來使用）
@@ -90,7 +93,7 @@ const handleViewAll = () => {
 		<!-- 區塊標題 -->
 		<div class="timesheet-list-card__header">
 			<div class="timesheet-list-card__title-section">
-				<van-icon name="clock" class="timesheet-list-card__title-icon" />
+				<van-icon name="clock-o" class="timesheet-list-card__title-icon" />
 				<h3 class="timesheet-list-card__title">實際上班時數</h3>
 			</div>
 			<van-button v-if="showViewAll" type="primary" size="small" class="timesheet-list-card__view-all-btn"
@@ -171,11 +174,7 @@ const handleViewAll = () => {
 @use '@/styles/variables.scss' as *;
 
 .timesheet-list-card {
-	background: $color-white;
 	border-radius: $border-radius-lg;
-	padding: $spacing-16;
-	box-shadow: $shadow-base;
-	border: 1px solid $color-gray-2;
 
 	&__header {
 		display: flex;
@@ -196,22 +195,21 @@ const handleViewAll = () => {
 	}
 
 	&__title {
-		font-size: $font-size-lg;
+		font-size: $font-size-base;
 		font-weight: $font-weight-semibold;
 		color: $color-text-primary;
 		margin: 0;
 	}
 
 	&__view-all-btn {
-		font-size: $font-size-sm;
-		height: 32px;
-		padding: 0 $spacing-12;
+		font-size: $font-size-xs;
+		padding: $spacing-4 $spacing-8;
 	}
 
 	&__list {
 		display: flex;
 		flex-direction: column;
-		gap: $spacing-12;
+		gap: $spacing-8;
 	}
 }
 
@@ -223,14 +221,14 @@ const handleViewAll = () => {
 	overflow: hidden;
 
 	&__content {
-		padding: $spacing-16;
+		position: relative;
+		padding: $spacing-12 $spacing-16;
 	}
 
 	&__header {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
-		margin-bottom: $spacing-8;
 	}
 
 	&__datetime {
@@ -241,7 +239,7 @@ const handleViewAll = () => {
 	}
 
 	&__date {
-		font-size: $font-size-base;
+		font-size: $font-size-sm;
 		font-weight: $font-weight-medium;
 		color: $color-text-primary;
 	}
@@ -252,43 +250,41 @@ const handleViewAll = () => {
 	}
 
 	&__time {
-		font-size: $font-size-base;
+		font-size: $font-size-sm;
 		font-weight: $font-weight-medium;
 		color: $color-text-primary;
 	}
 
 	&__break {
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		color: $color-text-secondary;
 	}
 
 	&__status {
-		flex-shrink: 0;
-		font-size: $font-size-xs;
+		position: absolute;
+		right: $spacing-8;
+		font-size: $font-size-xxs;
 		padding: $spacing-4 $spacing-8;
 		border-radius: $border-radius-full;
 
 		&--submitted {
 			background: $color-blue-2;
 			color: $color-blue-1;
-			border: 1px solid $color-blue-1;
 		}
 
 		&--approved {
 			background: $color-green-2;
 			color: $color-green-1;
-			border: 1px solid $color-green-1;
 		}
 
 		&--adjusted {
 			background: $color-orange-100;
 			color: $color-orange-700;
-			border: 1px solid $color-orange-700;
 		}
 	}
 
 	&__location {
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		color: $color-text-secondary;
 		margin-bottom: $spacing-12;
 		line-height: 1.4;
@@ -298,15 +294,14 @@ const handleViewAll = () => {
 		display: flex;
 		align-items: center;
 		gap: $spacing-6;
-		margin-bottom: $spacing-12;
 
 		&-icon {
 			color: $color-text-secondary;
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 		}
 
 		&-label {
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 			color: $color-text-secondary;
 		}
 
@@ -318,8 +313,9 @@ const handleViewAll = () => {
 	}
 
 	&__adjusted-hours {
-		margin-top: $spacing-4;
+		// margin-top: $spacing-4;
 		padding-left: 22px; // 對齊上面的時數內容
+		line-height: 1;
 	}
 
 	&__adjusted-label {
@@ -337,11 +333,11 @@ const handleViewAll = () => {
 	&__details-title {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		gap: $spacing-4;
 		width: 100%;
-		padding: $spacing-8 0;
-		font-size: $font-size-sm;
+		padding: $spacing-4 $spacing-12;
+		font-size: $font-size-xs;
 		color: $color-primary;
 		font-weight: $font-weight-medium;
 	}
@@ -353,7 +349,7 @@ const handleViewAll = () => {
 
 	&__collapse {
 		border-top: 1px solid $color-gray-2;
-		margin-top: $spacing-8;
+		// margin-top: $spacing-8;
 
 		:deep(.van-collapse-item__wrapper) {
 			border: none;
@@ -363,6 +359,10 @@ const handleViewAll = () => {
 			padding: 0;
 			background: transparent;
 			border: none;
+		}
+
+		:deep(.van-cell__right-icon) {
+			display: none;
 		}
 
 		:deep(.van-collapse-item__content) {
@@ -377,28 +377,24 @@ const handleViewAll = () => {
 		}
 	}
 
-	&__collapse-content {
-		padding: $spacing-16;
-		background: $color-gray-3;
-	}
+	&__collapse-content {}
 
 	&__audit-section {
-		background: $color-white;
-		border-radius: $border-radius-base;
-		padding: $spacing-16;
-		box-shadow: $shadow-sm;
+		padding: $spacing-12 $spacing-16;
 	}
 
 	&__audit-title {
 		font-size: $font-size-sm;
-		font-weight: $font-weight-semibold;
 		color: $color-text-primary;
 		margin-bottom: $spacing-8;
 	}
 
 	&__audit-content {
-		font-size: $font-size-sm;
+		background: $color-gray-3;
+		padding: $spacing-4 $spacing-8;
+		font-size: $font-size-xs;
 		color: $color-text-secondary;
+		border-radius: $border-radius-sm;
 		line-height: 1.5;
 	}
 }
