@@ -440,31 +440,34 @@ const handleDetails = async (shiftId: string) => {
 			</div>
 		</div>
 
-		<!-- 測試用：切換班別狀況狀態 -->
-		<div class="search-update-filter-calendar">
-			<div class="test-controls">
-				<button @click="shiftStatus = 'available'" :class="{ active: shiftStatus === 'available' }"
-					class="test-btn test-btn--available">
-					尚有缺額
-				</button>
-				<button @click="shiftStatus = 'unavailable'" :class="{ active: shiftStatus === 'unavailable' }"
-					class="test-btn test-btn--unavailable">
-					暫無缺額
-				</button>
+		<div class="content-container">
+			<!-- 測試用：切換班別狀況狀態 -->
+			<div class="search-update-filter-calendar">
+				<div class="test-controls">
+					<button @click="shiftStatus = 'available'" :class="{ active: shiftStatus === 'available' }"
+						class="test-btn test-btn--available">
+						尚有缺額
+					</button>
+					<button @click="shiftStatus = 'unavailable'" :class="{ active: shiftStatus === 'unavailable' }"
+						class="test-btn test-btn--unavailable">
+						暫無缺額
+					</button>
+				</div>
+			</div>
+
+			<!-- 班別狀況提示訊息 -->
+			<ShiftStatusBanner :status="shiftStatus" :date="selectedDate" />
+
+			<!-- 班表卡片列表 -->
+			<div class="shifts-list">
+				<ShiftCard v-for="shift in shifts" :key="shift.id" :time-range="shift.timeRange" :position="shift.position"
+					:company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
+					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
+					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
+					@withdraw="handleWithdraw" @details="handleDetails" />
 			</div>
 		</div>
 
-		<!-- 班別狀況提示訊息 -->
-		<ShiftStatusBanner :status="shiftStatus" :date="selectedDate" />
-
-		<!-- 班表卡片列表 -->
-		<div class="shifts-list">
-			<ShiftCard v-for="shift in shifts" :key="shift.id" :time-range="shift.timeRange" :position="shift.position"
-				:company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
-				:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
-				:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
-				@withdraw="handleWithdraw" @details="handleDetails" />
-		</div>
 	</div>
 </template>
 
@@ -492,8 +495,6 @@ const handleDetails = async (shiftId: string) => {
 }
 
 .user-shifts {
-	padding: $spacing-8;
-	background: $color-gray-50;
 	height: 100%;
 	width: 100%;
 	margin: 0 auto;
@@ -508,9 +509,8 @@ const handleDetails = async (shiftId: string) => {
 
 	// 篩選元件樣式
 	.filter-section {
-		margin-bottom: $spacing-12;
 		background: $color-white;
-		border-radius: $border-radius-lg;
+		// border-radius: $border-radius-lg;
 		padding: $spacing-12;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -866,6 +866,10 @@ const handleDetails = async (shiftId: string) => {
 				}
 			}
 		}
+	}
+
+	.content-container {
+		padding: $spacing-8;
 	}
 
 	.search-update-filter-calendar {

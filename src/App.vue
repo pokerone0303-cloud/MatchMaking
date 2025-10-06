@@ -57,7 +57,7 @@ const handleCloseSlideNav = () => {
   height: 100dvh;
   width: 100dvw;
   position: relative;
-  background: $color-bg-secondary;
+  background: $color-gray-50;
 }
 
 .content {
