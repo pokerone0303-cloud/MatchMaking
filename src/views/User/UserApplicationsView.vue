@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
+import SheetCard from '@/components/cards/SheetCard.vue';
 import type { FilterConfig } from '@/types/filter';
+import type { TimesheetRecord } from '@/types/timesheet';
 
 defineOptions({
 	name: 'UserApplicationsView',
@@ -140,6 +142,59 @@ const handleReset = () => {
 		position: ''
 	};
 };
+
+// 測試資料
+const timesheetData = ref<TimesheetRecord[]>([
+	{
+		id: 'TS20240913',
+		date: '2024-09-13',
+		startTime: '20:00',
+		endTime: '02:00',
+		breakDuration: 0,
+		location: '金沙會館',
+		address: '台北中山店',
+		shiftId: 'SH001',
+		workingHours: 6,
+		status: 'submitted'
+	},
+	{
+		id: 'TS20240912',
+		date: '2024-09-12',
+		startTime: '14:00',
+		endTime: '22:00',
+		breakDuration: 30,
+		location: '豪華賭場',
+		address: '台北信義店',
+		shiftId: 'SH002',
+		workingHours: 7.5,
+		adjustedHours: 8,
+		status: 'adjusted'
+	},
+	{
+		id: 'TS20240911',
+		date: '2024-09-11',
+		startTime: '10:00',
+		endTime: '18:00',
+		breakDuration: 60,
+		location: '星光娛樂城',
+		address: '台北松山店',
+		shiftId: 'SH003',
+		workingHours: 7,
+		status: 'approved'
+	}
+]);
+
+// 處理查看詳細
+const handleViewDetails = (timesheet: TimesheetRecord) => {
+	console.log('查看詳細:', timesheet);
+	// 這裡可以開啟詳細彈窗
+};
+
+// 處理編輯
+const handleEdit = (timesheet: TimesheetRecord) => {
+	console.log('編輯:', timesheet);
+	// 這裡可以開啟編輯表單
+};
 </script>
 
 <template>
@@ -150,9 +205,15 @@ const handleReset = () => {
 
 		<!-- 內容區域 -->
 		<div class="user-applications__content">
-			<!-- 這裡可以放置應徵記錄列表或其他內容 -->
-			<div class="user-applications__placeholder">
-				<p>應徵記錄內容將在此顯示</p>
+			<!-- 時數記錄列表 -->
+			<div v-if="timesheetData.length > 0" class="user-applications__list">
+				<SheetCard v-for="timesheet in timesheetData" :key="timesheet.id" :timesheet="timesheet"
+					@view-details="handleViewDetails" @edit="handleEdit" />
+			</div>
+
+			<!-- 空狀態 -->
+			<div v-else class="user-applications__empty">
+				<van-empty description="暫無時數記錄" />
 			</div>
 		</div>
 	</div>
@@ -169,19 +230,11 @@ const handleReset = () => {
 		padding: $spacing-16;
 	}
 
-	&__placeholder {
-		background: $color-white;
-		border-radius: $border-radius-lg;
-		padding: $spacing-16;
-		text-align: center;
-		box-shadow: $shadow-base;
-		border: 1px solid $color-gray-2;
-
-		p {
-			font-size: $font-size-base;
-			color: $color-text-secondary;
-			margin: 0;
-		}
+	&__empty {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 200px;
 	}
 }
 
