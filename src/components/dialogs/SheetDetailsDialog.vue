@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { TimesheetRecord } from '@/types/timesheet';
+import type { DialogConfig } from '@/types/dialog';
+import { STATUS_MAP } from '@/types/dialog';
 
 // Props 定義
 interface Props {
 	visible: boolean;
 	timesheet: TimesheetRecord | null;
+	config?: DialogConfig; // 可選的配置，如果不提供則使用預設配置
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+	config: undefined
+});
 
 // Emits 定義
 const emit = defineEmits<{
@@ -19,13 +24,7 @@ const emit = defineEmits<{
 // 計算屬性
 const statusConfig = computed(() => {
 	if (!props.timesheet) return { text: '', class: '' };
-
-	const statusMap = {
-		submitted: { text: '待審核', class: 'status-pending' },
-		approved: { text: '已核准', class: 'status-approved' },
-		adjusted: { text: '已調整', class: 'status-adjusted' }
-	};
-	return statusMap[props.timesheet.status] || statusMap.submitted;
+	return STATUS_MAP[props.timesheet.status] || STATUS_MAP.submitted;
 });
 
 const formattedDate = computed(() => {
@@ -48,47 +47,74 @@ const recordTime = computed(() => {
 	return '2024/9/14 上午8:20:00';
 });
 
-// 基本資訊區塊
-const basicInfo = computed(() => [
-	{ label: '工時單號', value: `TS${props.timesheet?.id || ''}` },
-	{ label: '工作日期', value: formattedDate.value },
-	{ label: '工作時間', value: formattedTime.value },
-	{ label: '商家', value: '金沙會館' },
-	{ label: '地點', value: `${props.timesheet?.location || ''} ${props.timesheet?.address || ''}` },
-	{ label: '職位', value: '百家樂荷官' }
-]);
-
-// 工時統計區塊
-const workHourStats = computed(() => {
-	const hours = props.timesheet?.adjustedHours || props.timesheet?.workingHours || 0;
-	return [
-		{ label: '正常工時', value: `${hours} 小時`, valueClass: 'text-blue' },
-		{ label: '加班工時', value: '0 小時', valueClass: 'text-orange' },
-		{ label: '總工時', value: `${hours} 小時`, valueClass: 'text-blue' }
-	];
-});
-
-// 薪資計算區塊
-const salaryCalculation = computed(() => {
+// 預設配置
+const defaultConfig = computed((): DialogConfig => {
 	const hours = props.timesheet?.adjustedHours || props.timesheet?.workingHours || 0;
 	const baseSalary = hours * 600;
 	const overtimeSalary = 0;
 	const totalSalary = baseSalary + overtimeSalary;
 
-	return [
-		{ label: '基本時薪', value: '$600' },
-		{ label: '加班時薪', value: '$900' },
-		{ label: '基本薪資', value: `$${baseSalary}` },
-		{ label: '加班薪資', value: `$${overtimeSalary}` },
-		{ label: '總薪資', value: `$${totalSalary}`, valueClass: 'text-green' }
-	];
+	return {
+		title: '工時詳細資料',
+		blocks: [
+			{
+				type: 'section',
+				title: '基本資訊',
+				items: [
+					{ label: '工時單號', value: `TS${props.timesheet?.id || ''}` },
+					{ label: '工作日期', value: formattedDate.value },
+					{ label: '工作時間', value: formattedTime.value },
+					{ label: '商家', value: '金沙會館' },
+					{ label: '地點', value: `${props.timesheet?.location || ''} ${props.timesheet?.address || ''}` },
+					{ label: '職位', value: '百家樂荷官' }
+				]
+			},
+			{
+				type: 'section',
+				title: '工時統計',
+				items: [
+					{ label: '正常工時', value: `${hours} 小時`, valueClass: 'text-blue' },
+					{ label: '加班工時', value: '0 小時', valueClass: 'text-orange' },
+					{ label: '總工時', value: `${hours} 小時`, valueClass: 'text-blue' }
+				]
+			},
+			{
+				type: 'section',
+				title: '薪資計算',
+				items: [
+					{ label: '基本時薪', value: '$600' },
+					{ label: '加班時薪', value: '$900' },
+					{ label: '基本薪資', value: `$${baseSalary}` },
+					{ label: '加班薪資', value: `$${overtimeSalary}` },
+					{ label: '總薪資', value: `$${totalSalary}`, valueClass: 'text-green' }
+				]
+			},
+			{
+				type: 'section',
+				title: '狀態資訊',
+				items: [
+					{ label: '狀態', value: statusConfig.value.text, valueClass: statusConfig.value.class },
+					{ label: '記錄時間', value: recordTime.value }
+				]
+			},
+			{
+				type: 'highlight',
+				title: '職位要求',
+				content: '五年以上經驗',
+				contentClass: 'highlight-requirement'
+			},
+			{
+				type: 'remark',
+				title: '備註',
+				content: '深夜班,客流量較大',
+				contentClass: 'remark-content'
+			}
+		]
+	};
 });
 
-// 狀態資訊區塊
-const statusInfo = computed(() => [
-	{ label: '狀態', value: statusConfig.value.text, valueClass: statusConfig.value.class },
-	{ label: '記錄時間', value: recordTime.value }
-]);
+// 使用傳入的配置或預設配置
+const dialogConfig = computed(() => props.config || defaultConfig.value);
 
 // 事件處理
 const handleClose = () => {
@@ -107,69 +133,38 @@ const handleOverlayClick = () => {
 		<div class="timesheet-details-dialog">
 			<!-- 標題區域 -->
 			<div class="timesheet-details-dialog__header">
-				<h2 class="timesheet-details-dialog__title">工時詳細資料</h2>
+				<h2 class="timesheet-details-dialog__title">{{ dialogConfig.title }}</h2>
 			</div>
 
 			<!-- 內容區域 -->
 			<div class="timesheet-details-dialog__content">
-				<!-- 基本資訊區塊 -->
-				<div class="timesheet-details-dialog__section">
-					<h3 class="timesheet-details-dialog__section-title">基本資訊</h3>
-					<div class="timesheet-details-dialog__section-content">
-						<div v-for="item in basicInfo" :key="item.label" class="timesheet-details-dialog__info-item">
-							<span class="timesheet-details-dialog__info-label">{{ item.label }} :</span>
-							<span class="timesheet-details-dialog__info-value">{{ item.value }}</span>
-						</div>
-					</div>
-				</div>
+				<!-- 動態渲染區塊 -->
+				<div v-for="(block, index) in dialogConfig.blocks" :key="index" class="timesheet-details-dialog__section">
+					<h3 class="timesheet-details-dialog__section-title">{{ block.title }}</h3>
 
-				<!-- 工時統計區塊 -->
-				<div class="timesheet-details-dialog__section">
-					<h3 class="timesheet-details-dialog__section-title">工時統計</h3>
-					<div class="timesheet-details-dialog__section-content">
-						<div v-for="item in workHourStats" :key="item.label" class="timesheet-details-dialog__info-item">
-							<span class="timesheet-details-dialog__info-label">{{ item.label }} :</span>
-							<span class="timesheet-details-dialog__info-value" :class="item.valueClass">
-								{{ item.value }}
-							</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- 薪資計算區塊 -->
-				<div class="timesheet-details-dialog__section">
-					<h3 class="timesheet-details-dialog__section-title">薪資計算</h3>
-					<div class="timesheet-details-dialog__section-content">
-						<div v-for="item in salaryCalculation" :key="item.label" class="timesheet-details-dialog__info-item">
-							<span class="timesheet-details-dialog__info-label">{{ item.label }} :</span>
-							<span class="timesheet-details-dialog__info-value" :class="item.valueClass">
-								{{ item.value }}
-							</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- 狀態資訊區塊 -->
-				<div class="timesheet-details-dialog__section">
-					<h3 class="timesheet-details-dialog__section-title">狀態資訊</h3>
-					<div class="timesheet-details-dialog__section-content">
-						<div v-for="item in statusInfo" :key="item.label" class="timesheet-details-dialog__info-item">
+					<!-- 一般區塊 -->
+					<div v-if="block.type === 'section'" class="timesheet-details-dialog__section-content">
+						<div v-for="item in block.items" :key="item.label" class="timesheet-details-dialog__info-item">
 							<span class="timesheet-details-dialog__info-label">{{ item.label }} :</span>
 							<span v-if="item.label === '狀態'" class="timesheet-details-dialog__status-tag" :class="item.valueClass">
 								{{ item.value }}
 							</span>
-							<span v-else class="timesheet-details-dialog__info-value">
+							<span v-else class="timesheet-details-dialog__info-value" :class="item.valueClass">
 								{{ item.value }}
 							</span>
 						</div>
 					</div>
-				</div>
 
-				<!-- 備註區塊 -->
-				<div class="timesheet-details-dialog__section">
-					<h3 class="timesheet-details-dialog__section-title">備註</h3>
-					<div class="timesheet-details-dialog__remarks">
-						<p class="timesheet-details-dialog__remarks-content">深夜班,客流量較大</p>
+					<!-- 重點區域 -->
+					<div v-else-if="block.type === 'highlight'" class="timesheet-details-dialog__highlight"
+						:class="block.contentClass">
+						<p class="timesheet-details-dialog__highlight-content">{{ block.content }}</p>
+					</div>
+
+					<!-- 備註區塊 -->
+					<div v-else-if="block.type === 'remark'" class="timesheet-details-dialog__remarks"
+						:class="block.contentClass">
+						<p class="timesheet-details-dialog__remarks-content">{{ block.content }}</p>
 					</div>
 				</div>
 			</div>
@@ -262,6 +257,10 @@ const handleOverlayClick = () => {
 		&.text-green {
 			color: $color-green-1;
 		}
+
+		&.text-red {
+			color: $color-red-1;
+		}
 	}
 
 	&__status-tag {
@@ -285,12 +284,51 @@ const handleOverlayClick = () => {
 			background: $color-info;
 			color: $color-white;
 		}
+
+		&.status-accepted {
+			background: $color-success;
+			color: $color-white;
+		}
+
+		&.status-rejected {
+			background: $color-danger;
+			color: $color-white;
+		}
+
+		&.status-withdrawn {
+			background: $color-gray-500;
+			color: $color-white;
+		}
+	}
+
+	&__highlight {
+		background: $color-blue-50;
+		border-radius: $border-radius-sm;
+		padding: $spacing-12;
+		border: 1px solid $color-blue-200;
+
+		&.highlight-requirement {
+			background: $color-warning-50;
+			border-color: $color-warning-200;
+		}
+	}
+
+	&__highlight-content {
+		font-size: $font-size-sm;
+		color: $color-blue-1;
+		margin: 0;
+		line-height: 1.2;
 	}
 
 	&__remarks {
 		background: $color-blue-50;
 		border-radius: $border-radius-sm;
 		padding: $spacing-12;
+
+		&.remark-content {
+			background: $color-gray-50;
+			border: 1px solid $color-gray-200;
+		}
 	}
 
 	&__remarks-content {
@@ -298,6 +336,10 @@ const handleOverlayClick = () => {
 		color: $color-blue-1;
 		margin: 0;
 		line-height: 1.2;
+
+		.remark-content & {
+			color: $color-text-secondary;
+		}
 	}
 }
 
@@ -307,10 +349,6 @@ const handleOverlayClick = () => {
 		&__content {
 			padding: $spacing-20;
 		}
-
-		&__section-content {}
-
-		&__info-item {}
 	}
 }
 </style>
