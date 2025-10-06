@@ -7,12 +7,14 @@ interface Props {
 	searchPlaceholder?: string;
 	filterConfig: FilterConfig;
 	sticky?: boolean;
+	showTitle?: boolean;
 }
 
 // 定義 props
 const props = withDefaults(defineProps<Props>(), {
 	searchPlaceholder: '搜尋商家、職位或應徵編號',
-	sticky: true
+	sticky: true,
+	showTitle: true
 });
 
 // 定義 emits
@@ -166,7 +168,7 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 <template>
 	<div :class="['filter-header', { 'filter-header--sticky': sticky }]">
 		<!-- 返回按鈕 + 頁面標題 -->
-		<div class="filter-header__nav">
+		<div v-if="showTitle" class="filter-header__nav">
 			<van-nav-bar :title="title" left-arrow @click-left="$router.back()" class="filter-header__nav-bar" />
 		</div>
 
