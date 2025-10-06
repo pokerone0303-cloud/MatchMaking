@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BottomNav from '@/components/BottomNav/index.vue';
 import SlideNav from '@/components/SlideNav/index.vue';
+import BackToTop from '@/components/common/BackToTop.vue';
 import { computed, ref } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 
@@ -40,11 +41,15 @@ const handleCloseSlideNav = () => {
       <!-- 側邊欄 -->
       <SlideNav v-model:show="showSlideNav" :role="currentRole" @close="handleCloseSlideNav" />
     </template>
+    <!-- 回到頂部懸浮按鈕 -->
+    <BackToTop />
 
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/variables.scss' as *;
+
 .layout {
   display: flex;
   flex-direction: column;
