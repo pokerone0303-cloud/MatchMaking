@@ -155,7 +155,7 @@ const handleWithdrawApplication = (record: ApplicationRecord) => {
 @use '@/styles/variables.scss' as *;
 
 .user-profile {
-	padding: $spacing-16;
+	padding: $spacing-16 $spacing-8;
 	background: $color-bg-gray;
 	min-height: 100vh;
 

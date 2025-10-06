@@ -227,7 +227,7 @@ const handleEdit = (timesheet: TimesheetRecord) => {
 	background: $color-bg-gray;
 
 	&__content {
-		padding: $spacing-16;
+		padding: $spacing-16 $spacing-8;
 	}
 
 	&__empty {
