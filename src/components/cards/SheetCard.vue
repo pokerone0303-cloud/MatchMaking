@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { TimesheetRecord } from '@/types/timesheet';
-import TimesheetDetailsDialog from '@/components/dialogs/TimesheetDetailsDialog.vue';
+import SheetDetailsDialog from '@/components/dialogs/SheetDetailsDialog.vue';
 
 // Props 定義
 interface Props {
@@ -143,7 +143,7 @@ const handleCloseDialog = () => {
 	</div>
 
 	<!-- 工時詳細資料彈跳窗口 -->
-	<TimesheetDetailsDialog v-model:visible="showDetailsDialog" :timesheet="timesheet" @close="handleCloseDialog" />
+	<SheetDetailsDialog v-model:visible="showDetailsDialog" :timesheet="timesheet" @close="handleCloseDialog" />
 </template>
 
 <style lang="scss" scoped>
@@ -207,7 +207,7 @@ const handleCloseDialog = () => {
 	}
 
 	&__info {
-		margin-bottom: $spacing-16;
+		margin-bottom: $spacing-8;
 	}
 
 	&__title {
