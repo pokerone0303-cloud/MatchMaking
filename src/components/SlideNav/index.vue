@@ -161,13 +161,6 @@ const supportServices = [
 		description: '使用說明與FAQ',
 		icon: 'question-o',
 		route: '/help'
-	},
-	{
-		key: 'about',
-		title: '關於我們',
-		description: '應用程式資訊',
-		icon: 'info-o',
-		route: '/about'
 	}
 ];
 
