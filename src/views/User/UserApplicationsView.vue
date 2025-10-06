@@ -27,10 +27,10 @@ const filterConfig = ref<FilterConfig>({
 			width: 'half',
 			options: [
 				{ text: '全部狀態', value: 'all' },
-				{ text: '待審核', value: 'pending' },
-				{ text: '已錄取', value: 'accepted' },
-				{ text: '已拒絕', value: 'rejected' },
-				{ text: '已撤回', value: 'withdrawn' }
+				{ text: '待審', value: 'pending' },
+				{ text: '錄取', value: 'accepted' },
+				{ text: '未錄取', value: 'rejected' },
+				{ text: '撤回', value: 'withdrawn' }
 			]
 		},
 		{
@@ -155,7 +155,7 @@ const timesheetData = ref<TimesheetRecord[]>([
 		address: '台北中山店',
 		shiftId: 'SH001',
 		workingHours: 6,
-		status: 'submitted'
+		status: 'pending'
 	},
 	{
 		id: 'TS20240912',
@@ -168,7 +168,7 @@ const timesheetData = ref<TimesheetRecord[]>([
 		shiftId: 'SH002',
 		workingHours: 7.5,
 		adjustedHours: 8,
-		status: 'adjusted'
+		status: 'accepted'
 	},
 	{
 		id: 'TS20240911',
@@ -180,7 +180,7 @@ const timesheetData = ref<TimesheetRecord[]>([
 		address: '台北松山店',
 		shiftId: 'SH003',
 		workingHours: 7,
-		status: 'approved'
+		status: 'rejected'
 	}
 ]);
 
