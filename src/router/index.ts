@@ -56,6 +56,19 @@ const router = createRouter({
         },
       ]
     },
+    // 商家端路由
+    {
+      path: '/e',
+      name: 'Employer',
+      redirect: '/e/shifts',
+      children: [
+        {
+          path: '/e/shifts',
+          name: 'EmployerShifts',
+          component: () => import('@/views/Employer/EmployerShiftsView.vue'),
+        },
+      ]
+    },
     // {
     //   path: '/u/timesheets',
     //   name: 'timesheets',
