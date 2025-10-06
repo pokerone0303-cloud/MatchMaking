@@ -175,14 +175,12 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 			<div class="filter-header__search-wrapper">
 				<van-search v-model="searchValue" :placeholder="searchPlaceholder" @search="handleSearch"
 					@clear="() => handleSearch('')" class="filter-header__search" />
-				<van-button type="primary" size="small" class="filter-header__search-btn" @click="handleSearch(searchValue)">
-					搜尋
-				</van-button>
 			</div>
-
+			<van-button type="primary" size="small" class="filter-header__search-btn" @click="handleSearch(searchValue)">
+				搜尋
+			</van-button>
 			<van-button :type="isFilterExpanded ? 'primary' : 'default'" size="small" class="filter-header__filter-btn"
 				@click="toggleFilter">
-				<van-icon name="filter" class="filter-header__filter-icon" />
 				篩選
 			</van-button>
 		</div>
@@ -285,8 +283,8 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 	&__search-section {
 		display: flex;
 		align-items: center;
-		gap: $spacing-12;
-		padding: $spacing-16;
+		gap: $spacing-8;
+		padding: $spacing-8 $spacing-16;
 	}
 
 	&__search-wrapper {
@@ -298,6 +296,7 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 
 	&__search {
 		flex: 1;
+		padding: unset;
 
 		:deep(.van-search__content) {
 			background: $color-gray-3;
@@ -306,7 +305,7 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 		}
 
 		:deep(.van-field__control) {
-			font-size: $font-size-base;
+			font-size: $font-size-xs;
 			color: $color-text-primary;
 
 			&::placeholder {
@@ -363,10 +362,9 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: $spacing-12 $spacing-16;
-		background: $color-white;
-		border: 1px solid $color-gray-2;
+		border: none;
 		border-radius: $border-radius-base;
+		overflow: hidden;
 		cursor: pointer;
 		transition: all 0.2s ease;
 
@@ -398,6 +396,16 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 				background: $color-white;
 			}
 		}
+
+		:deep(.van-cell) {
+			align-items: center;
+			padding: 0;
+			background-color: $color-gray-3;
+		}
+
+		:deep(.van-cell__right-icon) {
+			margin-right: $spacing-16;
+		}
 	}
 
 	&__number-input,
@@ -405,9 +413,9 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 	&__select-input,
 	&__date-input {
 		:deep(.van-field__control) {
-			font-size: $font-size-sm;
+			font-size: $font-size-xs;
 			color: $color-text-primary;
-			padding: $spacing-12 $spacing-16;
+			padding: $spacing-8 $spacing-16;
 			background: transparent;
 			border: none;
 			outline: none;
@@ -453,8 +461,8 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 	&__reset-btn,
 	&__apply-btn {
 		flex: 1;
-		height: 40px;
-		font-size: $font-size-base;
+		padding: $spacing-8 $spacing-16;
+		font-size: $font-size-sm;
 		font-weight: $font-weight-medium;
 		border-radius: $border-radius-base;
 	}
@@ -475,9 +483,7 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 // 響應式設計
 @media (min-width: 768px) {
 	.filter-header {
-		&__search-section {
-			padding: $spacing-20;
-		}
+		&__search-section {}
 
 		&__filter-content {
 			padding: $spacing-20;
@@ -489,20 +495,10 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 
 		&__filter-item {
 			flex: 0 0 calc(50% - 8px);
-			padding: $spacing-16 $spacing-20;
 		}
 
 		&__filter-text {
 			font-size: $font-size-base;
-		}
-	}
-}
-
-// 小螢幕時，篩選欄位改為全寬
-@media (max-width: 480px) {
-	.filter-header {
-		&__filter-item {
-			flex: 1 1 100%;
 		}
 	}
 }
