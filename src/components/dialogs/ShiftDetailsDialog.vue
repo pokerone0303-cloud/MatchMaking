@@ -224,35 +224,7 @@ defineEmits(['update:show']);
 	background: $color-white;
 	position: relative;
 	color: $color-gray-900;
-	overflow-y: scroll;
 }
-
-.dialog-title {
-	position: sticky;
-	top: 0;
-	z-index: 9;
-	background: $color-white;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 8px;
-	padding: $spacing-8 $spacing-16 0;
-
-	.dialog-title-text {
-		color: $color-gray-900;
-		font-size: $font-size-md;
-		font-weight: $font-weight-bold;
-	}
-}
-
-.close-button {
-	position: absolute;
-	top: $spacing-8;
-	right: $spacing-16;
-	cursor: pointer;
-	z-index: 10;
-}
-
 
 .info-section {
 	margin-bottom: $spacing-24;
