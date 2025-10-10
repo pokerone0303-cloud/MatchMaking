@@ -23,3 +23,29 @@ body {
   justify-content: center;
   padding: variables.$spacing-base;
 }
+
+.dialog-title {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background: variables.$color-white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: variables.$spacing-8 variables.$spacing-16 0;
+
+  .dialog-title-text {
+    color: variables.$color-gray-900;
+    font-size: variables.$font-size-md;
+    font-weight: variables.$font-weight-bold;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: variables.$spacing-8;
+  right: variables.$spacing-16;
+  cursor: pointer;
+  z-index: 10;
+}
