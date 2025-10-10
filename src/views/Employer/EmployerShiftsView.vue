@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import ShiftCard from '@/components/cards/ShiftCard.vue';
-import ShiftStatusBanner from '@/components/common/ShiftStatusBanner.vue';
+import { ref, onMounted, computed } from 'vue';
+import EShiftCard from '@/components/cards/EShiftCard.vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
 import { useDialog } from '@/composables/useDialog';
 import type { FilterConfig } from '@/types/filter';
@@ -54,11 +53,56 @@ const shifts = ref([
 		status: 'open' as const,
 		applicationStatus: null,
 	},
+	{
+		id: '4',
+		timeRange: '10:00-18:00',
+		position: '輪盤荷官',
+		company: '皇家賭場',
+		address: '台北市松山區',
+		hourlyWage: 550,
+		hiredCount: 0,
+		totalCount: 4,
+		deadline: '明日09:00',
+		status: 'draft' as const,
+		applicationStatus: null,
+	},
+	{
+		id: '5',
+		timeRange: '16:00-24:00',
+		position: '21點荷官',
+		company: '鑽石娛樂',
+		address: '台北市大安區',
+		hourlyWage: 480,
+		hiredCount: 6,
+		totalCount: 6,
+		deadline: '已截止',
+		status: 'closed' as const,
+		applicationStatus: null,
+	},
 ]);
 
 // 班別狀況狀態
 const shiftStatus = ref<'available' | 'unavailable'>('unavailable');
 const selectedDate = ref('今天');
+
+// 狀態篩選相關
+const selectedStatus = ref('all');
+const statusOptions = ref([
+	{ label: '全部', value: 'all' },
+	{ label: '草稿', value: 'draft' },
+	{ label: '開放', value: 'open' },
+	{ label: '額滿', value: 'full' },
+	{ label: '截止', value: 'closed' }
+]);
+
+// 狀態計數
+const statusCounts = ref<Record<string, number>>({
+	all: 0,
+	draft: 0,
+	open: 0,
+	full: 0,
+	closed: 0
+});
 
 // 初始化選中的日期為今日
 const initializeSelectedDate = () => {
@@ -199,6 +243,51 @@ const getDateStatus = (date: Date) => {
 	return dateStatusMap.value[dateString] || '';
 };
 
+// 計算狀態計數
+const calculateStatusCounts = () => {
+	const counts = {
+		all: shifts.value.length,
+		draft: 0,
+		open: 0,
+		full: 0,
+		closed: 0
+	};
+
+	shifts.value.forEach(shift => {
+		switch (shift.status) {
+			case 'draft':
+				counts.draft++;
+				break;
+			case 'open':
+				counts.open++;
+				break;
+			case 'full':
+				counts.full++;
+				break;
+			case 'closed':
+				counts.closed++;
+				break;
+		}
+	});
+
+	statusCounts.value = counts;
+};
+
+// 狀態篩選處理
+const handleStatusFilter = (status: string) => {
+	selectedStatus.value = status;
+	// 這裡可以添加篩選邏輯
+	console.log('篩選狀態:', status);
+};
+
+// 獲取篩選後的班表列表
+const filteredShifts = computed(() => {
+	if (selectedStatus.value === 'all') {
+		return shifts.value;
+	}
+	return shifts.value.filter(shift => shift.status === selectedStatus.value);
+});
+
 
 // FilterHeader 事件處理
 const handleFilterChange = (key: string, value: string | number) => {
@@ -250,6 +339,7 @@ const handleReset = () => {
 // 組件掛載時初始化
 onMounted(() => {
 	initializeSelectedDate();
+	calculateStatusCounts();
 });
 
 
@@ -310,6 +400,54 @@ const handleWithdraw = async (shiftId: string) => {
 	}
 };
 
+// 處理編輯班別
+const handleEdit = async (shiftId: string, data: Record<string, string | number>) => {
+	console.log('編輯班別:', shiftId, data);
+
+	try {
+		// 這裡可以添加編輯 API 調用
+		// await updateShift(shiftId, data);
+
+		// 顯示成功提示
+		await showSuccess('班別已成功更新。');
+
+		// 更新本地數據
+		const shift = shifts.value.find(s => s.id === shiftId);
+		if (shift) {
+			// 更新班別數據
+			shift.position = data.position as string;
+			shift.hourlyWage = data.hourlyWage as number;
+			shift.totalCount = data.requiredStaff as number;
+			// 其他欄位更新...
+		}
+	} catch {
+		// 顯示錯誤提示
+		await showError('更新失敗，請稍後再試。');
+	}
+};
+
+// 處理刪除班別
+const handleDelete = async (shiftId: string) => {
+	console.log('刪除班別:', shiftId);
+
+	try {
+		// 這裡可以添加刪除 API 調用
+		// await deleteShift(shiftId);
+
+		// 顯示成功提示
+		await showSuccess('班別已成功刪除。');
+
+		// 從列表中移除
+		const index = shifts.value.findIndex(s => s.id === shiftId);
+		if (index > -1) {
+			shifts.value.splice(index, 1);
+		}
+	} catch {
+		// 顯示錯誤提示
+		await showError('刪除失敗，請稍後再試。');
+	}
+};
+
 const handleDetails = async (shiftId: string) => {
 	console.log('查看詳細資料:', shiftId);
 
@@ -340,30 +478,26 @@ const handleDetails = async (shiftId: string) => {
 			@reset="handleReset" />
 
 		<div class="content-container">
-			<!-- 測試用：切換班別狀況狀態 -->
-			<div class="search-update-filter-calendar">
-				<div class="test-controls">
-					<button @click="shiftStatus = 'available'" :class="{ active: shiftStatus === 'available' }"
-						class="test-btn test-btn--available">
-						尚有缺額
-					</button>
-					<button @click="shiftStatus = 'unavailable'" :class="{ active: shiftStatus === 'unavailable' }"
-						class="test-btn test-btn--unavailable">
-						暫無缺額
-					</button>
-				</div>
+			<!-- 快捷狀態篩選按鈕 -->
+			<div class="status-filter-buttons">
+				<button v-for="status in statusOptions" :key="status.value" @click="handleStatusFilter(status.value)" :class="{
+					active: selectedStatus === status.value,
+					[`status-btn--${status.value}`]: true
+				}" class="status-btn">
+					{{ status.label }}
+					<span v-if="statusCounts[status.value] > 0" class="count-badge">
+						({{ statusCounts[status.value] }})
+					</span>
+				</button>
 			</div>
-
-			<!-- 班別狀況提示訊息 -->
-			<ShiftStatusBanner :status="shiftStatus" :date="selectedDate" />
 
 			<!-- 班表卡片列表 -->
 			<div class="shifts-list">
-				<ShiftCard v-for="shift in shifts" :key="shift.id" :time-range="shift.timeRange" :position="shift.position"
-					:company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
+				<EShiftCard v-for="shift in filteredShifts" :key="shift.id" :time-range="shift.timeRange"
+					:position="shift.position" :company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
 					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
 					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
-					@withdraw="handleWithdraw" @details="handleDetails" />
+					@withdraw="handleWithdraw" @details="handleDetails" @edit="handleEdit" @delete="handleDelete" />
 			</div>
 		</div>
 
@@ -409,6 +543,81 @@ const handleDetails = async (shiftId: string) => {
 
 	.content-container {
 		padding: $spacing-8;
+	}
+
+	// 狀態篩選按鈕樣式
+	.status-filter-buttons {
+		display: flex;
+		gap: $spacing-8;
+		margin-bottom: $spacing-12;
+		overflow-x: auto;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.status-btn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: $spacing-4 $spacing-8;
+			border-radius: $border-radius-md;
+			border: 1px solid $color-gray-300;
+			background: $color-white;
+			color: $color-gray-700;
+			font-size: $font-size-xs;
+			font-weight: $font-weight-medium;
+			line-height: 1;
+			white-space: nowrap;
+			cursor: pointer;
+
+			&.active {
+				background: $color-primary;
+				border-color: $color-primary;
+				color: $color-white;
+
+				.count-badge {
+					color: $color-white;
+				}
+			}
+
+			.count-badge {
+				color: $color-gray-600;
+				padding: $spacing-4;
+				border-radius: $border-radius-sm;
+				font-size: $font-size-xs;
+				font-weight: $font-weight-semibold;
+			}
+
+			// 不同狀態的顏色
+			&--draft {
+				&.active {
+					background: $color-gray-600;
+					border-color: $color-gray-600;
+				}
+			}
+
+			&--open {
+				&.active {
+					background: $color-green-600;
+					border-color: $color-green-600;
+				}
+			}
+
+			&--full {
+				&.active {
+					background: $color-orange-600;
+					border-color: $color-orange-600;
+				}
+			}
+
+			&--closed {
+				&.active {
+					background: $color-red-600;
+					border-color: $color-red-600;
+				}
+			}
+		}
 	}
 
 	.search-update-filter-calendar {
