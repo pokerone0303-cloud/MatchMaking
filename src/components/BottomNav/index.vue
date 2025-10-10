@@ -153,7 +153,7 @@ const isActive = (item: NavItem) => {
 <style lang="scss" scoped>
 .bottom-nav-container {
 	position: relative;
-	z-index: $z-index-fixed;
+	z-index: $z-index-base;
 }
 
 .bottom-nav {
