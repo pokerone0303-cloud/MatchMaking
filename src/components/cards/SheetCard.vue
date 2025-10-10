@@ -24,7 +24,11 @@ const statusConfig = computed(() => {
 	const statusMap = {
 		submitted: { text: '待審核', class: 'status-pending' },
 		approved: { text: '已核准', class: 'status-approved' },
-		adjusted: { text: '已調整', class: 'status-adjusted' }
+		adjusted: { text: '已調整', class: 'status-adjusted' },
+		pending: { text: '待審核', class: 'status-pending' },
+		accepted: { text: '已接受', class: 'status-accepted' },
+		rejected: { text: '已拒絕', class: 'status-rejected' },
+		withdrawn: { text: '已撤回', class: 'status-withdrawn' }
 	};
 	return statusMap[props.timesheet.status] || statusMap.submitted;
 });

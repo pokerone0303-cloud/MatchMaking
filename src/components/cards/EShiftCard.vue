@@ -8,8 +8,13 @@
 			:requirements="requirements" :benefits="benefits" />
 
 		<!-- 編輯班別對話框 -->
-		<EditShiftDialog :show="showEditDialog" :shift-data="shiftData" @update:show="showEditDialog = $event"
+		<EditShiftDialog :show="showEditDialog" :shift-data="editShiftData" @update:show="showEditDialog = $event"
 			@update="handleShiftUpdate" @cancel="handleEditCancel" />
+
+		<!-- 應徵名單對話框 -->
+		<ApplicantListDialog :visible="showApplicantListDialog" :shift="shiftData"
+			@update:visible="showApplicantListDialog = $event" @close="handleApplicantListClose"
+			@accept="handleApplicantAccept" @reject="handleApplicantReject" />
 
 		<!-- 刪除確認對話框 -->
 		<van-dialog v-model:show="showDeleteConfirmDialog" title="確認刪除" message="確定要刪除這個班別嗎?此操作無法復原。" show-cancel-button
@@ -96,6 +101,7 @@
 import { computed, ref } from 'vue';
 import ShiftDetailsDialog from '@/components/dialogs/ShiftDetailsDialog.vue';
 import EditShiftDialog from '@/components/dialogs/EditShiftDialog.vue';
+import ApplicantListDialog from '@/components/dialogs/ApplicantListDialog.vue';
 
 // Props 定義
 interface Props {
@@ -191,8 +197,35 @@ const showDetailsDialog = ref(false);
 // 編輯對話框狀態
 const showEditDialog = ref(false);
 
+// 應徵名單對話框狀態
+const showApplicantListDialog = ref(false);
+
 // 班別數據（用於編輯）
 const shiftData = computed(() => ({
+	id: 'shift-001',
+	date: '2024-09-15',
+	startTime: '18:00',
+	endTime: '23:00',
+	title: props.position,
+	location: props.address,
+	address: props.address,
+	wage: props.hourlyWage,
+	quota: props.totalCount,
+	appliedCount: props.hiredCount,
+	employerId: 'employer-001',
+	status: props.status as 'open' | 'closed' | 'filled' | 'draft',
+	deadline: '2024/09/15 下午05:00',
+	description: props.jobDescription,
+	requirements: props.requirements,
+	benefits: props.benefits,
+	contactPerson: props.contactPerson,
+	contactPhone: props.contactPhone,
+	contactEmail: props.contactEmail,
+	trafficInfo: props.trafficInfo
+}));
+
+// 轉換為 EditShiftDialog 期望的格式
+const editShiftData = computed(() => ({
 	workDate: '2024/09/15',
 	startTime: '18:00',
 	endTime: '23:00',
@@ -205,8 +238,7 @@ const shiftData = computed(() => ({
 
 // 新增事件處理器
 const handleViewList = () => {
-	// 暫時不做相關功能
-	console.log('查看名單功能待實現');
+	showApplicantListDialog.value = true;
 };
 
 const handleEdit = () => {
@@ -245,6 +277,23 @@ const handleShiftUpdate = (data: Record<string, string | number>) => {
 
 const handleEditCancel = () => {
 	console.log('取消編輯');
+};
+
+// 應徵名單相關事件處理器
+const handleApplicantListClose = () => {
+	console.log('關閉應徵名單對話框');
+};
+
+const handleApplicantAccept = (applicantId: string) => {
+	console.log('錄取應徵者:', applicantId);
+	// 這裡可以發送 API 請求錄取應徵者
+	// 更新應徵者狀態為已錄取
+};
+
+const handleApplicantReject = (applicantId: string) => {
+	console.log('拒絕應徵者:', applicantId);
+	// 這裡可以發送 API 請求拒絕應徵者
+	// 更新應徵者狀態為已拒絕
 };
 </script>
 
@@ -454,7 +503,6 @@ const handleEditCancel = () => {
 
 		&--delete {
 			aspect-ratio: 1/1;
-			// width: 100%;
 			height: 100%;
 			padding: 0;
 			justify-content: center;
