@@ -416,13 +416,14 @@ const handleEditCancel = () => {
 		gap: $spacing-sm;
 		flex: 1;
 		min-width: 0;
+		height: 30px;
 	}
 
 	.btn {
 		display: flex;
 		align-items: center;
 		gap: $spacing-xs;
-		padding: $spacing-sm $spacing-8;
+		padding: $spacing-4 $spacing-4;
 		border-radius: $border-radius-md;
 		font-size: $font-size-xs;
 		font-weight: $font-weight-medium;
@@ -433,10 +434,6 @@ const handleEditCancel = () => {
 		background: $color-white;
 		color: $color-gray-700;
 
-		&:hover {
-			background: $color-gray-50;
-		}
-
 		&--view-list {
 			flex: 1;
 			justify-content: center;
@@ -444,9 +441,6 @@ const handleEditCancel = () => {
 			background: $color-white;
 			color: $color-gray-700;
 
-			&:hover {
-				background: $color-gray-50;
-			}
 		}
 
 		&--edit {
@@ -456,23 +450,17 @@ const handleEditCancel = () => {
 			background: $color-white;
 			color: $color-gray-700;
 
-			&:hover {
-				background: $color-gray-50;
-			}
 		}
 
 		&--delete {
-			width: 40px;
-			height: 40px;
+			aspect-ratio: 1/1;
+			// width: 100%;
+			height: 100%;
 			padding: 0;
 			justify-content: center;
 			border: 1px solid $color-red-300;
 			background: $color-white;
 			color: $color-red-600;
-
-			&:hover {
-				background: $color-red-50;
-			}
 
 			.van-icon {
 				font-size: $font-size-sm;
