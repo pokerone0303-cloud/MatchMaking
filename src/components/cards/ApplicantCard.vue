@@ -85,24 +85,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { showConfirmDialog, showToast } from 'vant';
+import type { Applicant } from '@/types/application';
 
 // Props 定義
-interface Applicant {
-	id: string;
-	name: string;
-	position: string;
-	shiftDate: string;
-	startTime: string;
-	endTime: string;
-	experience: number;
-	rating: number;
-	skills: string[];
-	phone: string;
-	email: string;
-	applicationTime: string;
-	status: 'pending' | 'accepted' | 'rejected' | 'waiting';
-}
-
 const props = defineProps<{
 	applicant: Applicant;
 }>();
@@ -157,18 +143,52 @@ const formatApplicationTime = (time: string) => {
 	});
 };
 
-const handleAccept = () => {
-	emit('accept', props.applicant.id);
+const handleAccept = async () => {
+	try {
+		await showConfirmDialog({
+			title: '確認錄取',
+			message: `確定要錄取 ${props.applicant.name} 嗎？`,
+			confirmButtonText: '確認錄取',
+			cancelButtonText: '取消',
+			confirmButtonColor: '#27AE60'
+		});
+
+		// 用戶確認後才觸發事件
+		emit('accept', props.applicant.id);
+		showToast({
+			message: '錄取成功',
+			type: 'success'
+		});
+	} catch {
+		// 用戶取消，不執行任何操作
+	}
 };
 
-const handleReject = () => {
-	emit('reject', props.applicant.id);
+const handleReject = async () => {
+	try {
+		await showConfirmDialog({
+			title: '確認拒絕',
+			message: `確定要拒絕 ${props.applicant.name} 的應徵嗎？`,
+			confirmButtonText: '確認拒絕',
+			cancelButtonText: '取消',
+			confirmButtonColor: '#EB5757'
+		});
+
+		// 用戶確認後才觸發事件
+		emit('reject', props.applicant.id);
+		showToast({
+			message: '已拒絕應徵',
+			type: 'success'
+		});
+	} catch {
+		// 用戶取消，不執行任何操作
+	}
 };
 </script>
 
 <style lang="scss" scoped>
 @use 'sass:color';
-@import '@/styles/variables.scss';
+@use '@/styles/variables.scss' as *;
 
 .applicant-card {
 	position: relative;
