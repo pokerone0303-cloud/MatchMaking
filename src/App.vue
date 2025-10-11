@@ -1,3 +1,21 @@
+<template>
+  <div class="layout">
+    <div class="content">
+      <RouterView />
+    </div>
+    <!-- 非公用才顯示底部導航和側邊欄 -->
+    <template v-if="currentRole !== 'public'">
+      <!-- 底部導航 -->
+      <BottomNav :role="currentRole" @open-slide-nav="handleOpenSlideNav" />
+      <!-- 側邊欄 -->
+      <SlideNav v-model:show="showSlideNav" :role="currentRole" @close="handleCloseSlideNav" />
+    </template>
+    <!-- 回到頂部懸浮按鈕 -->
+    <BackToTop />
+
+  </div>
+</template>
+
 <script setup lang="ts">
 import BottomNav from '@/components/BottomNav/index.vue';
 import SlideNav from '@/components/SlideNav/index.vue';
@@ -28,24 +46,6 @@ const handleCloseSlideNav = () => {
   showSlideNav.value = false;
 };
 </script>
-
-<template>
-  <div class="layout">
-    <div class="content">
-      <RouterView />
-    </div>
-    <!-- 非公用才顯示底部導航和側邊欄 -->
-    <template v-if="currentRole !== 'public'">
-      <!-- 底部導航 -->
-      <BottomNav :role="currentRole" @open-slide-nav="handleOpenSlideNav" />
-      <!-- 側邊欄 -->
-      <SlideNav v-model:show="showSlideNav" :role="currentRole" @close="handleCloseSlideNav" />
-    </template>
-    <!-- 回到頂部懸浮按鈕 -->
-    <BackToTop />
-
-  </div>
-</template>
 
 <style lang="scss" scoped>
 @use '@/styles/variables.scss' as *;

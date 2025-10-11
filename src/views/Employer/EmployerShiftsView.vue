@@ -1,3 +1,37 @@
+<template>
+	<div class="user-shifts">
+		<!-- 使用 FilterHeader 組件 -->
+		<FilterHeader title="班別管理" :filter-config="filterConfig" :sticky="true" :show-title="false"
+			@update-filter="handleFilterChange" @search="handleSearch" @toggle-filter="handleToggleFilter"
+			@reset="handleReset" />
+
+		<div class="content-container">
+			<!-- 快捷狀態篩選按鈕 -->
+			<div class="status-filter-buttons">
+				<button v-for="status in statusOptions" :key="status.value" @click="handleStatusFilter(status.value)" :class="{
+					active: selectedStatus === status.value,
+					[`status-btn--${status.value}`]: true
+				}" class="status-btn">
+					{{ status.label }}
+					<span v-if="statusCounts[status.value] > 0" class="count-badge">
+						({{ statusCounts[status.value] }})
+					</span>
+				</button>
+			</div>
+
+			<!-- 班表卡片列表 -->
+			<div class="shifts-list">
+				<EShiftCard v-for="shift in filteredShifts" :key="shift.id" :time-range="shift.timeRange"
+					:position="shift.position" :company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
+					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
+					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
+					@withdraw="handleWithdraw" @details="handleDetails" @edit="handleEdit" @delete="handleDelete" />
+			</div>
+		</div>
+
+	</div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import EShiftCard from '@/components/cards/EShiftCard.vue';
@@ -457,52 +491,18 @@ const handleDetails = async (shiftId: string) => {
 		await showAlert({
 			title: '班表詳細資料',
 			message: `
-				職位：${shift.position}
-				公司：${shift.company}
-				地址：${shift.address}
-				時段：${shift.timeRange}
-				時薪：$${shift.hourlyWage}
-				已錄取：${shift.hiredCount}/${shift.totalCount} 人
-				截止時間：${shift.deadline || '無'}
-			`.trim(),
+			職位：${shift.position}
+			公司：${shift.company}
+			地址：${shift.address}
+			時段：${shift.timeRange}
+			時薪：$${shift.hourlyWage}
+			已錄取：${shift.hiredCount}/${shift.totalCount} 人
+			截止時間：${shift.deadline || '無'}
+		`.trim(),
 		});
 	}
 };
 </script>
-
-<template>
-	<div class="user-shifts">
-		<!-- 使用 FilterHeader 組件 -->
-		<FilterHeader title="班別管理" :filter-config="filterConfig" :sticky="true" :show-title="false"
-			@update-filter="handleFilterChange" @search="handleSearch" @toggle-filter="handleToggleFilter"
-			@reset="handleReset" />
-
-		<div class="content-container">
-			<!-- 快捷狀態篩選按鈕 -->
-			<div class="status-filter-buttons">
-				<button v-for="status in statusOptions" :key="status.value" @click="handleStatusFilter(status.value)" :class="{
-					active: selectedStatus === status.value,
-					[`status-btn--${status.value}`]: true
-				}" class="status-btn">
-					{{ status.label }}
-					<span v-if="statusCounts[status.value] > 0" class="count-badge">
-						({{ statusCounts[status.value] }})
-					</span>
-				</button>
-			</div>
-
-			<!-- 班表卡片列表 -->
-			<div class="shifts-list">
-				<EShiftCard v-for="shift in filteredShifts" :key="shift.id" :time-range="shift.timeRange"
-					:position="shift.position" :company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
-					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
-					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
-					@withdraw="handleWithdraw" @details="handleDetails" @edit="handleEdit" @delete="handleDelete" />
-			</div>
-		</div>
-
-	</div>
-</template>
 
 <style lang="scss" scoped>
 @use '@/styles/variables.scss' as *;

@@ -1,3 +1,129 @@
+<template>
+	<div class="user-shifts">
+		<!-- 篩選元件 -->
+		<div class="filter-section">
+			<!-- 搜尋欄位 -->
+			<div class="search-bar">
+				<van-search v-model="searchQuery" placeholder="搜尋職位/商家" @search="handleSearch" @clear="handleSearch"
+					shape="round" background="#f7f8fa" />
+				<div class="today-button" @click="handleTodayClick">
+					<span>今天 {{ today.getMonth() + 1 }}/{{ today.getDate() }}</span>
+				</div>
+				<div class="refresh-button" @click="handleRefresh">
+					<span>↻</span>
+				</div>
+			</div>
+
+			<!-- 日期選擇區域 -->
+			<div class="date-selection">
+				<div class="date-title">日期選擇</div>
+				<div class="calendar-toggle" @click="toggleCalendar">
+					<span>📅</span>
+					<span>{{ isCalendarExpanded ? '收合日曆' : '展開日曆' }}</span>
+				</div>
+			</div>
+
+			<!-- 一週日期選擇（收合狀態） -->
+			<div v-if="!isCalendarExpanded" class="week-dates">
+				<div v-for="date in weekDates" :key="formatDate(date)" :class="[
+					'date-item',
+					`date-item--${getDateStatus(date)}`,
+					{ 'date-item--today': isToday(date) }
+				]" @click="handleDateSelect(date)">
+					<div class="date-day">{{ ['日', '一', '二', '三', '四', '五', '六'][date.getDay()] }}</div>
+					<div class="date-number">{{ date.getDate() }}</div>
+					<div v-if="getDateStatus(date) !== 'today'" class="date-dot"></div>
+				</div>
+			</div>
+
+			<!-- 完整日曆（展開狀態） -->
+			<div v-if="isCalendarExpanded" class="full-calendar">
+				<!-- 月份切換按鈕 -->
+				<div class="calendar-month-controls">
+					<button class="month-btn month-btn--prev" :disabled="isPrevMonthDisabled" @click="goToPrevMonth">
+						<van-icon name="arrow-left" />
+					</button>
+					<div class="current-month">
+						{{ currentMonth.getFullYear() }}年{{ currentMonth.getMonth() + 1 }}月
+					</div>
+					<button class="month-btn month-btn--next" :disabled="isNextMonthDisabled" @click="goToNextMonth">
+						<van-icon name="arrow-left" style="transform: rotate(-180deg);" />
+					</button>
+				</div>
+
+				<van-calendar ref="calendarRef" switch-mode="month" @confirm="handleDateSelect" :show-confirm="true"
+					:poppable="false" :show-mark="false" :show-subtitle="true" :show-title="false"
+					:default-date="selectedCalendarDate">
+					<!--  {
+							"date": "2025-10-01T16:00:00.000Z",
+							"type": "selected",
+							"text": 2
+							} -->
+					<template #top-info="day">
+						<div
+							:class="{ 'available-top-info': getDateStatus(day.date) === 'available', 'unavailable-top-info': getDateStatus(day.date) === 'unavailable', 'today-top-info': formatDate(day.date) === todayString }"
+							style="display: inline-block;width: 95%;height: 100%;">
+						</div>
+					</template>
+
+					<template #text="day">
+						<p style="z-index: 9;">{{ day.text }}</p>
+					</template>
+					<template #bottom-info="day">
+						<span :class="getDateStatus(day.date) === 'available' ? 'available' : 'unavailable'"
+							style="width: 5px;height: 5px;border-radius: 50%;display: inline-block;"></span>
+					</template>
+				</van-calendar>
+			</div>
+
+			<!-- 狀態圓點說明 -->
+			<div class="status-legend">
+				<div class="legend-item">
+					<div class="legend-dot legend-dot--available"></div>
+					<span>有缺額</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-dot legend-dot--unavailable"></div>
+					<span>無缺額</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-dot legend-dot--today"></div>
+					<span>今天</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="content-container">
+			<!-- 測試用：切換班別狀況狀態 -->
+			<div class="search-update-filter-calendar">
+				<div class="test-controls">
+					<button @click="shiftStatus = 'available'" :class="{ active: shiftStatus === 'available' }"
+						class="test-btn test-btn--available">
+						尚有缺額
+					</button>
+					<button @click="shiftStatus = 'unavailable'" :class="{ active: shiftStatus === 'unavailable' }"
+						class="test-btn test-btn--unavailable">
+						暫無缺額
+					</button>
+				</div>
+			</div>
+
+			<!-- 班別狀況提示訊息 -->
+			<ShiftStatusBanner :status="shiftStatus" :date="selectedDate" />
+
+			<!-- 班表卡片列表 -->
+			<div class="shifts-list">
+				<ShiftCard v-for="shift in shifts" :key="shift.id" :time-range="shift.timeRange" :position="shift.position"
+					:company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
+					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
+					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
+					@withdraw="handleWithdraw" @details="handleDetails" />
+			</div>
+		</div>
+
+	</div>
+</template>
+
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue';
 import ShiftCard from '@/components/cards/ShiftCard.vue';
@@ -265,7 +391,6 @@ onMounted(() => {
 	updateMonthButtonStates();
 });
 
-
 const handleApply = async (shiftId: string) => {
 	console.log('應徵班表:', shiftId);
 
@@ -332,144 +457,18 @@ const handleDetails = async (shiftId: string) => {
 		await showAlert({
 			title: '班表詳細資料',
 			message: `
-				職位：${shift.position}
-				公司：${shift.company}
-				地址：${shift.address}
-				時段：${shift.timeRange}
-				時薪：$${shift.hourlyWage}
-				已錄取：${shift.hiredCount}/${shift.totalCount} 人
-				截止時間：${shift.deadline || '無'}
-			`.trim(),
+			職位：${shift.position}
+			公司：${shift.company}
+			地址：${shift.address}
+			時段：${shift.timeRange}
+			時薪：$${shift.hourlyWage}
+			已錄取：${shift.hiredCount}/${shift.totalCount} 人
+			截止時間：${shift.deadline || '無'}
+		`.trim(),
 		});
 	}
 };
 </script>
-
-<template>
-	<div class="user-shifts">
-		<!-- 篩選元件 -->
-		<div class="filter-section">
-			<!-- 搜尋欄位 -->
-			<div class="search-bar">
-				<van-search v-model="searchQuery" placeholder="搜尋職位/商家" @search="handleSearch" @clear="handleSearch"
-					shape="round" background="#f7f8fa" />
-				<div class="today-button" @click="handleTodayClick">
-					<span>今天 {{ today.getMonth() + 1 }}/{{ today.getDate() }}</span>
-				</div>
-				<div class="refresh-button" @click="handleRefresh">
-					<span>↻</span>
-				</div>
-			</div>
-
-			<!-- 日期選擇區域 -->
-			<div class="date-selection">
-				<div class="date-title">日期選擇</div>
-				<div class="calendar-toggle" @click="toggleCalendar">
-					<span>📅</span>
-					<span>{{ isCalendarExpanded ? '收合日曆' : '展開日曆' }}</span>
-				</div>
-			</div>
-
-			<!-- 一週日期選擇（收合狀態） -->
-			<div v-if="!isCalendarExpanded" class="week-dates">
-				<div v-for="date in weekDates" :key="formatDate(date)" :class="[
-					'date-item',
-					`date-item--${getDateStatus(date)}`,
-					{ 'date-item--today': isToday(date) }
-				]" @click="handleDateSelect(date)">
-					<div class="date-day">{{ ['日', '一', '二', '三', '四', '五', '六'][date.getDay()] }}</div>
-					<div class="date-number">{{ date.getDate() }}</div>
-					<div v-if="getDateStatus(date) !== 'today'" class="date-dot"></div>
-				</div>
-			</div>
-
-			<!-- 完整日曆（展開狀態） -->
-			<div v-if="isCalendarExpanded" class="full-calendar">
-				<!-- 月份切換按鈕 -->
-				<div class="calendar-month-controls">
-					<button class="month-btn month-btn--prev" :disabled="isPrevMonthDisabled" @click="goToPrevMonth">
-						<van-icon name="arrow-left" />
-					</button>
-					<div class="current-month">
-						{{ currentMonth.getFullYear() }}年{{ currentMonth.getMonth() + 1 }}月
-					</div>
-					<button class="month-btn month-btn--next" :disabled="isNextMonthDisabled" @click="goToNextMonth">
-						<van-icon name="arrow-left" style="transform: rotate(-180deg);" />
-					</button>
-				</div>
-
-				<van-calendar ref="calendarRef" switch-mode="month" @confirm="handleDateSelect" :show-confirm="true"
-					:poppable="false" :show-mark="false" :show-subtitle="true" :show-title="false"
-					:default-date="selectedCalendarDate">
-					<!--  {
-							"date": "2025-10-01T16:00:00.000Z",
-							"type": "selected",
-							"text": 2
-						} -->
-					<template #top-info="day">
-						<div
-							:class="{ 'available-top-info': getDateStatus(day.date) === 'available', 'unavailable-top-info': getDateStatus(day.date) === 'unavailable', 'today-top-info': formatDate(day.date) === todayString }"
-							style="display: inline-block;width: 95%;height: 100%;">
-						</div>
-					</template>
-
-					<template #text="day">
-						<p style="z-index: 9;">{{ day.text }}</p>
-					</template>
-					<template #bottom-info="day">
-						<span :class="getDateStatus(day.date) === 'available' ? 'available' : 'unavailable'"
-							style="width: 5px;height: 5px;border-radius: 50%;display: inline-block;"></span>
-					</template>
-				</van-calendar>
-			</div>
-
-			<!-- 狀態圓點說明 -->
-			<div class="status-legend">
-				<div class="legend-item">
-					<div class="legend-dot legend-dot--available"></div>
-					<span>有缺額</span>
-				</div>
-				<div class="legend-item">
-					<div class="legend-dot legend-dot--unavailable"></div>
-					<span>無缺額</span>
-				</div>
-				<div class="legend-item">
-					<div class="legend-dot legend-dot--today"></div>
-					<span>今天</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="content-container">
-			<!-- 測試用：切換班別狀況狀態 -->
-			<div class="search-update-filter-calendar">
-				<div class="test-controls">
-					<button @click="shiftStatus = 'available'" :class="{ active: shiftStatus === 'available' }"
-						class="test-btn test-btn--available">
-						尚有缺額
-					</button>
-					<button @click="shiftStatus = 'unavailable'" :class="{ active: shiftStatus === 'unavailable' }"
-						class="test-btn test-btn--unavailable">
-						暫無缺額
-					</button>
-				</div>
-			</div>
-
-			<!-- 班別狀況提示訊息 -->
-			<ShiftStatusBanner :status="shiftStatus" :date="selectedDate" />
-
-			<!-- 班表卡片列表 -->
-			<div class="shifts-list">
-				<ShiftCard v-for="shift in shifts" :key="shift.id" :time-range="shift.timeRange" :position="shift.position"
-					:company="shift.company" :address="shift.address" :hourly-wage="shift.hourlyWage"
-					:hired-count="shift.hiredCount" :total-count="shift.totalCount" :deadline="shift.deadline"
-					:status="shift.status" :application-status="shift.applicationStatus" @apply="handleApply"
-					@withdraw="handleWithdraw" @details="handleDetails" />
-			</div>
-		</div>
-
-	</div>
-</template>
 
 <style lang="scss" scoped>
 @use '@/styles/variables.scss' as *;

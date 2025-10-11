@@ -13,6 +13,23 @@ export interface ApplicationRecord {
 	resultMessage?: string; // 結果提示訊息
 }
 
+// 應徵者資料介面（商家端使用）
+export interface Applicant {
+	id: string;
+	name: string;
+	position: string;
+	shiftDate: string;
+	startTime: string;
+	endTime: string;
+	experience: number;
+	rating: number;
+	skills: string[];
+	phone: string;
+	email: string;
+	applicationTime: string;
+	status: 'pending' | 'accepted' | 'rejected' | 'waiting';
+}
+
 export type ApplicationStatus = 'pending' | 'accepted' | 'rejected' | 'withdrawn';
 
 export type FilterTab = 'all' | 'pending' | 'accepted' | 'rejected' | 'withdrawn';

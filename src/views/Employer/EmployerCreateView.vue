@@ -1,217 +1,3 @@
-<script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { showToast } from 'vant';
-import type { Shift } from '@/types/shift';
-
-defineOptions({
-	name: 'EmployerCreateView',
-});
-
-// TAB 切換狀態
-const activeTab = ref('single');
-
-// 表單資料
-const formData = reactive({
-	// 基本資訊
-	date: '',
-	startTime: '',
-	endTime: '',
-	position: '',
-	company: '',
-	wage: 450,
-	quota: 10,
-	deadline: '',
-
-	// 地點資訊
-	address: '',
-	trafficInfo: '',
-
-	// 聯絡資訊
-	contactPerson: '',
-	contactPhone: '',
-	contactEmail: '',
-
-	// 工作說明
-	description: '',
-
-	// 應徵條件
-	requirements: '',
-
-	// 福利待遇
-	benefits: ''
-});
-
-// 職位選項
-const positionOptions = [
-	'荷官',
-	'發牌員',
-	'服務員',
-	'清潔人員',
-	'保全',
-	'其他'
-];
-
-// 地點選項
-const locationOptions = [
-	'台北市',
-	'新北市',
-	'桃園市',
-	'台中市',
-	'台南市',
-	'高雄市',
-	'其他'
-];
-
-// 表單驗證規則 (暫時未使用，保留供未來使用)
-// const formRules = {
-// 	date: [{ required: true, message: '請選擇日期' }],
-// 	startTime: [{ required: true, message: '請選擇開始時間' }],
-// 	endTime: [{ required: true, message: '請選擇結束時間' }],
-// 	position: [{ required: true, message: '請選擇職位' }],
-// 	location: [{ required: true, message: '請選擇地點' }],
-// 	wage: [{ required: true, message: '請輸入時薪' }],
-// 	quota: [{ required: true, message: '請輸入需求人數' }]
-// };
-
-// 提交表單
-const handleSubmit = async () => {
-	try {
-		// 驗證表單
-		if (!formData.date || !formData.startTime || !formData.endTime ||
-			!formData.position || !formData.company || !formData.wage || !formData.quota) {
-			showToast('請填寫所有必填欄位');
-			return;
-		}
-
-		// 建立班別資料
-		const shiftData: Partial<Shift> = {
-			date: formData.date,
-			startTime: formData.startTime,
-			endTime: formData.endTime,
-			title: `${formData.position} - ${formData.date}`,
-			location: formData.address, // 使用地址作為地點
-			address: formData.address,
-			wage: formData.wage,
-			quota: formData.quota,
-			appliedCount: 0,
-			employerId: 'current-employer-id', // 實際應用中從 store 取得
-			status: 'draft',
-			deadline: formData.deadline,
-			description: formData.description,
-			requirements: formData.requirements ? formData.requirements.split('\n').filter(r => r.trim()) : [],
-			benefits: formData.benefits ? formData.benefits.split('\n').filter(b => b.trim()) : [],
-			contactPerson: formData.contactPerson,
-			contactPhone: formData.contactPhone,
-			contactEmail: formData.contactEmail,
-			trafficInfo: formData.trafficInfo
-		};
-
-		// TODO: 呼叫 API 建立班別
-		console.log('建立班別:', shiftData);
-
-		showToast('班別建立成功');
-
-		// 重置表單
-		Object.assign(formData, {
-			date: '',
-			startTime: '',
-			endTime: '',
-			position: '',
-			company: '',
-			wage: 450,
-			quota: 10,
-			deadline: '',
-			address: '',
-			trafficInfo: '',
-			contactPerson: '',
-			contactPhone: '',
-			contactEmail: '',
-			description: '',
-			requirements: '',
-			benefits: ''
-		});
-
-	} catch (error) {
-		console.error('建立班別失敗:', error);
-		showToast('建立班別失敗，請稍後再試');
-	}
-};
-
-// 切換 TAB
-const handleTabChange = (tab: string) => {
-	activeTab.value = tab;
-};
-
-// 選擇器顯示狀態
-const showDatePicker = ref(false);
-const showStartTimePicker = ref(false);
-const showEndTimePicker = ref(false);
-const showPositionPicker = ref(false);
-const showLocationPicker = ref(false);
-const showDeadlinePicker = ref(false);
-
-// 選擇器資料
-
-// 日期選擇處理
-const handleDateConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	if (selectedValues && selectedValues.length === 3) {
-		formData.date = `${selectedValues[0]}/${selectedValues[1]}/${selectedValues[2]}`;
-	}
-	showDatePicker.value = false;
-};
-
-// 開始時間選擇處理
-const handleStartTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	if (selectedValues && selectedValues.length === 2) {
-		formData.startTime = `${selectedValues[0]}:${selectedValues[1]}`;
-	}
-	showStartTimePicker.value = false;
-};
-
-// 結束時間選擇處理
-const handleEndTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	if (selectedValues && selectedValues.length === 2) {
-		formData.endTime = `${selectedValues[0]}:${selectedValues[1]}`;
-	}
-	showEndTimePicker.value = false;
-};
-
-// 職位選擇處理
-const handlePositionConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	formData.position = selectedValues[0];
-	showPositionPicker.value = false;
-};
-
-// 地點選擇處理 (已移除，改為直接輸入地址)
-const handleLocationConfirm = () => {
-	// 這個函數已不再使用，因為地點改為直接輸入地址
-	showLocationPicker.value = false;
-};
-
-// 截止時間選擇處理
-const deadlineDate = ref<string>('');
-const deadlineTime = ref<string>('');
-
-const handleDeadlineDateConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	if (selectedValues && selectedValues.length === 3) {
-		deadlineDate.value = `${selectedValues[0]}/${selectedValues[1]}/${selectedValues[2]}`;
-	}
-};
-
-const handleDeadlineTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
-	if (selectedValues && selectedValues.length === 2) {
-		deadlineTime.value = `${selectedValues[0]}:${selectedValues[1]}`;
-	}
-};
-
-const handleDeadlineConfirm = () => {
-	if (deadlineDate.value && deadlineTime.value) {
-		formData.deadline = `${deadlineDate.value} ${deadlineTime.value}`;
-	}
-	showDeadlinePicker.value = false;
-};
-</script>
-
 <template>
 	<div class="employer-create-view">
 		<!-- 頁面標題 -->
@@ -466,6 +252,220 @@ const handleDeadlineConfirm = () => {
 		</van-popup>
 	</div>
 </template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+import { showToast } from 'vant';
+import type { Shift } from '@/types/shift';
+
+defineOptions({
+	name: 'EmployerCreateView',
+});
+
+// TAB 切換狀態
+const activeTab = ref('single');
+
+// 表單資料
+const formData = reactive({
+	// 基本資訊
+	date: '',
+	startTime: '',
+	endTime: '',
+	position: '',
+	company: '',
+	wage: 450,
+	quota: 10,
+	deadline: '',
+
+	// 地點資訊
+	address: '',
+	trafficInfo: '',
+
+	// 聯絡資訊
+	contactPerson: '',
+	contactPhone: '',
+	contactEmail: '',
+
+	// 工作說明
+	description: '',
+
+	// 應徵條件
+	requirements: '',
+
+	// 福利待遇
+	benefits: ''
+});
+
+// 職位選項
+const positionOptions = [
+	'荷官',
+	'發牌員',
+	'服務員',
+	'清潔人員',
+	'保全',
+	'其他'
+];
+
+// 地點選項
+const locationOptions = [
+	'台北市',
+	'新北市',
+	'桃園市',
+	'台中市',
+	'台南市',
+	'高雄市',
+	'其他'
+];
+
+// 表單驗證規則 (暫時未使用，保留供未來使用)
+// const formRules = {
+// 	date: [{ required: true, message: '請選擇日期' }],
+// 	startTime: [{ required: true, message: '請選擇開始時間' }],
+// 	endTime: [{ required: true, message: '請選擇結束時間' }],
+// 	position: [{ required: true, message: '請選擇職位' }],
+// 	location: [{ required: true, message: '請選擇地點' }],
+// 	wage: [{ required: true, message: '請輸入時薪' }],
+// 	quota: [{ required: true, message: '請輸入需求人數' }]
+// };
+
+// 提交表單
+const handleSubmit = async () => {
+	try {
+		// 驗證表單
+		if (!formData.date || !formData.startTime || !formData.endTime ||
+			!formData.position || !formData.company || !formData.wage || !formData.quota) {
+			showToast('請填寫所有必填欄位');
+			return;
+		}
+
+		// 建立班別資料
+		const shiftData: Partial<Shift> = {
+			date: formData.date,
+			startTime: formData.startTime,
+			endTime: formData.endTime,
+			title: `${formData.position} - ${formData.date}`,
+			location: formData.address, // 使用地址作為地點
+			address: formData.address,
+			wage: formData.wage,
+			quota: formData.quota,
+			appliedCount: 0,
+			employerId: 'current-employer-id', // 實際應用中從 store 取得
+			status: 'draft',
+			deadline: formData.deadline,
+			description: formData.description,
+			requirements: formData.requirements ? formData.requirements.split('\n').filter(r => r.trim()) : [],
+			benefits: formData.benefits ? formData.benefits.split('\n').filter(b => b.trim()) : [],
+			contactPerson: formData.contactPerson,
+			contactPhone: formData.contactPhone,
+			contactEmail: formData.contactEmail,
+			trafficInfo: formData.trafficInfo
+		};
+
+		// TODO: 呼叫 API 建立班別
+		console.log('建立班別:', shiftData);
+
+		showToast('班別建立成功');
+
+		// 重置表單
+		Object.assign(formData, {
+			date: '',
+			startTime: '',
+			endTime: '',
+			position: '',
+			company: '',
+			wage: 450,
+			quota: 10,
+			deadline: '',
+			address: '',
+			trafficInfo: '',
+			contactPerson: '',
+			contactPhone: '',
+			contactEmail: '',
+			description: '',
+			requirements: '',
+			benefits: ''
+		});
+
+	} catch (error) {
+		console.error('建立班別失敗:', error);
+		showToast('建立班別失敗，請稍後再試');
+	}
+};
+
+// 切換 TAB
+const handleTabChange = (tab: string) => {
+	activeTab.value = tab;
+};
+
+// 選擇器顯示狀態
+const showDatePicker = ref(false);
+const showStartTimePicker = ref(false);
+const showEndTimePicker = ref(false);
+const showPositionPicker = ref(false);
+const showLocationPicker = ref(false);
+const showDeadlinePicker = ref(false);
+
+// 選擇器資料
+
+// 日期選擇處理
+const handleDateConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	if (selectedValues && selectedValues.length === 3) {
+		formData.date = `${selectedValues[0]}/${selectedValues[1]}/${selectedValues[2]}`;
+	}
+	showDatePicker.value = false;
+};
+
+// 開始時間選擇處理
+const handleStartTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	if (selectedValues && selectedValues.length === 2) {
+		formData.startTime = `${selectedValues[0]}:${selectedValues[1]}`;
+	}
+	showStartTimePicker.value = false;
+};
+
+// 結束時間選擇處理
+const handleEndTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	if (selectedValues && selectedValues.length === 2) {
+		formData.endTime = `${selectedValues[0]}:${selectedValues[1]}`;
+	}
+	showEndTimePicker.value = false;
+};
+
+// 職位選擇處理
+const handlePositionConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	formData.position = selectedValues[0];
+	showPositionPicker.value = false;
+};
+
+// 地點選擇處理 (已移除，改為直接輸入地址)
+const handleLocationConfirm = () => {
+	// 這個函數已不再使用，因為地點改為直接輸入地址
+	showLocationPicker.value = false;
+};
+
+// 截止時間選擇處理
+const deadlineDate = ref<string>('');
+const deadlineTime = ref<string>('');
+
+const handleDeadlineDateConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	if (selectedValues && selectedValues.length === 3) {
+		deadlineDate.value = `${selectedValues[0]}/${selectedValues[1]}/${selectedValues[2]}`;
+	}
+};
+
+const handleDeadlineTimeConfirm = ({ selectedValues }: { selectedValues: string[] }) => {
+	if (selectedValues && selectedValues.length === 2) {
+		deadlineTime.value = `${selectedValues[0]}:${selectedValues[1]}`;
+	}
+};
+
+const handleDeadlineConfirm = () => {
+	if (deadlineDate.value && deadlineTime.value) {
+		formData.deadline = `${deadlineDate.value} ${deadlineTime.value}`;
+	}
+	showDeadlinePicker.value = false;
+};
+</script>
 
 <style lang="scss" scoped>
 .employer-create-view {
