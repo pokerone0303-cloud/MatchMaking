@@ -117,13 +117,14 @@ const statusCounts = ref<Record<string, number>>({
 	rejected: 0
 });
 
+// 篩選配置
 const filterConfig = ref<FilterConfig>({
 	fields: [
 		{
 			type: 'search',
 			key: 'search',
 			label: '搜尋',
-			placeholder: '搜尋荷官姓名或技能',
+			placeholder: '搜尋職位/商家',
 			width: 'full'
 		},
 		{
@@ -134,15 +135,50 @@ const filterConfig = ref<FilterConfig>({
 			width: 'half',
 			options: [
 				{ text: '全部狀態', value: 'all' },
-				{ text: '待審', value: 'pending' },
-				{ text: '已錄取', value: 'accepted' },
-				{ text: '已拒絕', value: 'rejected' }
+				{ text: '尚有缺額', value: 'available' },
+				{ text: '暫無缺額', value: 'unavailable' }
+			]
+		},
+		{
+			type: 'select',
+			key: 'position',
+			label: '職位',
+			placeholder: '選擇職位',
+			width: 'half',
+			options: [
+				{ text: '全部職位', value: 'all' },
+				{ text: '發牌員', value: 'dealer' },
+				{ text: '百家樂荷官', value: 'baccarat' },
+				{ text: '桌邊荷官', value: 'table' }
+			]
+		},
+		{
+			type: 'date',
+			key: 'date',
+			label: '工作日期',
+			placeholder: '選擇日期',
+			width: 'half'
+		},
+		{
+			type: 'select',
+			key: 'sortBy',
+			label: '排序',
+			placeholder: '選擇排序方式',
+			width: 'half',
+			options: [
+				{ text: '最新到最舊', value: 'newest' },
+				{ text: '最舊到最新', value: 'oldest' },
+				{ text: '時薪高到低', value: 'wage_high' },
+				{ text: '時薪低到高', value: 'wage_low' }
 			]
 		}
 	],
 	values: {
 		search: '',
-		status: 'all'
+		status: 'all',
+		position: 'all',
+		date: '',
+		sortBy: 'newest'
 	}
 });
 
