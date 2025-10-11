@@ -77,6 +77,11 @@ const router = createRouter({
           name: 'EmployerApplicants',
           component: () => import('@/views/Employer/EmployerApplicantsView.vue'),
         },
+        {
+          path: '/e/profile',
+          name: 'EmployerProfile',
+          component: () => import('@/views/Employer/EmployerProfileView.vue'),
+        },
       ]
     },
     // {
