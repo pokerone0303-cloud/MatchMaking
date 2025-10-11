@@ -67,6 +67,11 @@ const router = createRouter({
           name: 'EmployerShifts',
           component: () => import('@/views/Employer/EmployerShiftsView.vue'),
         },
+        {
+          path: '/e/create',
+          name: 'EmployerCreate',
+          component: () => import('@/views/Employer/EmployerCreateView.vue'),
+        },
       ]
     },
     // {
