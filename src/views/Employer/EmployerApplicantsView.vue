@@ -1,3 +1,30 @@
+<template>
+	<div class="employer-applicants">
+		<FilterHeader title="應徵名單" :filter-config="filterConfig" :sticky="true" :show-title="false"
+			@update-filter="handleFilterChange" @search="handleSearch" @toggle-filter="handleToggleFilter"
+			@reset="handleReset" />
+
+		<div class="content-container">
+			<div class="status-filter-buttons">
+				<button v-for="status in statusOptions" :key="status.value" @click="handleStatusFilter(status.value)" :class="{
+					active: selectedStatus === status.value,
+					[`status-btn--${status.value}`]: true
+				}" class="status-btn">
+					{{ status.label }}
+					<span v-if="statusCounts[status.value] > 0" class="count-badge">
+						({{ statusCounts[status.value] }})
+					</span>
+				</button>
+			</div>
+
+			<div class="applicants-list">
+				<ApplicantCard v-for="applicant in filteredApplicants" :key="applicant.id" :applicant="applicant"
+					@accept="handleAccept" @reject="handleReject" />
+			</div>
+		</div>
+	</div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import ApplicantCard from '@/components/cards/ApplicantCard.vue';
@@ -217,33 +244,6 @@ onMounted(() => {
 	calculateStatusCounts();
 });
 </script>
-
-<template>
-	<div class="employer-applicants">
-		<FilterHeader title="應徵名單" :filter-config="filterConfig" :sticky="true" :show-title="false"
-			@update-filter="handleFilterChange" @search="handleSearch" @toggle-filter="handleToggleFilter"
-			@reset="handleReset" />
-
-		<div class="content-container">
-			<div class="status-filter-buttons">
-				<button v-for="status in statusOptions" :key="status.value" @click="handleStatusFilter(status.value)" :class="{
-					active: selectedStatus === status.value,
-					[`status-btn--${status.value}`]: true
-				}" class="status-btn">
-					{{ status.label }}
-					<span v-if="statusCounts[status.value] > 0" class="count-badge">
-						({{ statusCounts[status.value] }})
-					</span>
-				</button>
-			</div>
-
-			<div class="applicants-list">
-				<ApplicantCard v-for="applicant in filteredApplicants" :key="applicant.id" :applicant="applicant"
-					@accept="handleAccept" @reject="handleReject" />
-			</div>
-		</div>
-	</div>
-</template>
 
 <style lang="scss" scoped>
 @use '@/styles/variables.scss' as *;
