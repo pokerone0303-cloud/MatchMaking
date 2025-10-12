@@ -38,6 +38,7 @@ const totalSalary = computed(() => {
 const dialogSections = computed(() => [
 	{
 		title: '基本統計',
+		icon: '📊',
 		items: [
 			{ label: '班別數', value: '12' },
 			{ label: '應徵數', value: '45' },
@@ -47,6 +48,7 @@ const dialogSections = computed(() => [
 	},
 	{
 		title: '績效指標',
+		icon: '📈',
 		items: [
 			{ label: '完成率', value: '83%' },
 			{ label: '錄取率', value: '62%' },
@@ -56,6 +58,7 @@ const dialogSections = computed(() => [
 	},
 	{
 		title: '詳細資訊',
+		icon: '📋',
 		items: [
 			{ label: '統計日期', value: formattedDate.value },
 			{ label: '統計時間', value: '2024/9/16 上午9:00:00' },
