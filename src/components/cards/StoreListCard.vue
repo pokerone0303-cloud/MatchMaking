@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // 定義據點資訊介面
 interface StoreInfo {
@@ -25,6 +28,7 @@ const emit = defineEmits<{
 
 // 處理查看完整據點清單
 const handleViewAllStores = () => {
+	router.push('/e/stores');
 	emit('viewAllStores');
 };
 

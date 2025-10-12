@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
 // 定義營運統計介面
 interface EmployerStats {
 	totalShifts: number;
@@ -10,6 +12,8 @@ interface EmployerStats {
 interface Props {
 	employerStats: EmployerStats;
 }
+
+const router = useRouter();
 
 // 定義 props
 const props = withDefaults(defineProps<Props>(), {
@@ -28,6 +32,7 @@ const emit = defineEmits<{
 
 // 處理查看完整統計
 const handleViewStats = () => {
+	router.push('/e/statistics');
 	emit('viewStats');
 };
 </script>
