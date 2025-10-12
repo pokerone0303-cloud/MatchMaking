@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
 import StatsBlock from '@/components/common/StatsBlock.vue';
-import SheetCard from '@/components/cards/SheetCard.vue';
+import StatisticsCard from '@/components/cards/StatisticsCard.vue';
 import type { FilterConfig } from '@/types/filter';
 import type { TimesheetRecord } from '@/types/timesheet';
 
@@ -240,7 +240,7 @@ const handleEdit = (timesheet: TimesheetRecord) => {
 		<div class="user-timesheets__content">
 			<!-- 時數記錄列表 -->
 			<div v-if="timesheets.length > 0" class="user-timesheets__list">
-				<SheetCard v-for="timesheet in timesheets" :key="timesheet.id" :timesheet="timesheet"
+				<StatisticsCard v-for="timesheet in timesheets" :key="timesheet.id" :timesheet="timesheet"
 					@view-details="handleViewDetails" @edit="handleEdit" />
 			</div>
 
