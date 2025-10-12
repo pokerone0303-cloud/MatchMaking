@@ -95,18 +95,18 @@ const menuConfigs = {
 		],
 		workManagement: [
 			{
-				key: 'timesheets',
-				title: '工時審核',
-				description: '審核員工工時記錄',
+				key: 'statistics',
+				title: '營運統計',
+				description: '查看營運統計數據',
 				icon: 'clock-o',
-				route: '/e/timesheets'
+				route: '/e/statistics'
 			},
 			{
-				key: 'reports',
-				title: '營運報表',
+				key: 'stores',
+				title: '據點清單',
 				description: '查看營運統計數據',
 				icon: 'bar-chart-o',
-				route: '/e/reports'
+				route: '/e/stores'
 			}
 		]
 	},
