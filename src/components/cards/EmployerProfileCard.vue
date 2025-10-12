@@ -58,7 +58,7 @@ const formattedMembershipDate = computed(() => {
 						<div class="employer-profile-card__company-name">
 							{{ employerProfile.companyName }}
 						</div>
-						<van-tag v-if="employerProfile.isVerified" type="success" size="small"
+						<van-tag v-if="employerProfile.isVerified" type="success" size="medium"
 							class="employer-profile-card__verified-tag">
 							已驗證
 						</van-tag>
