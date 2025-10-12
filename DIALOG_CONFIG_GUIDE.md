@@ -1,199 +1,223 @@
-# SheetDetailsDialog 配置指南
+# GenericDetailsDialog 配置指南
 
 ## 概述
 
-`SheetDetailsDialog` 組件現在支援通過 `config` prop 傳入自訂配置，讓您可以靈活地定義對話框的內容和樣式。
+⚠️ **重要通知**: `SheetDetailsDialog` 已經被 `GenericDetailsDialog` 替代。`GenericDetailsDialog` 是一個更通用、更靈活的詳細資料展示元件，可以適用於各種場景。
+
+## 遷移說明
+
+如果您正在使用 `SheetDetailsDialog`，請參考 [SheetDetailsDialog 遷移指南](./SHEET_DETAILS_DIALOG_MIGRATION.md) 來了解如何遷移到 `GenericDetailsDialog`。
 
 ## 基本使用
 
-### 1. 使用預設配置（不傳入 config）
+### 1. 基本使用
 
 ```vue
 <template>
-  <SheetDetailsDialog
-    :visible="showDialog"
-    :timesheet="selectedTimesheet"
-    @update:visible="showDialog = $event"
-    @close="handleClose"
-  />
-</template>
-```
-
-### 2. 使用自訂配置
-
-```vue
-<template>
-  <SheetDetailsDialog
-    :visible="showDialog"
-    :timesheet="selectedTimesheet"
-    :config="customConfig"
-    @update:visible="showDialog = $event"
+  <GenericDetailsDialog
+    v-model:show="showDialog"
+    title="工時詳細資料"
+    :sections="dialogSections"
     @close="handleClose"
   />
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import type { DialogConfig } from '@/types/dialog';
+import { computed } from 'vue'
+import GenericDetailsDialog from '@/components/dialogs/GenericDetailsDialog.vue'
 
-const customConfig: DialogConfig = {
-  title: '自訂標題',
-  blocks: [
-    {
-      type: 'section',
-      title: '基本資訊',
-      items: [
-        { label: '編號', value: 'TS001' },
-        { label: '日期', value: '2024/09/13' }
-      ]
-    }
-  ]
-};
+const dialogSections = computed(() => [
+  {
+    title: '基本資訊',
+    icon: '🕐',
+    items: [
+      { label: '工時單號', value: 'TS001' },
+      { label: '工作日期', value: '2024/09/13' },
+      { label: '工作時間', value: '20:00 - 02:00' },
+      { label: '商家', value: '金沙會館' },
+      { label: '地點', value: '台北中山店' },
+      { label: '職位', value: '百家樂荷官' },
+    ],
+  },
+  {
+    title: '工時統計',
+    icon: '⏰',
+    items: [
+      { label: '正常工時', value: '6 小時', valueClass: 'info-value--blue' },
+      { label: '加班工時', value: '0 小時', valueClass: 'info-value--orange' },
+      { label: '總工時', value: '6 小時', valueClass: 'info-value--blue' },
+    ],
+  },
+  {
+    title: '薪資計算',
+    icon: '💰',
+    items: [
+      { label: '基本時薪', value: '$600' },
+      { label: '基本薪資', value: '$3600' },
+      { label: '總薪資', value: '$3600', valueClass: 'info-value--green' },
+    ],
+  },
+])
 </script>
 ```
 
-## 區塊類型
+## 數據結構
 
-### 1. section（一般區塊）
+### Section 類型定義
 
-用於顯示標籤-值對的資訊。
+```typescript
+interface Section {
+  title: string // 區塊標題
+  icon: string // 區塊圖標
+  items: SectionItem[] // 區塊項目
+}
+
+interface SectionItem {
+  label: string // 項目標籤
+  value: string // 項目值
+  valueClass?: string // 值的樣式類別
+}
+```
+
+### 基本區塊結構
 
 ```typescript
 {
-  type: 'section',
   title: '基本資訊',
+  icon: '🕐',
   items: [
     { label: '工時單號', value: 'TS20240913' },
-    { label: '狀態', value: '待審核', valueClass: 'status-pending' }
+    { label: '狀態', value: '待審核', valueClass: 'info-value--wage' }
   ]
-}
-```
-
-### 2. highlight（重點區域）
-
-用於突出顯示重要資訊。
-
-```typescript
-{
-  type: 'highlight',
-  title: '職位要求',
-  content: '五年以上經驗',
-  contentClass: 'highlight-requirement'
-}
-```
-
-### 3. remark（備註）
-
-用於顯示備註或說明文字。
-
-```typescript
-{
-  type: 'remark',
-  title: '備註',
-  content: '深夜班,客流量較大',
-  contentClass: 'remark-content'
 }
 ```
 
 ## 樣式類別
 
-### 狀態標籤樣式
+### 支援的樣式類別
 
-- `status-pending`: 待審核（橘色）
-- `status-approved`: 已核准（綠色）
-- `status-adjusted`: 已調整（藍色）
-- `status-accepted`: 錄取（綠色）
-- `status-rejected`: 未錄取（紅色）
-- `status-withdrawn`: 撤回（灰色）
+- `info-value--wage`：薪資樣式（綠色）
+- `info-value--deadline`：截止日期樣式（紅色）
+- `info-value--link`：連結樣式（藍色）
+- `info-value--purple`：紫色樣式
+- `info-value--blue`：藍色樣式
+- `info-value--green`：綠色樣式
+- `info-value--orange`：橘色樣式
 
-### 文字顏色樣式
+### 使用範例
 
-- `text-blue`: 藍色文字
-- `text-orange`: 橘色文字
-- `text-green`: 綠色文字
-- `text-red`: 紅色文字
-
-### 內容區域樣式
-
-- `highlight-requirement`: 職位要求樣式（黃色背景）
-- `remark-content`: 備註內容樣式（灰色背景）
+```typescript
+{
+  title: '薪資計算',
+  icon: '💰',
+  items: [
+    { label: '基本時薪', value: '$600' },
+    { label: '基本薪資', value: '$3600', valueClass: 'info-value--green' },
+    { label: '總薪資', value: '$3600', valueClass: 'info-value--green' }
+  ]
+}
+```
 
 ## 完整範例
 
-```typescript
-import type { DialogConfig } from '@/types/dialog'
+```vue
+<template>
+  <GenericDetailsDialog
+    v-model:show="showDialog"
+    title="工時詳細資料"
+    :sections="dialogSections"
+    @close="handleClose"
+  />
+</template>
 
-const exampleConfig: DialogConfig = {
-  title: '工時詳細資料',
-  blocks: [
-    {
-      type: 'section',
-      title: '基本資訊',
-      items: [
-        { label: '工時單號', value: 'TS20240913' },
-        { label: '工作日期', value: '2024/09/13' },
-        { label: '工作時間', value: '20:00 - 02:00' },
-        { label: '商家', value: '金沙會館' },
-        { label: '地點', value: '台北中山店' },
-        { label: '職位', value: '百家樂荷官' },
-      ],
-    },
-    {
-      type: 'section',
-      title: '工時統計',
-      items: [
-        { label: '正常工時', value: '6 小時', valueClass: 'text-blue' },
-        { label: '加班工時', value: '0 小時', valueClass: 'text-orange' },
-        { label: '總工時', value: '6 小時', valueClass: 'text-blue' },
-      ],
-    },
-    {
-      type: 'section',
-      title: '薪資計算',
-      items: [
-        { label: '基本時薪', value: '$600' },
-        { label: '基本薪資', value: '$3600' },
-        { label: '總薪資', value: '$3600', valueClass: 'text-green' },
-      ],
-    },
-    {
-      type: 'section',
-      title: '狀態資訊',
-      items: [
-        { label: '狀態', value: '待審核', valueClass: 'status-pending' },
-        { label: '記錄時間', value: '2024/9/14 上午8:20:00' },
-      ],
-    },
-    {
-      type: 'highlight',
-      title: '職位要求',
-      content: '五年以上經驗',
-      contentClass: 'highlight-requirement',
-    },
-    {
-      type: 'remark',
-      title: '備註',
-      content: '深夜班,客流量較大',
-      contentClass: 'remark-content',
-    },
-  ],
+<script setup>
+import { computed } from 'vue'
+import GenericDetailsDialog from '@/components/dialogs/GenericDetailsDialog.vue'
+
+const dialogSections = computed(() => [
+  {
+    title: '基本資訊',
+    icon: '🕐',
+    items: [
+      { label: '工時單號', value: 'TS20240913' },
+      { label: '工作日期', value: '2024/09/13' },
+      { label: '工作時間', value: '20:00 - 02:00' },
+      { label: '商家', value: '金沙會館' },
+      { label: '地點', value: '台北中山店' },
+      { label: '職位', value: '百家樂荷官' },
+    ],
+  },
+  {
+    title: '工時統計',
+    icon: '⏰',
+    items: [
+      { label: '正常工時', value: '6 小時', valueClass: 'info-value--blue' },
+      { label: '加班工時', value: '0 小時', valueClass: 'info-value--orange' },
+      { label: '總工時', value: '6 小時', valueClass: 'info-value--blue' },
+    ],
+  },
+  {
+    title: '薪資計算',
+    icon: '💰',
+    items: [
+      { label: '基本時薪', value: '$600' },
+      { label: '基本薪資', value: '$3600' },
+      { label: '總薪資', value: '$3600', valueClass: 'info-value--green' },
+    ],
+  },
+  {
+    title: '狀態資訊',
+    icon: '📊',
+    items: [
+      { label: '狀態', value: '待審核', valueClass: 'info-value--wage' },
+      { label: '記錄時間', value: '2024/9/14 上午8:20:00' },
+    ],
+  },
+  {
+    title: '備註資訊',
+    icon: '📝',
+    items: [
+      { label: '職位要求', value: '五年以上經驗' },
+      { label: '備註', value: '深夜班,客流量較大' },
+    ],
+  },
+])
+
+const handleClose = () => {
+  showDialog.value = false
 }
+</script>
 ```
 
 ## 最佳實踐
 
-1. **保持一致性**: 在整個應用中使用相同的配置結構
+1. **保持一致性**: 在整個應用中使用相同的區塊結構
 2. **適當分組**: 將相關資訊放在同一個區塊中
 3. **使用樣式類別**: 利用預定義的樣式類別來突出重要資訊
 4. **考慮用戶體驗**: 將最重要的資訊放在前面
 5. **響應式設計**: 確保在不同螢幕尺寸下都能正常顯示
+6. **圖標選擇**: 選擇合適的圖標來增強視覺識別
 
-## 擴展性
+## 優勢
 
-如果需要添加新的區塊類型或樣式，可以：
+### 1. 通用性
 
-1. 在 `src/types/dialog.ts` 中添加新的類型定義
-2. 在組件模板中添加對應的渲染邏輯
-3. 在樣式文件中添加新的樣式類別
+- 可適用於各種詳細資料展示場景
+- 不局限於特定業務邏輯
 
-這種設計讓組件既保持了靈活性，又確保了類型安全和一致性。
+### 2. 靈活性
+
+- 支援自定義區塊結構
+- 支援多種樣式類別
+- 支援圖標顯示
+
+### 3. 可維護性
+
+- 統一的對話框元件
+- 減少重複代碼
+- 更好的類型安全
+
+## 相關文件
+
+- [SheetDetailsDialog 遷移指南](./SHEET_DETAILS_DIALOG_MIGRATION.md)
+- [StatisticsCard 使用指南](./STATISTICS_CARD_GUIDE.md)

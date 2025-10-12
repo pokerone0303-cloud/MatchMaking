@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { TimesheetRecord } from '@/types/timesheet';
-import SheetDetailsDialog from '@/components/dialogs/SheetDetailsDialog.vue';
+import GenericDetailsDialog from '../dialogs/GenericDetailsDialog.vue';
 
 // Props 定義
 interface Props {
@@ -71,6 +71,58 @@ const workDetails = computed(() => [
 		label: '總薪資',
 		value: `$${totalSalary.value}`,
 		valueClass: 'text-green'
+	}
+]);
+
+// 對話框數據結構
+const dialogSections = computed(() => [
+	{
+		title: '基本資訊',
+		icon: '🕐',
+		items: [
+			{ label: '工時單號', value: `TS${props.timesheet.id}` },
+			{ label: '工作日期', value: formattedDate.value },
+			{ label: '工作時間', value: formattedTime.value },
+			{ label: '商家', value: '金沙會館' },
+			{ label: '地點', value: `${props.timesheet.location} ${props.timesheet.address}` },
+			{ label: '職位', value: '百家樂荷官' }
+		]
+	},
+	{
+		title: '工時統計',
+		icon: '⏰',
+		items: [
+			{ label: '正常工時', value: `${props.timesheet.workingHours} 小時`, valueClass: 'info-value--blue' },
+			{ label: '加班工時', value: '0 小時', valueClass: 'info-value--orange' },
+			{ label: '總工時', value: `${props.timesheet.workingHours} 小時`, valueClass: 'info-value--blue' }
+		]
+	},
+	{
+		title: '薪資計算',
+		icon: '💰',
+		items: [
+			{ label: '基本時薪', value: '$600' },
+			{ label: '加班時薪', value: '$900' },
+			{ label: '基本薪資', value: `$${totalSalary.value}` },
+			{ label: '加班薪資', value: '$0' },
+			{ label: '總薪資', value: `$${totalSalary.value}`, valueClass: 'info-value--green' }
+		]
+	},
+	{
+		title: '狀態資訊',
+		icon: '📊',
+		items: [
+			{ label: '狀態', value: statusConfig.value.text, valueClass: statusConfig.value.class },
+			{ label: '記錄時間', value: '2024/9/14 上午8:20:00' }
+		]
+	},
+	{
+		title: '備註資訊',
+		icon: '📝',
+		items: [
+			{ label: '職位要求', value: '五年以上經驗' },
+			{ label: '備註', value: '深夜班,客流量較大' }
+		]
 	}
 ]);
 
@@ -147,7 +199,8 @@ const handleCloseDialog = () => {
 	</div>
 
 	<!-- 工時詳細資料彈跳窗口 -->
-	<SheetDetailsDialog v-model:visible="showDetailsDialog" :timesheet="timesheet" @close="handleCloseDialog" />
+	<GenericDetailsDialog v-model:show="showDetailsDialog" title="工時詳細資料" :sections="dialogSections"
+		@close="handleCloseDialog" />
 </template>
 
 <style lang="scss" scoped>
