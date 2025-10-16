@@ -2,9 +2,14 @@
 import './assets/main.css'
 import './styles/index.scss'
 
+const loadVantStyles = () => {
+	import('vant/es/dialog/style');
+	import('vant/es/toast/style');
+}
 // 引入 Vant 4 樣式
-// import 'vant/lib/index.css'
-
+setTimeout(() => {
+	loadVantStyles()
+}, 100)
 // 引入觸控模擬器（PC 端支援）
 // 此套件會自動檢測並在非觸控設備上啟用觸控模擬
 import '@vant/touch-emulator'
