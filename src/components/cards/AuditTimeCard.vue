@@ -100,7 +100,11 @@
 		cancel-button-text="取消" confirm-button-color="#27AE60" @confirm="confirmApproveWithNote"
 		@cancel="cancelApproveNote">
 		<div class="audit-dialog-content">
-			<van-field v-model="auditNote" type="textarea" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			<div class="audit-dialog-description">確定要通過此申報時數嗎?</div>
+			<div class="audit-dialog-field-group">
+				<div class="audit-dialog-field-label">審核備註</div>
+				<van-field v-model="auditNote" type="textarea" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			</div>
 		</div>
 	</van-dialog>
 
@@ -109,8 +113,15 @@
 		cancel-button-text="取消" confirm-button-color="#2F80ED" @confirm="confirmAdjustWithDetails"
 		@cancel="cancelAdjustDetail">
 		<div class="audit-dialog-content">
-			<van-field v-model="adjustedHours" type="digit" label="審核時數" placeholder="請輸入調整後的時數" />
-			<van-field v-model="auditNote" type="textarea" label="審核備註" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			<div class="audit-dialog-description">確定要調整此申報時數嗎?</div>
+			<div class="audit-dialog-field-group">
+				<div class="audit-dialog-field-label">審核時數</div>
+				<van-field v-model="adjustedHours" type="digit" placeholder="請輸入調整後的時數" />
+			</div>
+			<div class="audit-dialog-field-group">
+				<div class="audit-dialog-field-label">審核備註</div>
+				<van-field v-model="auditNote" type="textarea" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			</div>
 		</div>
 	</van-dialog>
 
@@ -118,7 +129,11 @@
 	<van-dialog v-model:show="showRejectNoteDialog" title="駁回申請" show-cancel-button confirm-button-text="確認駁回"
 		cancel-button-text="取消" confirm-button-color="#EB5757" @confirm="confirmRejectWithNote" @cancel="cancelRejectNote">
 		<div class="audit-dialog-content">
-			<van-field v-model="auditNote" type="textarea" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			<div class="audit-dialog-description">確定要駁回此申報時數嗎?</div>
+			<div class="audit-dialog-field-group">
+				<div class="audit-dialog-field-label">審核備註</div>
+				<van-field v-model="auditNote" type="textarea" placeholder="請輸入審核備註 (選填)" rows="3" autosize />
+			</div>
 		</div>
 	</van-dialog>
 </template>
@@ -158,8 +173,16 @@ const statusConfig = {
 		text: '待審',
 		class: 'audit-time-card__status-tag--pending'
 	},
+	submitted: {
+		text: '已提交',
+		class: 'audit-time-card__status-tag--pending'
+	},
 	approved: {
 		text: '已通過',
+		class: 'audit-time-card__status-tag--approved'
+	},
+	accepted: {
+		text: '已接受',
 		class: 'audit-time-card__status-tag--approved'
 	},
 	rejected: {
@@ -169,6 +192,10 @@ const statusConfig = {
 	adjusted: {
 		text: '已調整',
 		class: 'audit-time-card__status-tag--adjusted'
+	},
+	withdrawn: {
+		text: '已撤回',
+		class: 'audit-time-card__status-tag--rejected'
 	}
 };
 
@@ -515,6 +542,42 @@ const cancelRejectNote = () => {
 // 對話框內容樣式
 .audit-dialog-content {
 	padding: $spacing-16;
+}
+
+.audit-dialog-description {
+	font-size: $font-size-sm;
+	color: $color-text-primary;
+	margin-bottom: $spacing-16;
+	text-align: center;
+	line-height: 1.5;
+}
+
+.audit-dialog-field-group {
+	margin-bottom: $spacing-12;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.audit-dialog-field-label {
+	font-size: $font-size-sm;
+	color: $color-text-secondary;
+	font-weight: $font-weight-medium;
+	margin-bottom: $spacing-8;
+}
+
+// 覆蓋 Vant Field 樣式
+:deep(.van-field) {
+	background: $color-gray-50;
+	border-radius: $border-radius-base;
+	border: 1px solid $color-gray-200;
+
+	.van-field__control {
+		background: transparent;
+		color: $color-text-primary;
+	}
+
 }
 
 // 響應式設計
