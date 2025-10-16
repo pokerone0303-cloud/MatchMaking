@@ -94,6 +94,18 @@ const router = createRouter({
         },
       ]
     },
+    {
+      path: '/a',
+      name: 'Admin',
+      redirect: '/a/audit',
+      children: [
+        {
+          path: '/a/audit',
+          name: 'AdminAudit',
+          component: () => import('@/views/Admin/AdminAuditView.vue'),
+        },
+      ]
+    }
     // {
     //   path: '/u/timesheets',
     //   name: 'timesheets',
@@ -106,19 +118,6 @@ const router = createRouter({
     // }
     // 商家端路由
     // 管理端路由
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    },
   ],
 })
 
