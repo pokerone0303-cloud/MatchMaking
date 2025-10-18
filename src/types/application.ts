@@ -13,7 +13,7 @@ export interface ApplicationRecord {
 	resultMessage?: string; // 結果提示訊息
 }
 
-// 應徵者資料介面（商家端使用）
+// 用戶資料介面（管理端使用）
 export interface Applicant {
 	id: string;
 	name: string;
@@ -24,10 +24,14 @@ export interface Applicant {
 	experience: number;
 	rating: number;
 	skills: string[];
+	workAreas: string[]; // 可工作地區
 	phone: string;
 	email: string;
 	applicationTime: string;
-	status: 'pending' | 'accepted' | 'rejected' | 'waiting';
+	status: 'active' | 'inactive' | 'suspended'; // 用戶狀態：啟用、停用、停權
+	totalHours: number; // 總工時
+	joinDate: string; // 加入日期
+	lastActivity: string; // 最後活動日期
 }
 
 export type ApplicationStatus = 'pending' | 'accepted' | 'rejected' | 'withdrawn';

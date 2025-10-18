@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import GenericDetailsDialog from '../dialogs/GenericDetailsDialog.vue';
-import EditStoreDialog from '../dialogs/EditStoreDialog.vue';
+import EditStoreDialog from '../dialogs/EditLocationDialog.vue';
 
 // 據點資料類型定義
 interface StoreData {

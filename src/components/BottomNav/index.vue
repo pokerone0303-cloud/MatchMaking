@@ -100,6 +100,12 @@ const navConfigs: Record<string, NavItem[]> = {
 			route: '/a/users'
 		},
 		{
+			key: 'stores',
+			label: '商家',
+			icon: 'shop-o',
+			route: '/a/stores'
+		},
+		{
 			key: 'shifts',
 			label: '班別',
 			icon: 'calendar-o',

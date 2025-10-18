@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
 import StatsBlock from '@/components/common/StatsBlock.vue';
 import StoreCard from '@/components/cards/StoreCard.vue';
-import EditStoreDialog from '@/components/dialogs/EditStoreDialog.vue';
+import EditStoreDialog from '@/components/dialogs/EditLocationDialog.vue';
 import type { FilterConfig } from '@/types/filter';
 import type { TimesheetRecord } from '@/types/timesheet';
 
@@ -307,13 +307,8 @@ const handleAddStoreClose = () => {
 	<div class="user-timesheets">
 		<!-- 重複用 頂部篩選用元件 props 值 sticky top-0-->
 		<FilterHeader title="實際上班時數" :filter-config="filterConfig" :sticky="true" @update-filter="handleFilterChange"
-			@search="handleSearch" @toggle-filter="handleToggleFilter" @reset="handleReset" />
-
-		<!-- 固定在右上角的新增按鈕 -->
-		<button class="add-store-btn" @click="handleAddStore">
-			<van-icon name="plus" class="add-store-btn__icon" />
-			新增
-		</button>
+			@search="handleSearch" @toggle-filter="handleToggleFilter" @reset="handleReset" :show-add-button="true"
+			add-button-text="新增據點" @add="handleAddStore" />
 
 		<!-- 統計卡片元件區塊 -->
 		<div class="employer-statistics__stats-section">
