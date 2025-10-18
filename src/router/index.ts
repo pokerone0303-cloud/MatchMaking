@@ -114,6 +114,11 @@ const router = createRouter({
           name: 'AdminStores',
           component: () => import('@/views/Admin/AdminStoresView.vue'),
         },
+        {
+          path: '/a/shifts',
+          name: 'AdminShifts',
+          component: () => import('@/views/Admin/AdminShiftsView.vue'),
+        },
       ]
     }
     // {
