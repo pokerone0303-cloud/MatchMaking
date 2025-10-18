@@ -8,13 +8,17 @@ interface Props {
 	filterConfig: FilterConfig;
 	sticky?: boolean;
 	showTitle?: boolean;
+	showAddButton?: boolean;
+	addButtonText?: string;
 }
 
 // 定義 props
 const props = withDefaults(defineProps<Props>(), {
 	searchPlaceholder: '搜尋商家、職位或應徵編號',
 	sticky: true,
-	showTitle: true
+	showTitle: true,
+	showAddButton: false,
+	addButtonText: '新增'
 });
 
 // 定義 emits
@@ -23,6 +27,7 @@ const emit = defineEmits<{
 	search: [value: string];
 	toggleFilter: [];
 	reset: [];
+	add: [];
 }>();
 
 // 篩選選單展開狀態
@@ -163,6 +168,11 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 	handleFilterChange(field.key, value);
 };
 
+// 方法：處理新增按鈕點擊
+const handleAdd = () => {
+	emit('add');
+};
+
 </script>
 
 <template>
@@ -184,6 +194,11 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 			<van-button :type="isFilterExpanded ? 'primary' : 'default'" size="small" class="filter-header__filter-btn"
 				@click="toggleFilter">
 				篩選
+			</van-button>
+			<!-- 新增按鈕 -->
+			<van-button v-if="showAddButton" type="primary" size="small" class="filter-header__add-btn" @click="handleAdd">
+				<!-- <van-icon name="plus" size="14" /> -->
+				{{ addButtonText }}
 			</van-button>
 		</div>
 
@@ -317,19 +332,29 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 	}
 
 	&__search-btn {
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		height: 32px;
-		padding: 0 $spacing-12;
+		padding: 0 $spacing-8;
 		flex-shrink: 0;
 	}
 
 	&__filter-btn {
-		font-size: $font-size-sm;
+		font-size: $font-size-xs;
 		height: 32px;
-		padding: 0 $spacing-12;
+		padding: 0 $spacing-8;
 		display: flex;
 		align-items: center;
 		gap: $spacing-4;
+	}
+
+	&__add-btn {
+		font-size: $font-size-xs;
+		height: 32px;
+		padding: 0 $spacing-8;
+		display: flex;
+		align-items: center;
+		gap: $spacing-4;
+		flex-shrink: 0;
 	}
 
 	&__filter-icon {
@@ -485,8 +510,6 @@ const handleInputChange = (field: FilterField, value: string | number) => {
 // 響應式設計
 @media (min-width: 768px) {
 	.filter-header {
-		&__search-section {}
-
 		&__filter-content {
 			padding: $spacing-20;
 		}

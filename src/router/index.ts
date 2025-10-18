@@ -104,6 +104,11 @@ const router = createRouter({
           name: 'AdminAudit',
           component: () => import('@/views/Admin/AdminAuditView.vue'),
         },
+        {
+          path: '/a/users',
+          name: 'AdminUsers',
+          component: () => import('@/views/Admin/AdminUsersView.vue'),
+        },
       ]
     }
     // {
