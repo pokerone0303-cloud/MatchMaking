@@ -15,6 +15,7 @@ export interface FilterField {
 	min?: number;
 	max?: number;
 	step?: number;
+	disabled?: boolean;
 }
 
 export interface FilterConfig {

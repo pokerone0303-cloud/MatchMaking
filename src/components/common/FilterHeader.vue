@@ -70,7 +70,7 @@ const handleReset = () => {
 // 方法：顯示選擇器
 const showPickerForField = (key: string) => {
 	const field = props.filterConfig.fields.find(f => f.key === key);
-	if (!field) return;
+	if (!field || field.disabled) return;
 
 	if (field.type === 'select') {
 		// 初始化選擇器的值為當前值（轉換為數組格式）
@@ -220,8 +220,9 @@ const handleAdd = () => {
 						<div v-else-if="field.type === 'date'" class="filter-header__filter-item filter-header__filter-item--input"
 							:class="`filter-header__filter-item--${field.width || 'half'}`">
 							<van-field :model-value="getDisplayText(field, filterConfig.values[field.key])"
-								:placeholder="field.placeholder || field.label" readonly is-link @click="showPickerForField(field.key)"
-								class="filter-header__date-input" />
+								:placeholder="field.placeholder || field.label" readonly :disabled="field.disabled" is-link
+								@click="field.disabled ? null : showPickerForField(field.key)"
+								:class="['filter-header__date-input', { 'filter-header__date-input--disabled': field.disabled }]" />
 						</div>
 
 						<!-- 數字輸入框類型 -->
@@ -458,6 +459,18 @@ const handleAdd = () => {
 
 		:deep(.van-field__right-icon) {
 			color: $color-text-secondary;
+		}
+
+		// 禁用狀態樣式
+		&--disabled {
+			:deep(.van-field__control) {
+				color: $color-text-secondary;
+				opacity: 0.6;
+			}
+
+			:deep(.van-field__right-icon) {
+				display: none;
+			}
 		}
 	}
 
