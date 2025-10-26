@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import type { Applicant } from '@/types/application';
+import type { User } from '@/types/application';
 
 // 表單欄位配置類型
 interface FormField {
@@ -130,7 +130,7 @@ interface FormConfig {
 // Props 定義
 interface Props {
 	show: boolean;
-	userData?: Applicant;
+	userData?: User;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -140,7 +140,7 @@ const props = withDefaults(defineProps<Props>(), {
 // Emits 定義
 const emit = defineEmits<{
 	'update:show': [value: boolean];
-	save: [data: Partial<Applicant>];
+	save: [data: Partial<User>];
 	cancel: [];
 }>();
 

@@ -26,8 +26,22 @@ const emit = defineEmits<{
 
 const router = useRouter();
 
+// 選單項目類型定義
+interface MenuItem {
+	key: string;
+	title: string;
+	description: string;
+	icon: string;
+	route: string;
+}
+
+interface MenuConfig {
+	mainFunctions: MenuItem[];
+	workManagement: MenuItem[];
+}
+
 // 選單配置
-const menuConfigs = {
+const menuConfigs: Record<'user' | 'employer' | 'admin', MenuConfig> = {
 	user: {
 		mainFunctions: [
 			{
@@ -166,22 +180,13 @@ const supportServices = [
 ];
 
 // 當前角色的選單配置
-const currentMenuConfig = computed(() => menuConfigs[props.role]);
+const currentMenuConfig = computed<MenuConfig>(() => menuConfigs[props.role]);
 
 // 關閉選單
 const handleClose = () => {
 	emit('update:show', false);
 	emit('close');
 };
-
-// 選單項目類型定義
-interface MenuItem {
-	key: string;
-	title: string;
-	description: string;
-	icon: string;
-	route?: string;
-}
 
 // 處理選單項目點擊
 const handleMenuClick = (item: MenuItem) => {

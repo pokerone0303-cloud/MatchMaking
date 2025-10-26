@@ -38,19 +38,19 @@ import EditUserDialog from '@/components/dialogs/EditUserDialog.vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
 import { useDialog } from '@/composables/useDialog';
 import type { FilterConfig } from '@/types/filter';
-import type { Applicant } from '@/types/application';
+import type { User } from '@/types/application';
 
 defineOptions({
-	name: 'EmployerApplicantsView',
+	name: 'AdminUsersView',
 });
 
 const { showSuccess } = useDialog();
 
 // 編輯對話框狀態
 const showEditDialog = ref(false);
-const editingUser = ref<Applicant | undefined>(undefined);
+const editingUser = ref<User | undefined>(undefined);
 
-const applicants = ref<Applicant[]>([
+const applicants = ref<User[]>([
 	{
 		id: '1',
 		name: '張小明',
@@ -285,7 +285,7 @@ const handleEdit = (applicantId: string) => {
 	}
 };
 
-const handleSaveUser = (userData: Partial<Applicant>) => {
+const handleSaveUser = (userData: Partial<User>) => {
 	if (editingUser.value) {
 		// 編輯模式
 		const index = applicants.value.findIndex(a => a.id === editingUser.value!.id);
@@ -295,7 +295,7 @@ const handleSaveUser = (userData: Partial<Applicant>) => {
 		}
 	} else {
 		// 新增模式
-		const newUser: Applicant = {
+		const newUser: User = {
 			id: Date.now().toString(),
 			name: userData.name || '',
 			position: userData.position || '',

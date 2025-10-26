@@ -525,14 +525,6 @@ const handleSave = () => {
 		transition: all 0.2s ease;
 		white-space: nowrap;
 		flex-shrink: 0;
-
-		&:hover {
-			background: darken($color-primary, 10%);
-		}
-
-		&:active {
-			transform: scale(0.95);
-		}
 	}
 
 	&__tag-input {

@@ -1,24 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Shift } from '@/types/shift';
+import type { Applicant } from '@/types/application';
 import ApplicantCard from '@/components/cards/ApplicantCard.vue';
-
-// 應徵者介面定義
-interface Applicant {
-	id: string;
-	name: string;
-	position: string;
-	shiftDate: string;
-	startTime: string;
-	endTime: string;
-	experience: number;
-	rating: number;
-	skills: string[];
-	phone: string;
-	email: string;
-	applicationTime: string;
-	status: 'pending' | 'accepted' | 'rejected' | 'waiting';
-}
 
 // Props 定義
 interface Props {
@@ -53,9 +37,13 @@ const applicants = computed<Applicant[]>(() => {
 			experience: 3,
 			rating: 4.8,
 			skills: ['百家樂', '21點', '輪盤'],
+			workAreas: ['台北市', '新北市'],
 			phone: '0912-345-678',
 			email: 'ming@example.com',
 			applicationTime: '2024-09-10 15:30',
+			totalHours: 120,
+			joinDate: '2024-01-01',
+			lastActivity: '2024-09-14',
 			status: 'pending'
 		},
 		{
@@ -68,10 +56,14 @@ const applicants = computed<Applicant[]>(() => {
 			experience: 5,
 			rating: 4.9,
 			skills: ['百家樂', '德州撲克'],
+			workAreas: ['台北市'],
 			phone: '0987-654-321',
 			email: 'hua@example.com',
 			applicationTime: '2024-09-10 16:45',
-			status: 'waiting'
+			totalHours: 250,
+			joinDate: '2023-06-01',
+			lastActivity: '2024-09-15',
+			status: 'accepted'
 		},
 		{
 			id: '3',
@@ -83,9 +75,13 @@ const applicants = computed<Applicant[]>(() => {
 			experience: 2,
 			rating: 4.5,
 			skills: ['21點', '輪盤'],
+			workAreas: ['新北市'],
 			phone: '0923-456-789',
 			email: 'david@example.com',
 			applicationTime: '2024-09-11 09:20',
+			totalHours: 80,
+			joinDate: '2024-03-01',
+			lastActivity: '2024-09-13',
 			status: 'accepted'
 		}
 	];

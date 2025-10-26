@@ -25,3 +25,22 @@ export interface TimesheetRecord {
 }
 
 export type TimesheetStatus = 'submitted' | 'approved' | 'adjusted' | 'pending' | 'accepted' | 'rejected' | 'withdrawn';
+
+// 審核用時數記錄類型
+export interface AuditTimesheetData {
+	id: string;
+	applicantId: string;
+	applicantName: string;
+	position: string;
+	location: string;
+	date: string;
+	startTime: string;
+	endTime: string;
+	declaredHours: number;
+	dealerNote?: string;
+	auditNote?: string;
+	submittedAt: string;
+	phone: string;
+	email: string;
+	status: 'pending' | 'approved' | 'rejected' | 'adjusted';
+}

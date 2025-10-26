@@ -28,38 +28,56 @@ const userStats = ref({
 });
 
 // 模擬時數記錄數據
-const timesheetRecords = ref([
+const timesheetRecords = ref<TimesheetRecord[]>([
 	{
 		id: '1',
+		applicantId: 'USER001',
+		applicantName: '王小明',
+		position: '桌邊荷官',
 		date: '2024-08-30',
 		startTime: '18:00',
 		endTime: '23:00',
+		declaredHours: 4.5,
 		breakDuration: 30,
 		location: '豪華賭場',
 		address: '台北市信義區',
 		shiftId: '#SH240830001',
 		workingHours: 4.5,
+		submittedAt: '2024-08-31T10:00:00',
+		phone: '0912345678',
+		email: 'wang@example.com',
 		status: 'submitted' as const,
 		auditNote: '時數記錄已提交，等待審核'
 	},
 	{
 		id: '2',
+		applicantId: 'USER001',
+		applicantName: '王小明',
+		position: '發牌員',
 		date: '2024-08-29',
 		startTime: '14:00',
 		endTime: '22:00',
+		declaredHours: 7.0,
 		breakDuration: 60,
 		location: '星光娛樂城',
 		address: '新北市板橋區',
 		shiftId: '#SH240829002',
 		workingHours: 7.0,
+		submittedAt: '2024-08-30T09:00:00',
+		phone: '0912345678',
+		email: 'wang@example.com',
 		status: 'approved' as const,
 		auditNote: '時數記錄已核准，無需調整'
 	},
 	{
 		id: '3',
+		applicantId: 'USER001',
+		applicantName: '王小明',
+		position: '百家樂荷官',
 		date: '2024-08-28',
 		startTime: '20:00',
 		endTime: '02:00',
+		declaredHours: 6.0,
 		breakDuration: 30,
 		location: '金沙會館',
 		address: '台北市中山區',
@@ -67,6 +85,9 @@ const timesheetRecords = ref([
 		workingHours: 6.0,
 		adjustedHours: 5.5,
 		originalHours: 6.0,
+		submittedAt: '2024-08-29T11:00:00',
+		phone: '0912345678',
+		email: 'wang@example.com',
 		status: 'adjusted' as const,
 		auditNote: '因遲到15分鐘，調整時數為5.5小時'
 	}

@@ -86,6 +86,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { showConfirmDialog, showToast } from 'vant';
+
 import type { Applicant } from '@/types/application';
 
 // Props 定義
@@ -103,7 +104,7 @@ const emit = defineEmits<{
 const showContactInfo = ref(false);
 
 // 狀態配置
-const statusConfig = {
+const statusConfig: Record<string, { text: string; class: string }> = {
 	pending: {
 		text: '待審',
 		class: 'applicant-card__status-tag--pending'
@@ -120,7 +121,7 @@ const statusConfig = {
 		text: '候補',
 		class: 'applicant-card__status-tag--waiting'
 	}
-};
+} as const;
 
 // 方法
 const toggleContactInfo = () => {

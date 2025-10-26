@@ -572,7 +572,7 @@ const shiftTypeData = computed(() => ({
 		display: grid;
 		grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
 		background: $color-primary;
-		border-bottom: 2px solid darken($color-primary, 10%);
+		border-bottom: 2px solid $color-primary;
 	}
 
 	&__header-cell {

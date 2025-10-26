@@ -121,11 +121,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { showConfirmDialog, showToast } from 'vant';
-import type { Applicant } from '@/types/application';
+import type { User } from '@/types/application';
 
 // Props 定義
 const props = defineProps<{
-	applicant: Applicant;
+	applicant: User;
 }>();
 
 // Emits 定義

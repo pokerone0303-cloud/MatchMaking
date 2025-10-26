@@ -176,40 +176,61 @@ const handleStatClick = (item: { id: string; value: number; label: string; color
 const timesheets = ref<TimesheetRecord[]>([
 	{
 		id: 'TS20240913',
+		applicantId: 'USER001',
+		applicantName: '張小明',
+		position: '桌邊荷官',
 		date: '2024-09-13',
 		startTime: '20:00',
 		endTime: '02:00',
+		declaredHours: 6,
 		breakDuration: 0,
 		location: '台北中山店',
 		address: '台北市中山區',
 		shiftId: 'SH001',
 		workingHours: 6,
+		submittedAt: '2024-09-14T10:00:00',
+		phone: '0912345678',
+		email: 'zhang@example.com',
 		status: 'pending'
 	},
 	{
 		id: 'TS20240912',
+		applicantId: 'USER002',
+		applicantName: '李美華',
+		position: '發牌員',
 		date: '2024-09-12',
 		startTime: '14:00',
 		endTime: '22:00',
+		declaredHours: 7,
 		breakDuration: 60,
 		location: '台北信義店',
 		address: '台北市信義區',
 		shiftId: 'SH002',
 		workingHours: 7,
+		submittedAt: '2024-09-13T08:00:00',
+		phone: '0912345679',
+		email: 'li@example.com',
 		status: 'approved'
 	},
 	{
 		id: 'TS20240911',
+		applicantId: 'USER003',
+		applicantName: '王大偉',
+		position: '百家樂荷官',
 		date: '2024-09-11',
 		startTime: '10:00',
 		endTime: '18:00',
+		declaredHours: 7,
 		breakDuration: 60,
 		location: '台北西門店',
 		address: '台北市萬華區',
 		shiftId: 'SH003',
 		workingHours: 7,
-		status: 'adjusted',
-		adjustedHours: 6.5
+		adjustedHours: 6.5,
+		submittedAt: '2024-09-12T09:00:00',
+		phone: '0912345680',
+		email: 'wang@example.com',
+		status: 'adjusted'
 	}
 ]);
 

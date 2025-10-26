@@ -31,25 +31,29 @@ import AuditTimeCard from '@/components/cards/AuditTimeCard.vue';
 import FilterHeader from '@/components/common/FilterHeader.vue';
 import { useDialog } from '@/composables/useDialog';
 import type { FilterConfig } from '@/types/filter';
-import type { AuditTimesheetData } from '@/types/timesheet';
+import type { TimesheetRecord } from '@/types/timesheet';
 
 defineOptions({
-	name: 'EmployerApplicantsView',
+	name: 'AdminAuditView',
 });
 
 const { showConfirm, showSuccess, showDangerConfirm } = useDialog();
 
-const timesheets = ref<AuditTimesheetData[]>([
+const timesheets = ref<TimesheetRecord[]>([
 	{
 		id: 'TS001',
 		applicantId: 'USER001',
 		applicantName: '張小明',
 		position: '桌邊荷官',
-		location: '豪華賭場',
 		date: '2024-09-15',
 		startTime: '18:00',
 		endTime: '23:00',
 		declaredHours: 5,
+		breakDuration: 0,
+		location: '豪華賭場',
+		address: '台北市信義區',
+		shiftId: 'SH001',
+		workingHours: 5,
 		dealerNote: '準時上下班,工作表現良好',
 		submittedAt: '2024-09-16T09:30:00',
 		phone: '0912-345-678',
@@ -61,11 +65,15 @@ const timesheets = ref<AuditTimesheetData[]>([
 		applicantId: 'USER002',
 		applicantName: '李美華',
 		position: '桌邊荷官',
-		location: '豪華賭場',
 		date: '2024-09-15',
 		startTime: '18:00',
 		endTime: '23:00',
 		declaredHours: 5,
+		breakDuration: 0,
+		location: '豪華賭場',
+		address: '台北市信義區',
+		shiftId: 'SH002',
+		workingHours: 5,
 		dealerNote: '工作認真負責',
 		auditNote: '時數計算正確，工作表現良好',
 		submittedAt: '2024-09-16T10:15:00',
@@ -78,11 +86,15 @@ const timesheets = ref<AuditTimesheetData[]>([
 		applicantId: 'USER003',
 		applicantName: '王大偉',
 		position: '發牌員',
-		location: '豪華賭場',
 		date: '2024-09-16',
 		startTime: '14:00',
 		endTime: '22:00',
 		declaredHours: 8,
+		breakDuration: 60,
+		location: '豪華賭場',
+		address: '台北市信義區',
+		shiftId: 'SH003',
+		workingHours: 7,
 		dealerNote: '經驗豐富，表現優異',
 		auditNote: '時數有誤，實際工作時間為7小時',
 		submittedAt: '2024-09-17T08:20:00',
@@ -95,11 +107,15 @@ const timesheets = ref<AuditTimesheetData[]>([
 		applicantId: 'USER004',
 		applicantName: '陳小芳',
 		position: '百家樂荷官',
-		location: '豪華賭場',
 		date: '2024-09-15',
 		startTime: '20:00',
 		endTime: '02:00',
 		declaredHours: 6,
+		breakDuration: 0,
+		location: '豪華賭場',
+		address: '台北市信義區',
+		shiftId: 'SH004',
+		workingHours: 6,
 		dealerNote: '服務態度良好',
 		submittedAt: '2024-09-16T11:45:00',
 		phone: '0955-123-456',
@@ -199,7 +215,7 @@ const calculateStatusCounts = () => {
 		adjusted: 0
 	};
 
-	timesheets.value.forEach(timesheet => {
+	timesheets.value.forEach((timesheet: TimesheetRecord) => {
 		switch (timesheet.status) {
 			case 'pending':
 				counts.pending++;
@@ -227,7 +243,7 @@ const filteredTimesheets = computed(() => {
 	if (selectedStatus.value === 'all') {
 		return timesheets.value;
 	}
-	return timesheets.value.filter(timesheet => timesheet.status === selectedStatus.value);
+	return timesheets.value.filter((timesheet: TimesheetRecord) => timesheet.status === selectedStatus.value);
 });
 
 const handleFilterChange = (key: string, value: string | number) => {
