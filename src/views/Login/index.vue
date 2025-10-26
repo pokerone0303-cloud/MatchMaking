@@ -145,7 +145,7 @@ const handleContact = () => {
 
 				<van-field v-model="password" name="password" label="密碼" :placeholder="`請輸入您的密碼`"
 					:type="showPassword ? 'text' : 'password'" :rules="[{ required: true, message: '請輸入密碼' }]" class="login-field"
-					label-align="top">
+					label-align="top" @keyup.enter="handleLogin">
 					<template #right-icon>
 						<van-icon :name="showPassword ? 'eye-o' : 'closed-eye'" @click="togglePasswordVisibility"
 							class="password-toggle" />
