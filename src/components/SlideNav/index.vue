@@ -98,14 +98,14 @@ const menuConfigs = {
 				key: 'statistics',
 				title: '營運統計',
 				description: '查看營運統計數據',
-				icon: 'clock-o',
+				icon: 'bar-chart-o',
 				route: '/e/statistics'
 			},
 			{
 				key: 'stores',
 				title: '據點清單',
-				description: '查看營運統計數據',
-				icon: 'bar-chart-o',
+				description: '查看與管理據點',
+				icon: 'shop-o',
 				route: '/e/stores'
 			}
 		]
@@ -119,20 +119,7 @@ const menuConfigs = {
 				icon: 'checked',
 				route: '/a/audit'
 			},
-			{
-				key: 'users',
-				title: '用戶管理',
-				description: '管理用戶與商家',
-				icon: 'friends-o',
-				route: '/a/users'
-			},
-			{
-				key: 'shifts',
-				title: '班別管理',
-				description: '監控所有班別',
-				icon: 'calendar-o',
-				route: '/a/shifts'
-			},
+
 			{
 				key: 'reports',
 				title: '系統報表',
@@ -141,15 +128,29 @@ const menuConfigs = {
 				route: '/a/reports'
 			}
 		],
-		// workManagement: [
-		// 	{
-		// 		key: 'system',
-		// 		title: '系統設定',
-		// 		description: '系統參數與配置',
-		// 		icon: 'setting-o',
-		// 		route: '/a/settings'
-		// 	}
-		// ]
+		workManagement: [
+			{
+				key: 'users',
+				title: '用戶管理',
+				description: '管理用戶與商家',
+				icon: 'friends-o',
+				route: '/a/users'
+			},
+			{
+				key: 'stores',
+				title: '據點管理',
+				description: '管理所有據點',
+				icon: 'shop-o',
+				route: '/a/stores'
+			},
+			{
+				key: 'shifts',
+				title: '班別管理',
+				description: '監控所有班別',
+				icon: 'calendar-o',
+				route: '/a/shifts'
+			},
+		]
 	}
 };
 
