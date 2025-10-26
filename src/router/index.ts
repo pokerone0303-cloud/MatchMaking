@@ -125,7 +125,13 @@ const router = createRouter({
           component: () => import('@/views/Admin/AdminReportsView.vue'),
         },
       ]
-    }
+    },
+    // 幫助中心路由
+    {
+      path: '/help',
+      name: 'Help',
+      component: () => import('@/views/Common/HelpCenterView.vue'),
+    },
     // {
     //   path: '/u/timesheets',
     //   name: 'timesheets',

@@ -141,15 +141,15 @@ const menuConfigs = {
 				route: '/a/reports'
 			}
 		],
-		workManagement: [
-			{
-				key: 'system',
-				title: '系統設定',
-				description: '系統參數與配置',
-				icon: 'setting-o',
-				route: '/a/settings'
-			}
-		]
+		// workManagement: [
+		// 	{
+		// 		key: 'system',
+		// 		title: '系統設定',
+		// 		description: '系統參數與配置',
+		// 		icon: 'setting-o',
+		// 		route: '/a/settings'
+		// 	}
+		// ]
 	}
 };
 
@@ -220,7 +220,8 @@ const handleLogout = async () => {
 			</div>
 
 			<!-- 選單內容 -->
-			<div class="slide-nav-content">
+			<div class="slide-nav-content"
+				v-if="currentMenuConfig.mainFunctions && currentMenuConfig.mainFunctions.length > 0">
 				<!-- 主要功能 -->
 				<div class="menu-section">
 					<h3 class="section-title">主要功能</h3>
@@ -231,7 +232,8 @@ const handleLogout = async () => {
 				</div>
 
 				<!-- 工作管理 -->
-				<div class="menu-section">
+				<div class="menu-section"
+					v-if="currentMenuConfig.workManagement && currentMenuConfig.workManagement.length > 0">
 					<h3 class="section-title">工作管理</h3>
 					<van-cell-group>
 						<van-cell v-for="item in currentMenuConfig.workManagement" :key="item.key" :title="item.title"
@@ -240,7 +242,7 @@ const handleLogout = async () => {
 				</div>
 
 				<!-- 支援服務 -->
-				<div class="menu-section">
+				<div class="menu-section" v-if="supportServices && supportServices.length > 0">
 					<h3 class="section-title">支援服務</h3>
 					<van-cell-group>
 						<van-cell v-for="item in supportServices" :key="item.key" :title="item.title" :label="item.description"
