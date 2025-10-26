@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { scrollToTop as scrollToTopUtil } from '@/utils/scroll';
 
 defineOptions({
 	name: 'BackToTop',
@@ -10,20 +11,7 @@ const isVisible = ref(true); // 臨時設為 true 用於調試
 
 // 滾動到頂部的函數
 const scrollToTop = () => {
-	// 滾動 window
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth'
-	});
-
-	// 滾動 content 容器
-	const contentElement = document.querySelector('.content');
-	if (contentElement) {
-		contentElement.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
-	}
+	scrollToTopUtil();
 };
 
 // 監聽滾動事件

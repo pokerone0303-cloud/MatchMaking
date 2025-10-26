@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { scrollToTopImmediate } from '@/utils/scroll'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -140,5 +140,10 @@ const router = createRouter({
     // 管理端路由
   ],
 })
+
+// 路由切換後自動滾動到頂部
+router.afterEach(() => {
+  scrollToTopImmediate();
+});
 
 export default router
