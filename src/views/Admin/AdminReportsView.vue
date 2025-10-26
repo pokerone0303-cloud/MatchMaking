@@ -229,6 +229,91 @@ const handleTabChange = (name: string | number) => {
 	console.log('切換到 TAB:', name);
 };
 
+// 明細資料
+const detailData = ref([
+	{ date: '2025-10-20', users: 12, employers: 3, shifts: 28, hours: 240 },
+	{ date: '2025-10-21', users: 15, employers: 4, shifts: 32, hours: 280 },
+	{ date: '2025-10-22', users: 18, employers: 5, shifts: 38, hours: 320 },
+	{ date: '2025-10-23', users: 22, employers: 6, shifts: 45, hours: 380 },
+	{ date: '2025-10-24', users: 19, employers: 5, shifts: 35, hours: 290 },
+	{ date: '2025-10-25', users: 25, employers: 7, shifts: 52, hours: 450 },
+	{ date: '2025-10-26', users: 28, employers: 8, shifts: 58, hours: 510 },
+	{ date: '2025-10-27', users: 32, employers: 9, shifts: 65, hours: 580 },
+	{ date: '2025-10-28', users: 35, employers: 10, shifts: 72, hours: 650 },
+	{ date: '2025-10-29', users: 40, employers: 11, shifts: 85, hours: 750 },
+	{ date: '2025-10-30', users: 38, employers: 10, shifts: 78, hours: 690 },
+	{ date: '2025-10-31', users: 45, employers: 12, shifts: 95, hours: 850 },
+	{ date: '2025-11-01', users: 52, employers: 13, shifts: 108, hours: 920 },
+	{ date: '2025-11-02', users: 48, employers: 12, shifts: 98, hours: 820 },
+	{ date: '2025-11-03', users: 55, employers: 14, shifts: 115, hours: 1000 },
+	{ date: '2025-11-04', users: 60, employers: 15, shifts: 125, hours: 1100 },
+	{ date: '2025-11-05', users: 58, employers: 15, shifts: 120, hours: 1050 },
+	{ date: '2025-11-06', users: 65, employers: 16, shifts: 135, hours: 1200 },
+	{ date: '2025-11-07', users: 70, employers: 17, shifts: 145, hours: 1300 },
+	{ date: '2025-11-08', users: 68, employers: 17, shifts: 140, hours: 1250 },
+	{ date: '2025-11-09', users: 75, employers: 18, shifts: 155, hours: 1400 },
+	{ date: '2025-11-10', users: 80, employers: 19, shifts: 165, hours: 1500 },
+	{ date: '2025-11-11', users: 78, employers: 19, shifts: 160, hours: 1450 },
+	{ date: '2025-11-12', users: 85, employers: 20, shifts: 175, hours: 1600 },
+	{ date: '2025-11-13', users: 90, employers: 21, shifts: 185, hours: 1700 },
+	{ date: '2025-11-14', users: 88, employers: 21, shifts: 180, hours: 1650 },
+	{ date: '2025-11-15', users: 95, employers: 22, shifts: 195, hours: 1800 },
+	{ date: '2025-11-16', users: 100, employers: 23, shifts: 205, hours: 1900 },
+	{ date: '2025-11-17', users: 98, employers: 23, shifts: 200, hours: 1850 },
+	{ date: '2025-11-18', users: 105, employers: 24, shifts: 215, hours: 1950 }
+]);
+
+// 分頁相關狀態
+const currentPage = ref(1);
+const pageSize = ref(10);
+const pageSizeOptions = [
+	{ text: '10/頁', value: 10 },
+	{ text: '30/頁', value: 30 },
+	{ text: '50/頁', value: 50 }
+];
+const jumpToPageInput = ref('');
+
+// 計算分頁後的資料
+const paginatedData = computed(() => {
+	const start = (currentPage.value - 1) * pageSize.value;
+	const end = start + pageSize.value;
+	return detailData.value.slice(start, end);
+});
+
+// 總頁數
+const totalPages = computed(() => Math.ceil(detailData.value.length / pageSize.value));
+
+// 處理每頁顯示數量變更
+const handlePageSizeChange = (event: Event) => {
+	const target = event.target as HTMLSelectElement;
+	const size = Number(target.value);
+	pageSize.value = size;
+	currentPage.value = 1; // 重置到第一頁
+	console.log('每頁顯示數量變更為', size);
+};
+
+// 處理跳往指定頁面
+const handleJumpToPage = () => {
+	const page = parseInt(jumpToPageInput.value);
+	if (page >= 1 && page <= totalPages.value) {
+		currentPage.value = page;
+		jumpToPageInput.value = '';
+		console.log('跳往第', page, '頁');
+	} else {
+		console.log('頁數不在範圍內');
+	}
+};
+
+// 格式化日期顯示
+const formatDate = (dateStr: string) => {
+	const date = new Date(dateStr);
+	return date.toLocaleDateString('zh-TW', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	});
+};
+
 // 處理統計項目點擊
 const handleStatClick = (item: { id: string; value: number; label: string; color?: string }) => {
 	console.log('點擊統計項目:', item);
@@ -352,8 +437,62 @@ const shiftTypeData = computed(() => ({
 			<van-tab title="明細" name="detail">
 				<!-- 明細內容區塊 -->
 				<div class="admin-reports__detail-section">
-					<!-- 明細內容將在這裡顯示 -->
-					<p>明細內容</p>
+					<!-- 明細表格 -->
+					<div class="detail-table">
+						<!-- 表頭 -->
+						<div class="detail-table__header">
+							<div class="detail-table__header-cell detail-table__header-cell--date">日期</div>
+							<div class="detail-table__header-cell">用戶數</div>
+							<div class="detail-table__header-cell">商家數</div>
+							<div class="detail-table__header-cell">班別數</div>
+							<div class="detail-table__header-cell">工時</div>
+						</div>
+
+						<!-- 表身 -->
+						<div class="detail-table__body">
+							<div v-for="(row, index) in paginatedData" :key="index" class="detail-table__row">
+								<div class="detail-table__cell detail-table__cell--date">{{ formatDate(row.date) }}</div>
+								<div class="detail-table__cell">{{ row.users }}</div>
+								<div class="detail-table__cell">{{ row.employers }}</div>
+								<div class="detail-table__cell">{{ row.shifts }}</div>
+								<div class="detail-table__cell">{{ row.hours.toLocaleString() }}</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 分頁控制器 -->
+					<div class="detail-pagination">
+						<!-- 控制區域 -->
+						<div class="detail-pagination__controls">
+							<!-- 每頁顯示數量選擇器 -->
+							<div class="detail-pagination__size-selector">
+								<span class="detail-pagination__label">每頁顯示：</span>
+								<select v-model="pageSize" @change="handlePageSizeChange" class="detail-pagination__select">
+									<option v-for="option in pageSizeOptions" :key="option.value" :value="option.value">
+										{{ option.text }}
+									</option>
+								</select>
+							</div>
+
+							<!-- 跳往指定頁面 -->
+							<div class="detail-pagination__jump">
+								<span class="detail-pagination__label">跳往頁數：</span>
+								<div class="detail-pagination__jump-input">
+									<van-field v-model="jumpToPageInput" type="number" :placeholder="currentPage.toString()"
+										class="detail-pagination__input" input-align="center" />
+									<van-button type="primary" size="small" @click="handleJumpToPage"
+										class="detail-pagination__jump-btn">前往</van-button>
+								</div>
+								<span class="detail-pagination__total">共 {{ totalPages }} 頁</span>
+							</div>
+
+							<!-- 分頁器 -->
+							<div class="detail-pagination__pagination">
+								<van-pagination v-model="currentPage" :total-items="detailData.length" :items-per-page="pageSize"
+									show-prev-next mode="simple" />
+							</div>
+						</div>
+					</div>
 				</div>
 			</van-tab>
 		</van-tabs>
@@ -418,6 +557,185 @@ const shiftTypeData = computed(() => ({
 		padding: $spacing-16 $spacing-8;
 		background: $color-bg-gray;
 		min-height: 200px;
+	}
+}
+
+// 明細表格樣式
+.detail-table {
+	background: $color-white;
+	border-radius: $border-radius-md;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	margin-bottom: $spacing-16;
+
+	&__header {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+		background: $color-primary;
+		border-bottom: 2px solid darken($color-primary, 10%);
+	}
+
+	&__header-cell {
+		padding: $spacing-12 $spacing-8;
+		font-size: $font-size-sm;
+		font-weight: $font-weight-semibold;
+		color: $color-white;
+		text-align: center;
+		border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+		&:last-child {
+			border-right: none;
+		}
+
+		&--date {
+			font-weight: $font-weight-bold;
+		}
+	}
+
+	&__body {
+		max-height: 500px;
+		overflow-y: auto;
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+		border-bottom: 1px solid $color-gray-2;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background: $color-gray-3;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	&__cell {
+		padding: $spacing-12 $spacing-8;
+		font-size: $font-size-sm;
+		color: $color-text-primary;
+		text-align: center;
+		border-right: 1px solid $color-gray-2;
+
+		&:last-child {
+			border-right: none;
+		}
+
+		&--date {
+			font-weight: $font-weight-medium;
+			color: $color-text-secondary;
+		}
+	}
+}
+
+// 分頁控制器樣式
+.detail-pagination {
+	padding: $spacing-16 $spacing-12 $spacing-12;
+	background: $color-white;
+	border-radius: $border-radius-md;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+	&__controls {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: $spacing-12;
+		margin-bottom: $spacing-16;
+	}
+
+	&__size-selector {
+		display: flex;
+		align-items: center;
+		gap: $spacing-8;
+	}
+
+	&__jump {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: $spacing-8;
+	}
+
+	&__jump-input {
+		display: flex;
+		align-items: center;
+		gap: $spacing-8;
+	}
+
+	&__input {
+		// flex: 0 0 80px;
+		background: $color-gray-3;
+		border-radius: $border-radius-base;
+		padding: $spacing-4 $spacing-8;
+
+		:deep(.van-cell__value) {
+			width: 50px;
+		}
+	}
+
+	&__jump-btn {
+		flex-shrink: 0;
+	}
+
+	&__total {
+		font-size: $font-size-xs;
+		color: $color-text-secondary;
+	}
+
+	&__label {
+		font-size: $font-size-sm;
+		color: $color-text-secondary;
+		font-weight: $font-weight-medium;
+		white-space: nowrap;
+	}
+
+	&__select {
+		padding: $spacing-8 $spacing-12;
+		background: $color-white;
+		border: 1px solid $color-gray-2;
+		border-radius: $border-radius-base;
+		font-size: $font-size-sm;
+		color: $color-text-primary;
+		cursor: pointer;
+		outline: none;
+		transition: all 0.2s ease;
+
+		&:hover {
+			border-color: $color-primary;
+		}
+
+		&:focus {
+			border-color: $color-primary;
+			box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.1);
+		}
+
+		option {
+			padding: $spacing-8;
+			background: $color-white;
+			color: $color-text-primary;
+		}
+	}
+
+	&__pagination {
+		flex-shrink: 0;
+
+		:deep(.van-pagination) {
+			display: flex;
+			justify-content: center;
+		}
+
+		:deep(.van-pagination__item--prev),
+		:deep(.van-pagination__item--next) {
+			white-space: nowrap;
+			padding: $spacing-4 $spacing-8;
+			background: transparent;
+			border: 1px solid $color-gray-2;
+			border-radius: $border-radius-base;
+		}
 	}
 }
 </style>
