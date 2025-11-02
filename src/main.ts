@@ -12,7 +12,7 @@ setTimeout(() => {
 }, 100)
 // 引入觸控模擬器（PC 端支援）
 // 此套件會自動檢測並在非觸控設備上啟用觸控模擬
-import '@vant/touch-emulator'
+// import '@vant/touch-emulator'
 
 // 引入 Vue 相關
 import { createPinia } from 'pinia'
