@@ -261,12 +261,12 @@ const handleReset = () => {
 };
 
 const handleAccept = async (applicantId: string) => {
-	const confirmed = await showConfirm({
-		title: '確認錄取',
-		message: '確定要錄取此應徵者嗎？'
-	});
+	// const confirmed = await showConfirm({
+	// 	title: '確認錄取',
+	// 	message: '確定要錄取此應徵者嗎？'
+	// });
 
-	if (confirmed) {
+	if (applicantId) {
 		const applicant = applicants.value.find(a => a.id === applicantId);
 		if (applicant) {
 			applicant.status = 'accepted';
@@ -277,12 +277,12 @@ const handleAccept = async (applicantId: string) => {
 };
 
 const handleReject = async (applicantId: string) => {
-	const confirmed = await showDangerConfirm(
-		'確定要拒絕此應徵者嗎？',
-		'確認拒絕'
-	);
+	// const confirmed = await showDangerConfirm(
+	// 	'確定要拒絕此應徵者嗎？',
+	// 	'確認拒絕'
+	// );
 
-	if (confirmed) {
+	if (applicantId) {
 		const applicant = applicants.value.find(a => a.id === applicantId);
 		if (applicant) {
 			applicant.status = 'rejected';

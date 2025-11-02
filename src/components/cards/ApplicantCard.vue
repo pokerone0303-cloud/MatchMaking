@@ -156,10 +156,10 @@ const handleAccept = async () => {
 
 		// 用戶確認後才觸發事件
 		emit('accept', props.applicant.id);
-		showToast({
-			message: '錄取成功',
-			type: 'success'
-		});
+		// showToast({
+		// 	message: '錄取成功',
+		// 	type: 'success'
+		// });
 	} catch {
 		// 用戶取消，不執行任何操作
 	}
@@ -177,10 +177,10 @@ const handleReject = async () => {
 
 		// 用戶確認後才觸發事件
 		emit('reject', props.applicant.id);
-		showToast({
-			message: '已拒絕應徵',
-			type: 'success'
-		});
+		// showToast({
+		// 	message: '已拒絕應徵',
+		// 	type: 'success'
+		// });
 	} catch {
 		// 用戶取消，不執行任何操作
 	}

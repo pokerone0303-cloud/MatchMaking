@@ -227,10 +227,10 @@ const showApproveDialog = () => {
 
 const confirmApproveWithNote = () => {
 	emit('approve', props.timesheetData.id, auditNote.value);
-	showToast({
-		message: '審核通過',
-		type: 'success'
-	});
+	// showToast({
+	// 	message: '審核通過',
+	// 	type: 'success'
+	// });
 	showApproveNoteDialog.value = false;
 	auditNote.value = '';
 };
@@ -249,10 +249,10 @@ const showAdjustDialog = () => {
 const confirmAdjustWithDetails = () => {
 	const hours = parseFloat(adjustedHours.value) || 0;
 	emit('adjust', props.timesheetData.id, hours, auditNote.value);
-	showToast({
-		message: '時數已調整',
-		type: 'success'
-	});
+	// showToast({
+	// 	message: '時數已調整',
+	// 	type: 'success'
+	// });
 	showAdjustDetailDialog.value = false;
 	auditNote.value = '';
 	adjustedHours.value = '';
@@ -271,10 +271,10 @@ const showRejectDialog = () => {
 
 const confirmRejectWithNote = () => {
 	emit('reject', props.timesheetData.id, auditNote.value);
-	showToast({
-		message: '申請已駁回',
-		type: 'success'
-	});
+	// showToast({
+	// 	message: '申請已駁回',
+	// 	type: 'success'
+	// });
 	showRejectNoteDialog.value = false;
 	auditNote.value = '';
 };

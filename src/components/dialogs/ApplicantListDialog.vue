@@ -3,6 +3,9 @@ import { computed } from 'vue';
 import type { Shift } from '@/types/shift';
 import type { Applicant } from '@/types/application';
 import ApplicantCard from '@/components/cards/ApplicantCard.vue';
+import { useDialog } from '@/composables/useDialog';
+
+const { showSuccess } = useDialog();
 
 // Props 定義
 interface Props {
@@ -117,12 +120,24 @@ const handleOverlayClick = () => {
 	handleClose();
 };
 
-const handleAccept = (applicantId: string) => {
-	emit('accept', applicantId);
+const handleAccept = async (applicantId: string) => {
+	if (applicantId) {
+		const applicant = applicants.value.find(a => a.id === applicantId);
+		if (applicant) {
+			applicant.status = 'accepted';
+			await showSuccess('已錄取應徵者');
+		}
+	}
 };
 
-const handleReject = (applicantId: string) => {
-	emit('reject', applicantId);
+const handleReject = async (applicantId: string) => {
+	if (applicantId) {
+		const applicant = applicants.value.find(a => a.id === applicantId);
+		if (applicant) {
+			applicant.status = 'rejected';
+			await showSuccess('已拒絕應徵者');
+		}
+	}
 };
 
 </script>

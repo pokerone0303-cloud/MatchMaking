@@ -12,10 +12,11 @@
 				<van-icon name="plus" size="16" color="black" />
 				<span>單一班別</span>
 			</div>
-			<div class="tab-item" :class="{ 'tab-item--active': activeTab === 'batch' }" @click="handleTabChange('batch')">
+			<!-- TODO: 批量上傳功能尚未開發 -->
+			<!-- <div class="tab-item" :class="{ 'tab-item--active': activeTab === 'batch' }" @click="handleTabChange('batch')">
 				<van-icon name="arrow-up" size="16" color="black" />
 				<span>批量上傳</span>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- 表單內容 -->
