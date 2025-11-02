@@ -11,7 +11,7 @@
       <SlideNav v-model:show="showSlideNav" :role="currentRole" @close="handleCloseSlideNav" />
     </template>
     <!-- 回到頂部懸浮按鈕 -->
-    <BackToTop />
+    <BackToTop v-if="route.path !== '/login'" />
 
   </div>
 </template>
