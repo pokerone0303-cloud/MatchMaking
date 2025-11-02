@@ -9,8 +9,8 @@ defineOptions({
 
 // 響應式數據
 const activeRole = ref('user');
-const email = ref('');
-const password = ref('');
+const email = ref('test001@example.com');
+const password = ref('123456as');
 const showPassword = ref(false);
 const isLoading = ref(false);
 
