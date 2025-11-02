@@ -104,7 +104,7 @@ const togglePasswordVisibility = () => {
 
 // 處理幫助中心
 const handleHelp = () => {
-	showToast('跳轉到幫助中心');
+	router.push('/help');
 	// 這裡可以添加跳轉到幫助中心的邏輯
 };
 
@@ -164,10 +164,6 @@ const handleContact = () => {
 				<van-button type="default" size="small" class="help-button" @click="handleHelp">
 					<van-icon name="question-o" size="16" />
 					幫助中心
-				</van-button>
-				<van-button type="default" size="small" class="help-button" @click="handleContact">
-					<van-icon name="service-o" size="16" />
-					聯絡客服
 				</van-button>
 			</div>
 		</div>
